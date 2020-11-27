@@ -10,6 +10,7 @@ require("dotenv").config();
 
 // Routes
 // const authRoute = require("./src/Users/Routes/authRoutes");
+const authRoute = require("./src/Users/Routes/authRoutes");
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,6 +19,7 @@ app.use(cors());
 
 // Router
 // app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/auth",authRoute);
 
 // Index
 app.get("/api/v1", (req, res) => {
