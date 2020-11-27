@@ -1,7 +1,5 @@
-import IlFlight from './Flight.png'
-import IlBookingDetail from './BookingDetail.png'
+import IlFlight from './Flight.png';
+import IlBookingDetail from './BookingDetail.png';
+import IlFinger from './Finger.png';
 
-export{
-    IlFlight,
-    IlBookingDetail
-}
+export {IlFlight, IlBookingDetail, IlFinger};
