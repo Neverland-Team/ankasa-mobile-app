@@ -1,5 +1,5 @@
 const authModel = require("../Models/authModel");
-const { body } = require("express-validator");
+const jwt = require("jsonwebtoken");
 
 exports.register = async (req,res) => {
     try {
@@ -19,9 +19,26 @@ exports.register = async (req,res) => {
 }
 
 exports.login = async (req,res) => {
-    const { username,password } = req.body;
-    return res.status(200).send({
-        success: true,
-        message: "halo semua"
-    })
+    try {
+        const {username} = req.body;
+        const user = await authModel.findByUsername(username);
+        let token = jwt.sign(
+            {
+                iduser: user[0].iduser,
+                email: user[0].email,
+                username: user[0].username,
+                role: user[0].role
+            }, process.env.SECRET_KEY
+        )
+        return res.status(201).send({
+            success: true,
+            auth: true,
+            accessToken: token
+        })
+    }catch(err){
+        return res.status(500).send({
+            success: false,
+            message: "internal server error"
+        })
+    }
 }

@@ -1,11 +1,11 @@
 const { success, failed, notfound } = require("../../Helper/response");
-const cityModel = require("../Models/cityModel");
+const airlinesModel = require("../Models/airlinesModel");
 const upload = require("../../Middleware/Type-File");
 const fs = require("fs-extra");
 const path = require("path");
 
 module.exports = {
-  city: (req, res) => {
+  airlines: (req, res) => {
     try {
       upload.single("photo")(req, res, (err) => {
         if (err) {
@@ -18,8 +18,8 @@ module.exports = {
           const body = req.body;
           body.photo = !req.file ? "images.png" : req.file.filename;
 
-          cityModel
-            .city(body)
+          airlinesModel
+            .airlines(body)
             .then((result) => {
               success(res, result, `Insert data success!`);
             })
@@ -33,9 +33,42 @@ module.exports = {
     }
   },
 
+  getAllData: (req, res) => {
+    try {
+      const name = !req.query.name ? "" : req.query.name;
+      const sort = !req.query.sort ? "idairlines" : req.query.sort;
+      const typesort = !req.query.typesort ? "ASC" : req.query.typesort;
+
+      const limit = !req.query.limit ? 10 : parseInt(req.query.limit);
+      const page = !req.query.page ? 1 : parseInt(req.query.page);
+      const offset = page <= 1 ? 0 : (page - 1) * limit;
+
+      airlinesModel
+        .getAllData(name, sort, typesort, limit, offset)
+        .then((result) => {
+          if (result.length === 0) {
+            notfound(res, [], "Data empty");
+          } else {
+            const totalRows = result[0].count;
+            const count = {
+              total: totalRows,
+              totalPage: Math.ceil(totalRows / limit),
+              page: page,
+            };
+            success(res, result, count, "Get all data success");
+          }
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+    } catch (error) {
+      failed(res, [], "Error Internal Server");
+    }
+  },
+
   getAll: (req, res) => {
     try {
-      cityModel
+      airlinesModel
         .getAll()
         .then((result) => {
           if (result.length === 0) {
@@ -54,8 +87,9 @@ module.exports = {
 
   getId: (req, res) => {
     try {
-      const id = req.params.idcity;
-      cityModel
+      const id = req.params.idairlines;
+      console.log("data dari getId: ", id);
+      airlinesModel
         .getId(id)
         .then((result) => {
           if (result.length === 0) {
@@ -82,9 +116,9 @@ module.exports = {
             failed(res, [], err.message);
           }
         } else {
-          const id = req.params.idcity;
+          const id = req.params.idairlines;
           const body = req.body;
-          cityModel.getId(id).then(async (response) => {
+          airlinesModel.getId(id).then(async (response) => {
             const responses = response[0].photo;
             const oldphoto = responses;
             body.photo = !req.file ? oldphoto : req.file.filename;
@@ -92,7 +126,7 @@ module.exports = {
               if (body.photo !== "images.png") {
                 try {
                   await fs.unlink(path.join(`public/images/${oldphoto}`));
-                  cityModel
+                  airlinesModel
                     .update(body, id)
                     .then((result) => {
                       success(res, result, "Update success");
@@ -104,7 +138,7 @@ module.exports = {
                   failed(res, [], err.message);
                 }
               } else {
-                cityModel
+                airlinesModel
                   .update(body, id)
                   .then((result) => {
                     success(res, result, "Update success");
@@ -114,7 +148,7 @@ module.exports = {
                   });
               }
             } else {
-              cityModel
+              airlinesModel
                 .update(body, id)
                 .then((result) => {
                   success(res, result, "Update data success");
@@ -133,8 +167,8 @@ module.exports = {
 
   delete: (req, res) => {
     try {
-      const id = req.params.idcity;
-      cityModel
+      const id = req.params.idairlines;
+      airlinesModel
         .delete(id)
         .then((result) => {
           if (result.affectedRows === 0) {

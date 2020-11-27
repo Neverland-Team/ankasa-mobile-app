@@ -1,5 +1,6 @@
 const { body,validationResult } = require("express-validator");
 const authModel = require("../Users/Models/authModel");
+const bcrypt = require("bcrypt");
 
 const registerValidationRules = () => {
     return [
@@ -19,7 +20,15 @@ const loginValidationRules = () => {
                 }
             })
         }),
-        body("password").not().isEmpty().withMessage("password cannot be empty")
+        body("password").not().isEmpty().withMessage("password cannot be empty").custom((value,{req}) => {
+            const {username} = req.body
+            return authModel.findByUsername(username)
+            .then(user => {
+                if(user && !bcrypt.compareSync(value,user[0].password)){
+                    return Promise.reject("password does not match")
+                }
+            })
+        })
     ]
 }
 
@@ -68,9 +77,10 @@ const validate = (req,res,next) => {
     const extractedErrors = []
     errors.array().map(err => extractedErrors.push({[err.param] : err.msg}));
 
-    return res.status(433).send({
+    return res.status(403).send({
         success: false,
-        errors: extractedErrors
+        errors: extractedErrors,
+        accessToken: null
     })
 }
 

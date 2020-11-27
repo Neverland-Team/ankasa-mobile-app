@@ -9,8 +9,12 @@ const cors = require("cors");
 require("dotenv").config();
 
 // Routes
-// const authRoute = require("./src/Users/Routes/authRoutes");
 const authRoute = require("./src/Users/Routes/authRoutes");
+// const bookingRoute = require("./src/Users/Routes/bookingRoutes");
+const cityRoute = require("./src/Users/Routes/cityRoutes");
+const countryRoute = require("./src/Users/Routes/countryRoutes");
+const airlinesRoute = require("./src/Users/Routes/airlinesRoutes");
+const flightRoute = require("./src/Users/Routes/flightRoutes");
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,8 +22,12 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Router
-// app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/auth",authRoute);
+app.use("/api/v1/auth", authRoute);
+// app.use("/api/v1/users/booking", bookingRoute);
+app.use("/api/v1/users/city", cityRoute);
+app.use("/api/v1/users/country", countryRoute);
+app.use("/api/v1/users/airlines", airlinesRoute);
+app.use("/api/v1/users/flight", flightRoute);
 
 // Index
 app.get("/api/v1", (req, res) => {
