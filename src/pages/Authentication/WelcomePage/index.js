@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: '#000000',
     fontSize: 36,
-    fontWeight: '600',
+    fontFamily: 'Poppins-SemiBold',
   },
   dotSlider: {
     alignSelf: 'center',
@@ -77,17 +77,17 @@ const styles = StyleSheet.create({
   textButton: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: '700',
     marginTop: 10,
     alignSelf: 'center',
     paddingTop: 5,
+    fontFamily: 'Poppins-Bold',
   },
   content: {
     paddingHorizontal: 65,
-    fontWeight: '400',
     fontSize: 14,
     textAlign: 'center',
     color: '#595959',
+    fontFamily: 'Poppins-Regular',
   },
   buttonSignIn: {
     height: 57,
@@ -98,9 +98,9 @@ const styles = StyleSheet.create({
   textButtonSignIn: {
     color: '#2395FF',
     fontSize: 18,
-    fontWeight: '700',
     marginTop: 10,
     alignSelf: 'center',
     paddingTop: 5,
+    fontFamily: 'Poppins-Bold',
   },
 });

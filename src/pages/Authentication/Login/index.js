@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
   title: {
     color: '#000000',
     fontSize: 36,
-    fontWeight: '600',
     paddingHorizontal: 30,
+    fontFamily: 'Poppins-SemiBold',
   },
   email: {
     paddingHorizontal: 30,
@@ -152,10 +152,10 @@ const styles = StyleSheet.create({
   textButton: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: '700',
     marginTop: 10,
     alignSelf: 'center',
     paddingTop: 5,
+    fontFamily: 'Poppins-Bold',
   },
   forgot: {
     fontWeight: '400',

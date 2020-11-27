@@ -38,9 +38,9 @@ export default function FingerPrint({navigation}) {
         <Image style={styles.logo} source={IlFinger} />
         <Gap height={48} />
         <View style={styles.paddingButton}>
-          <TouchableOpacity style={styles.buttonSignIn}>
+          <TouchableOpacity style={styles.buttonProceced}>
             <Text
-              style={styles.textButtonSignIn}
+              style={styles.textButtonProceced}
               // onPress={() => navigation.navigate('')}
             >
               PROCECED
@@ -66,51 +66,38 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   regular: {
-    fontWeight: '600',
     fontSize: 16,
     color: '#2395FF',
+    fontFamily: 'Poppins-SemiBold',
   },
   title: {
     alignSelf: 'center',
     color: '#000000',
     fontSize: 36,
-    fontWeight: '600',
+    fontFamily: 'Poppins-SemiBold',
   },
   content: {
     paddingHorizontal: 77,
-    fontWeight: '400',
     fontSize: 14,
     textAlign: 'center',
     color: '#595959',
+    fontFamily: 'Poppins-Regular',
   },
   paddingButton: {
     paddingHorizontal: 30,
   },
-  button: {
-    backgroundColor: '#2395FF',
-    height: 57,
-    borderRadius: 10,
-  },
-  textButton: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '700',
-    marginTop: 10,
-    alignSelf: 'center',
-    paddingTop: 5,
-  },
-  buttonSignIn: {
+  buttonProceced: {
     height: 57,
     borderWidth: 1,
     borderColor: '#2395FF',
     borderRadius: 10,
   },
-  textButtonSignIn: {
+  textButtonProceced: {
     color: '#2395FF',
     fontSize: 18,
-    fontWeight: '700',
     marginTop: 10,
     alignSelf: 'center',
     paddingTop: 5,
+    fontFamily: 'Poppins-Bold',
   },
 });

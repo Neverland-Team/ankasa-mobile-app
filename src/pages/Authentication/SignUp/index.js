@@ -120,15 +120,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   guest: {
-    fontWeight: '600',
     fontSize: 16,
     color: '#2395FF',
+    fontFamily: 'Poppins-SemiBold',
   },
   title: {
     color: '#000000',
     fontSize: 36,
-    fontWeight: '600',
     paddingHorizontal: 30,
+    fontFamily: 'Poppins-SemiBold',
   },
   email: {
     paddingHorizontal: 30,
@@ -167,10 +167,10 @@ const styles = StyleSheet.create({
   textButton: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: '700',
     marginTop: 10,
     alignSelf: 'center',
     paddingTop: 5,
+    fontFamily: 'Poppins-Bold',
   },
   checkBox: {
     paddingHorizontal: 30,
@@ -207,9 +207,9 @@ const styles = StyleSheet.create({
   textButtonSignIn: {
     color: '#2395FF',
     fontSize: 18,
-    fontWeight: '700',
     marginTop: 10,
     alignSelf: 'center',
     paddingTop: 5,
+    fontFamily: 'Poppins-Bold',
   },
 });
