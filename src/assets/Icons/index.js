@@ -1,7 +1,7 @@
 import IcFlight from './Flight.svg'
-import IcArrowBack from './ArrowBack.svg'
+import IcArrowBackWhite from './ArrowBackWhite.svg'
 
 export{
     IcFlight,
-    IcArrowBack
+    IcArrowBackWhite
 }
