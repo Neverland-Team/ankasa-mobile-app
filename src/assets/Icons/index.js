@@ -41,5 +41,9 @@ export{
     IcNavUser,
     IcNavHome,
     IcBtnBackHome
+<<<<<<< HEAD
 }
 >>>>>>> 96696ad... clear page home
+=======
+}
+>>>>>>> development-frontend
