@@ -1,9 +1,8 @@
 const jwt = require("jsonwebtoken");
-const authModel = require("../Users/Models/authModel");
 
 module.exports = {
-    verifyToken = (req,res,next) => {
-        let tokenHeader = req.headers["Authorization"];
+    verifyToken : (req,res,next) => {
+        let tokenHeader = req.headers["authorization"];
         if(!tokenHeader){
             return res.status(403).send({
                 success: false,
@@ -19,12 +18,10 @@ module.exports = {
                     message: err
                 })
             }
-            req.user = {
-                iduser = decoded.iduser,
-                email = decoded.email,
-                username = decoded.username,
-                role = decoded.role
-            }
+            req.iduser = decoded.iduser;
+            req.email = decoded.email;
+            req.username = decoded.username,
+            req.role = decoded.role
             return next();
         })
     }

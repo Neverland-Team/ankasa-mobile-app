@@ -1,11 +1,11 @@
 const router = require("express").Router();
-const { airlines } = require("../Controllers/airlinesController");
 const airlinesController = require("../Controllers/airlinesController");
+const verifyAuth = require("../../Middleware/verifyAuth");
 
 router
   .post("/", airlinesController.airlines)
   .get("/getAll", airlinesController.getAllData)
-  .get("/", airlinesController.getAll)
+  .get("/",[verifyAuth.verifyToken],airlinesController.getAll)
   .get("/:idairlines", airlinesController.getId)
   .patch("/update/:idairlines", airlinesController.update)
   .delete("/delete/:idairlines", airlinesController.delete);

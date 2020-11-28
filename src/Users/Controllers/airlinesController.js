@@ -67,6 +67,7 @@ module.exports = {
   },
 
   getAll: (req, res) => {
+    console.log(req.iduser,req.email,req.username,req.role);
     try {
       airlinesModel
         .getAll()
