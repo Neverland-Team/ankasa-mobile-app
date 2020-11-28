@@ -19,6 +19,12 @@ module.exports = {
                     message: err
                 })
             }
+            req.user = {
+                iduser = decoded.iduser,
+                email = decoded.email,
+                username = decoded.username,
+                role = decoded.role
+            }
             return next();
         })
     }

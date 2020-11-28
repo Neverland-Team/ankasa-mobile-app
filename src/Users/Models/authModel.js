@@ -42,5 +42,22 @@ module.exports = {
                 }
             })
         });
+    },
+
+    findAndUpateByEmail: (data) => {
+        const { email,password } = data; 
+        return new Promise((resolve,reject) => {
+            bcrypt.genSalt(10,(err,salt) => {
+                bcrypt.hash(password,salt,(err,hash) => {
+                    db.query(`UPDATE users SET password = '${hash}' WHERE email = '${email}'`,(err,result) => {
+                        if(!err){
+                            resolve(result);
+                        }else{
+                            reject(new Error(err));
+                        }
+                    })
+                })
+            })
+        })
     }
 }

@@ -10,9 +10,31 @@ const registerValidationRules = () => {
     ]
 }
 
+const forgotCheckEmail = () => {
+    return [
+        body("email")
+        .isEmail().withMessage("email address is not correctly")
+        .custom((value) => {
+            return authModel.findByEmail(value)
+            .then(user => {
+                if(user.length !== 1){
+                    return Promise.reject("email cannot exists")
+                }
+            })
+        })
+    ]
+}
+
+const resetPasswordValidationRules = () => {
+    return [
+        body("password").not().isEmpty().withMessage("password cannot empty")
+        .isLength({min: 5}).withMessage("password must be at least 5 characters")
+    ]
+}
+
 const loginValidationRules = () => {
     return [
-        body("username").custom(value => {
+        body("username").custom((value) => {
             return authModel.findByUsername(value)
             .then(user => {
                 if(user.length !== 1){
@@ -21,7 +43,7 @@ const loginValidationRules = () => {
             })
         }),
         body("password").not().isEmpty().withMessage("password cannot be empty").custom((value,{req}) => {
-            const {username} = req.body
+            const {username} = req.body;
             return authModel.findByUsername(username)
             .then(user => {
                 if(user && !bcrypt.compareSync(value,user[0].password)){
@@ -89,5 +111,7 @@ module.exports = {
     validate,
     emailExists,
     usernameExists,
-    loginValidationRules
+    loginValidationRules,
+    forgotCheckEmail,
+    resetPasswordValidationRules
 }
