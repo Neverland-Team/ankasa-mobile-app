@@ -9,7 +9,8 @@ import {Chat, ChatRoom} from './Messages';
 import {EditProfile, MainProfile, AddCard} from './Profile';
 import Home from './Home';
 import Notification from './Notification';
-
+import SearchResult from './SearchResult'
+import FlightDetail from './FlightDetail'
 export {
   Login,
   SignUp,
@@ -23,4 +24,6 @@ export {
   AddCard,
   EditProfile,
   MainProfile,
+  SearchResult,
+  FlightDetail
 };

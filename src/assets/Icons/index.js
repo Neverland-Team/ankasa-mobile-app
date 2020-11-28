@@ -14,6 +14,13 @@ import IcNavBooking from './NavBooking.svg';
 import IcNavUser from './NavUser.svg';
 import IcNavHome from './NavHome.svg';
 import IcBtnBackHome from './BtnBackHome.svg';
+import IcSearchFlightArrowBlue from './SearchFlightArrowBlue.svg';          
+import IcSearchResultArrowWhite from './SearchResultArrowWhite.svg';          
+import IcFilter from './Filter.svg';          
+import IcStarYellow from './StarYellow.svg';          
+import IcBurger from './Burger.svg';          
+import IcWifi from './Wifi.svg';          
+import IcMaleAndFamale from './MaleAndFamale.svg';          
 export {
   IcFlight,
   IcArrowBackWhite,
@@ -31,4 +38,11 @@ export {
   IcNavUser,
   IcNavHome,
   IcBtnBackHome,
+  IcSearchFlightArrowBlue,
+  IcSearchResultArrowWhite,
+  IcFilter,
+  IcStarYellow,
+  IcBurger,
+  IcWifi,
+  IcMaleAndFamale
 };

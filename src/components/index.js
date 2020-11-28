@@ -4,7 +4,7 @@ import CardDestination from './CardDestination';
 import CardNotification from './CardNotification';
 import CardRounded from './CardRounded';
 import BottomNav from './BottomNav';
-
+import CardSearchResult from './CardSearchResult'
 export {
   Search,
   CardDestination3D,
@@ -12,4 +12,5 @@ export {
   CardNotification,
   CardRounded,
   BottomNav,
+  CardSearchResult
 };
