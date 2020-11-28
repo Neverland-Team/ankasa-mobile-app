@@ -10,6 +10,7 @@ require("dotenv").config();
 
 // Routes
 const authRoute = require("./src/Users/Routes/authRoutes");
+const userRoute = require("./src/Users/Routes/userRoutes");
 // const bookingRoute = require("./src/Users/Routes/bookingRoutes");
 const cityRoute = require("./src/Users/Routes/cityRoutes");
 const countryRoute = require("./src/Users/Routes/countryRoutes");
@@ -24,6 +25,7 @@ app.use(cors());
 // Router
 app.use("/api/v1/auth", authRoute);
 // app.use("/api/v1/users/booking", bookingRoute);
+app.use("/api/v1/users",userRoute);
 app.use("/api/v1/users/city", cityRoute);
 app.use("/api/v1/users/country", countryRoute);
 app.use("/api/v1/users/airlines", airlinesRoute);
