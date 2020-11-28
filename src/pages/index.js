@@ -1,24 +1,26 @@
 import {
-    Login,
-    SignUp,
-    ForgotPassword,
-    FingerPrint,
-    WelcomePage
-} from './Authentication'
-import {Chat,ChatRoom} from './Messages'
-import {EditProfile,MainProfile,AddCard} from './Profile'
-import Home from './Home'
+  Login,
+  SignUp,
+  ForgotPassword,
+  FingerPrint,
+  WelcomePage,
+} from './Authentication';
+import {Chat, ChatRoom} from './Messages';
+import {EditProfile, MainProfile, AddCard} from './Profile';
+import Home from './Home';
+import Notification from './Notification';
 
 export {
-    Login,
-    SignUp,
-    ForgotPassword,
-    FingerPrint,
-    WelcomePage,
-    Home,
-    Chat,
-    ChatRoom,
-    AddCard,
-    EditProfile,
-    MainProfile
-}
+  Login,
+  SignUp,
+  ForgotPassword,
+  FingerPrint,
+  WelcomePage,
+  Home,
+  Notification,
+  Chat,
+  ChatRoom,
+  AddCard,
+  EditProfile,
+  MainProfile,
+};
