@@ -13,6 +13,18 @@ module.exports = {
         })
     },
 
+    findAndUpdateById: (id,data) => {
+        return new Promise((resolve,reject) => {
+            db.query(`UPDATE users SET ${data} WHERE iduser = ${id}`,(err,result) => {
+                if(!err){
+                    resolve(result);
+                }else{
+                    reject(new Error(err));
+                }
+            })
+        })
+    },
+
     findUserById: (id) => {
             return new Promise((resolve,reject) => {
                 db.query(`SELECT * FROM users WHERE iduser = ${id}`,(err,result) => {

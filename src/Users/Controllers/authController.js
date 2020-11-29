@@ -7,13 +7,15 @@ exports.register = async (req,res) => {
         const response = await authModel.postRegister(data);
         return res.status(200).send({
             success: true,
+            status: 200,
             message: "register is successfuly",
             data: response
         })
     }catch(err){
         return res.status(500).send({
             success: false,
-            message: err.message
+            status: 500,
+            message: `internal server error : ${err.message}` 
         })
     }
 }
@@ -32,13 +34,15 @@ exports.login = async (req,res) => {
         )
         return res.status(201).send({
             success: true,
+            status: 201,
             auth: true,
             accessToken: token
         })
     }catch(err){
         return res.status(500).send({
             success: false,
-            message: "internal server error"
+            status: 500,
+            message: `internal server error : ${err.message}`
         })
     }
 }
@@ -48,6 +52,7 @@ exports.forgot = async (req,res) => {
     const {email} = req.body;
     return res.status(200).send({
         success: true,
+        status: 200,
         message: "token successfully sent please check your email",
         email: email,
         token: req.token
@@ -61,6 +66,7 @@ exports.reset = async (req,res) => {
     if(!token){
         return res.status(403).send({
             success: false,
+            status: 403,
             message: "Error",
             errors: "No token provided"
         })
@@ -69,7 +75,8 @@ exports.reset = async (req,res) => {
         if(err){
             return res.status(500).send({
                 success: false,
-                message: err
+                status: 500,
+                message: `internal server error: ${err.message}`
             })
         }
         data = {email: decoded.email, password: password};   
@@ -78,13 +85,15 @@ exports.reset = async (req,res) => {
     if(updated.affectedRows == 1){
         return res.status(200).send({
             success: true,
+            status: 200,
             message: `successfully updated password ${data.email}`,
             data: updated
         });
     }
     return res.status(500).send({
         success: false,
-        message: "internal server error",
+        status: 500,
+        message: `internal server error: ${err.message}`,
         data: []
     })
 }
