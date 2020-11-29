@@ -22,7 +22,7 @@ export default function MainProfile({navigation}) {
   const [typeCard, settypeCard] = React.useState('');
   return (
       <>
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>
       <View style={styles.containerTop}>
         <View style={styles.positionView}>
           <View style={styles.vProfile}>

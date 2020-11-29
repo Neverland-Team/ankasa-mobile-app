@@ -12,7 +12,7 @@ import {Gap} from '../../utils';
 
 export default function MainProfile({navigation}) {
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>
       <Gap height={28} />
       <View style={styles.BookingLogo}>
         <Text style={styles.tBooking}>My Booking</Text>

@@ -25,7 +25,7 @@ export default function EditProfile({navigation}) {
   const [address, setAddress] = React.useState('');
   const [postcode, setPostCode] = React.useState('');
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>
       <View style={styles.containerTop}>
         <Gap height={40} />
         <View style={styles.vLogo}>
