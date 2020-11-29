@@ -1,11 +1,20 @@
 const router = require("express").Router();
 const countryController = require("../Controllers/countryController");
+const verifyAuth = require("../../Middleware/verifyAuth");
 
 router
-  .post("/", countryController.country)
-  .get("/getAll", countryController.getAllData)
-  .get("/", countryController.getAll)
-  .get("/detail/:idcountry", countryController.getId)
-  .patch("/update/:idcountry", countryController.update)
-  .delete("/delete/:idcountry", countryController.delete);
+  .post("/", [verifyAuth.verifyToken], countryController.country)
+  .get("/getAll", [verifyAuth.verifyToken], countryController.getAllData)
+  .get("/", [verifyAuth.verifyToken], countryController.getAll)
+  .get("/detail/:idcountry", [verifyAuth.verifyToken], countryController.getId)
+  .patch(
+    "/update/:idcountry",
+    [verifyAuth.verifyToken],
+    countryController.update
+  )
+  .delete(
+    "/delete/:idcountry",
+    [verifyAuth.verifyToken],
+    countryController.delete
+  );
 module.exports = router;
