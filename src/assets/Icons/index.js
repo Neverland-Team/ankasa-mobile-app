@@ -14,6 +14,12 @@ import IcNavBooking from './NavBooking.svg';
 import IcNavUser from './NavUser.svg';
 import IcNavHome from './NavHome.svg';
 import IcBtnBackHome from './BtnBackHome.svg';
+import IcSearchArrowWhite from './SearchArrowWhite.svg';
+import IcFullScreen from './FullScreen.svg';
+import IcSearchFlightArrowBlue from './SearchFlightArrowBlue.svg';
+import IcOneWay from './OneWay.svg';
+import IcRoundTrip from './RoundTrip.svg';
+import IcArrowRightBlue from './ArrowRightBlue.svg';
 export {
   IcFlight,
   IcArrowBackWhite,
@@ -31,4 +37,10 @@ export {
   IcNavUser,
   IcNavHome,
   IcBtnBackHome,
+  IcSearchArrowWhite,
+  IcFullScreen,
+  IcSearchFlightArrowBlue,
+  IcOneWay,
+  IcRoundTrip,
+  IcArrowRightBlue,
 };

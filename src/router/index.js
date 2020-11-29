@@ -14,13 +14,14 @@ import {
   AddCard,
   EditProfile,
   MainProfile,
+  SearchFlight,
 } from '../pages';
 const Stack = createStackNavigator();
 
 export default function Router({navigation}) {
   // const Auth = useSelector((s)=> s.Auth)
   return (
-    <Stack.Navigator initialRouteName={'WelcomePage'}>
+    <Stack.Navigator initialRouteName={'SearchFlight'}>
       {/* Untuk Konfigurasi Redux kedepan */}
       {/* {
                 Auth?.data?.token ? (
@@ -94,6 +95,11 @@ export default function Router({navigation}) {
       <Stack.Screen
         name="MainProfile"
         component={MainProfile}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SearchFlight"
+        component={SearchFlight}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
