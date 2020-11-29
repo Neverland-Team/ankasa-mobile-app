@@ -1,4 +1,4 @@
-const { success, failed } = require("../../Helper/response");
+const { success, failed, notfound } = require("../../Helper/response");
 const flightModel = require("../Models/flightModel");
 
 module.exports = {
@@ -39,6 +39,81 @@ module.exports = {
         });
     } catch (error) {
       failed(res, [], "Internal Server Error");
+    }
+  },
+
+  getAll: (req, res) => {
+    try {
+      const fromcity = !req.query.fromcity ? "" : req.query.fromcity;
+      const tocity = !req.query.tocity ? "" : req.query.tocity;
+      const typeflight = !req.query.typeflight ? "" : req.query.typeflight;
+      const child = !req.query.child ? "" : req.query.child;
+      const adult = !req.query.adult ? "" : req.query.adult;
+      const classflight = !req.query.classflight ? "" : req.query.classflight;
+      const datedeparture = !req.query.datedeparture
+        ? ""
+        : req.query.datedeparture;
+
+      const name = !req.query.name ? "" : req.query.name;
+      const luggage = !req.query.luggage ? "" : req.query.luggage;
+      const meal = !req.query.meal ? "" : req.query.meal;
+      const wifi = !req.query.wifi ? "" : req.query.wifi;
+      const direct = !req.query.direct ? "" : req.query.direct;
+      const transit = !req.query.transit ? "" : req.query.transit;
+      const more_transit = !req.query.more_transit
+        ? ""
+        : req.query.more_transit;
+
+      const departurefrom = !req.query.departurefrom
+        ? "00:00:00"
+        : req.query.departurefrom;
+      const departureto = !req.query.departureto
+        ? "24:00:00"
+        : req.query.departureto;
+
+      const arrivedfrom = !req.query.arrivedfrom
+        ? "00:00:00"
+        : req.query.arrivedfrom;
+      const arrivedto = !req.query.arrivedto ? "24:00:00" : req.query.arrivedto;
+
+      const pricefrom = !req.query.pricefrom ? "0" : req.query.pricefrom;
+      const priceto = !req.query.priceto ? "99999999999" : req.query.priceto;
+
+      flightModel
+        .getAll(
+          fromcity,
+          tocity,
+          typeflight,
+          child,
+          adult,
+          classflight,
+          datedeparture,
+          name,
+          luggage,
+          meal,
+          wifi,
+          direct,
+          transit,
+          more_transit,
+          departurefrom,
+          departureto,
+          arrivedfrom,
+          arrivedto,
+          pricefrom,
+          priceto
+        )
+        .then((result) => {
+          if (result.length === 0) {
+            notfound(res, [], "Data empty");
+          } else {
+            success(res, result, "Get all data success!");
+          }
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+    } catch (error) {
+      failed(res, [], "Error Internal Server");
     }
   },
 

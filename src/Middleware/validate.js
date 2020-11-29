@@ -145,5 +145,5 @@ module.exports = {
     loginValidationRules,
     forgotCheckEmail,
     resetPasswordValidationRules,
-    updateProfileValidationRules
+    updateProfileValidationRules, 
 }

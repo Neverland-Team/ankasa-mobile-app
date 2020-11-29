@@ -1,3 +1,4 @@
+const { findAndUpdateById } = require("../Models/userModel");
 const userModel = require("../Models/userModel");
 
 module.exports = {
@@ -79,6 +80,38 @@ module.exports = {
                 success: false,
                 status: 500,
                 message: `internal server error : ${err.message}`
+            })
+        }
+    },
+
+    uploadAvatar: async (req,res) => {
+        try {
+            const id = req.iduser;
+            const user = await userModel.findUserById(id);
+            const photo = !req.file ? user[0].photo : `${process.env.BASE_URI}/public/images/${req.file.filename}`;
+            const data = Object.entries({photo: photo}).map((item) => {
+                return parseInt(item[1]) > 0
+                  ? `${item[0]} = ${item[1]}`
+                  : `${item[0]} = '${item[1]}'`;
+            }); 
+            const updated = await userModel.findAndUpdateById(id,data);
+            if(updated.affectedRows){
+                return res.status(200).send({
+                    success: true,
+                    status: 200,
+                    message: "sucess updated image"
+                })
+            }
+            return res.status(500).send({
+                success: false,
+                status: 500,
+                message: "update profile cannot be success"
+            })
+        }catch(err){
+            return res.status(500).send({
+                success: false,
+                status: 500,
+                message: `internal server error: ${err.message}`
             })
         }
     }

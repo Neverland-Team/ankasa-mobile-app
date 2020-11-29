@@ -1,6 +1,6 @@
 const { success, failed, notfound } = require("../../Helper/response");
 const cityModel = require("../Models/cityModel");
-const upload = require("../../Middleware/Type-File");
+const { upload } = require("../../Middleware/Type-File");
 const fs = require("fs-extra");
 const path = require("path");
 
