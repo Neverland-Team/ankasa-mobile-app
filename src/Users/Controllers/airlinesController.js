@@ -88,7 +88,6 @@ module.exports = {
   getId: (req, res) => {
     try {
       const id = req.params.idairlines;
-      console.log("data dari getId: ", id);
       airlinesModel
         .getId(id)
         .then((result) => {
