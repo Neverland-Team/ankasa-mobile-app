@@ -5,7 +5,7 @@ module.exports = {
   city: (data) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `INSERT INTO city ( name_city, photo) VALUES ('${data.name_city}','${data.photo}')`,
+        `INSERT INTO city (idcountry, name_city, photo) VALUES ('${data.idcountry}', '${data.name_city}','${data.photo}')`,
         (err, result) => {
           if (err) {
             reject(new Error(err));
@@ -19,26 +19,31 @@ module.exports = {
 
   getAll: () => {
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM city`;
-      db.query(query, (err, result) => {
-        if (err) {
-          reject(new Error(err));
-        } else {
-          resolve(result);
+      db.query(
+        `SELECT idcity, country.idcountry,name_city, name_country, photo as photocity,city.createdAt FROM city INNER JOIN country ON city.idcountry=country.idcountry`,
+        (err, result) => {
+          if (err) {
+            reject(new Error(err));
+          } else {
+            resolve(result);
+          }
         }
-      });
+      );
     });
   },
 
   getId: (id) => {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM city WHERE idcity='${id}'`, (err, result) => {
-        if (err) {
-          reject(new Error(err));
-        } else {
-          resolve(result);
+      db.query(
+        `SELECT idcity, country.idcountry,name_city, name_country, photo as photocity,city.createdAt FROM city INNER JOIN country ON city.idcountry=country.idcountry WHERE idcity='${id}'`,
+        (err, result) => {
+          if (err) {
+            reject(new Error(err));
+          } else {
+            resolve(result);
+          }
         }
-      });
+      );
     });
   },
 
