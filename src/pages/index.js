@@ -12,6 +12,8 @@ import Notification from './Notification';
 import SearchFlight from './SearchFlight';
 import SearchResult from './SearchResult';
 import FlightDetail from './FlightDetail';
+import MyBooking from './MyBooking';
+import BookingDetail from './BookingDetail';
 export {
   Login,
   SignUp,
@@ -25,7 +27,10 @@ export {
   AddCard,
   EditProfile,
   MainProfile,
+  MyBooking,
+  BookingDetail,
   SearchFlight,
   SearchResult,
   FlightDetail,
+  
 };

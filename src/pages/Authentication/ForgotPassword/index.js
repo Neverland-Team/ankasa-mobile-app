@@ -13,7 +13,7 @@ import {IcArrowBackBlack} from '../../../assets/Icons/index';
 export default function ForgotPassword({navigation}) {
   return (
     <>
-      <ScrollView style={styles.scroll} showVerticalScrollIndicator={false}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Gap height={32} />
         <View style={styles.backbutton}>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>

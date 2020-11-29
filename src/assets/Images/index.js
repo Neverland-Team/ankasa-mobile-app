@@ -7,6 +7,11 @@ import IlHomeSlider from './HomeSlider.png';
 import IlNavSearchResult from './NavSearchResult.png';
 import IlBgFlightDetail from './BgFlightDetail.png';
 import IlGaruda from './Garuda.png';
+import Profile from './Profile.png';
+import NavSearchResult from './NavSearchResult.png';
+import ticketBackground from './ticketBackground.png';
+import Garuda from './Garuda.svg'
+import QrFLat from './QrFLat.png'
 
 export {
   IlFlight,
@@ -18,4 +23,9 @@ export {
   IlNavSearchResult,
   IlBgFlightDetail,
   IlGaruda,
+  Profile,
+  NavSearchResult,
+  ticketBackground,
+  Garuda,
+  QrFLat,
 };

@@ -14,7 +14,7 @@ import {IlFinger} from '../../../assets/Images/index';
 export default function FingerPrint({navigation}) {
   return (
     <>
-      <ScrollView style={styles.scroll} showVerticalScrollIndicator={false}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Gap height={32} />
         <View style={styles.flex}>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>

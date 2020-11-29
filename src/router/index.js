@@ -14,6 +14,8 @@ import {
   AddCard,
   EditProfile,
   MainProfile,
+  MyBooking,
+  BookingDetail,
   SearchFlight,
   SearchResult,
   FlightDetail,
@@ -23,7 +25,7 @@ const Stack = createStackNavigator();
 export default function Router({navigation}) {
   // const Auth = useSelector((s)=> s.Auth)
   return (
-    <Stack.Navigator initialRouteName={'WelcomeScreen'}>
+    <Stack.Navigator initialRouteName={'WelcomePage'}>
       {/* Untuk Konfigurasi Redux kedepan */}
       {/* {
 
@@ -115,6 +117,8 @@ export default function Router({navigation}) {
         component={FlightDetail}
         options={{headerShown: false}}
       />
+      <Stack.Screen name="MyBooking" component={MyBooking} options={{headerShown:false}} />
+      <Stack.Screen name="BookingDetail" component={BookingDetail} options={{headerShown:false}} />
     </Stack.Navigator>
   );
 }

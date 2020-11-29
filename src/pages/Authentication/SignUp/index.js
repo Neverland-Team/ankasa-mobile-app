@@ -18,7 +18,7 @@ import CheckBox from '@react-native-community/checkbox';
 export default function SignUp({navigation}) {
   return (
     <>
-      <ScrollView style={styles.scroll} showVerticalScrollIndicator={false}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Gap height={32} />
         <View style={styles.flex}>
           <TouchableOpacity onPress={() => navigation.navigate('WelcomePage')}>
