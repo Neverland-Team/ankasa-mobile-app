@@ -14,6 +14,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {Profile} from '../../../assets';
 import {Gap} from '../../../utils';
 import {Logout, SettingProfile, StarReview, Btnback, Btnbackred} from '../../../assets';
+import {BottomNav} from '../../../components';
 
 export default function MainProfile({navigation}) {
   const inputTypeCard = React.useRef();
@@ -113,7 +114,7 @@ export default function MainProfile({navigation}) {
             <Text style={styles.tReview} onPress={() => alert('Berhasil')}>Settings</Text>
             <Btnback width={30} height={25} style={styles.bReview}  />
         </View>
-        <View style={styles.positionViewRow}>
+        <View style={styles.positionViewRowLogout}>
             <Logout width={30} height={25} style={styles.startReview} />
             <Text style={styles.tReviewLogout} onPress={() => alert('Berhasil')}>Logout</Text>
             <Btnbackred width={30} height={25} style={styles.bReview}  />
@@ -166,6 +167,7 @@ export default function MainProfile({navigation}) {
           </View>
         </Modal>
         </ScrollView>
+        <BottomNav />
     </>
   );
 };
@@ -335,6 +337,9 @@ tReviewLogout: {
 positionViewRow: {
     flexDirection: 'row',
     marginBottom: 30,
+  },
+  positionViewRowLogout: {
+    flexDirection: 'row',
   },
 });
 

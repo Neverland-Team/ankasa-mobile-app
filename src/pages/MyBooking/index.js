@@ -9,9 +9,11 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {Mail, Bell, Flight} from '../../assets';
 import {Gap} from '../../utils';
+import {BottomNav} from '../../components';
 
 export default function MainProfile({navigation}) {
   return (
+      <>
     <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>
       <Gap height={28} />
       <View style={styles.BookingLogo}>
@@ -38,8 +40,8 @@ export default function MainProfile({navigation}) {
           <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
           <View style={styles.flight}>
             <Text style={styles.tIDN}>IDN</Text>
-            <Flight style={styles.iFlight} width={30} height={25} />
-            <Text style={styles.tIDN}>JPN</Text>
+            <Flight style={styles.iFlight} width={60} height={25} />
+            <Text style={styles.tIDNN}>JPN</Text>
           </View>
           <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
           <Text style={styles.tBorder} />
@@ -62,8 +64,8 @@ export default function MainProfile({navigation}) {
           <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
           <View style={styles.flight}>
             <Text style={styles.tIDN}>IDN</Text>
-            <Flight style={styles.iFlight} width={30} height={25} />
-            <Text style={styles.tIDN}>JPN</Text>
+            <Flight style={styles.iFlight} width={60} height={25} />
+            <Text style={styles.tIDNN}>JPN</Text>
           </View>
           <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
           <Text style={styles.tBorder} />
@@ -80,6 +82,8 @@ export default function MainProfile({navigation}) {
         </ImageBackground>
       </View>
     </ScrollView>
+    <BottomNav />
+    </>
   );
 }
 
@@ -129,6 +133,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Poppins-SemiBold',
     paddingLeft: 21,
+    paddingTop: 18,
+    color: '#000000',
+  },
+  tIDNN: {
+    fontSize: 20,
+    fontFamily: 'Poppins-SemiBold',
     paddingTop: 18,
     color: '#000000',
   },
