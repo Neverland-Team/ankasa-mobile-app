@@ -291,8 +291,7 @@ export default function SearchFlight({navigation}) {
           <TouchableOpacity style={styles.button} activeOpacity={0.7}>
             <Text
               style={styles.textButton}
-              //   onPress={() => navigation.navigate('SearchResult')}
-            >
+              onPress={() => navigation.navigate('SearchResult')}>
               SEARCH FLIGHT
             </Text>
             <IcSearchArrowWhite />
