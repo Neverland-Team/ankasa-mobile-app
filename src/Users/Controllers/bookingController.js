@@ -18,64 +18,64 @@ module.exports = {
     }
   },
 
-  // getAllData: (req, res) => {
-  //   try {
-  //     bookingModel
-  //       .getAllData()
-  //       .then((result) => {
-  //         success(res, result, "Get all data success");
-  //       })
-  //       .catch((err) => {
-  //         failed(res, [], err.message);
-  //       });
-  //   } catch (error) {
-  //     failed(res, [], error.message);
-  //   }
-  // },
+  getAllData: (req, res) => {
+    try {
+      bookingModel
+        .getAllData()
+        .then((result) => {
+          success(res, result, "Get all data success");
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+    } catch (error) {
+      failed(res, [], error.message);
+    }
+  },
 
-  // getId: (req, res) => {
-  //   try {
-  //     const id = req.params.idbooking;
-  //     bookingModel
-  //       .getId(id)
-  //       .then((result) => {
-  //         if (result.length === 0) {
-  //           failed(res, [], "Data Not Found!");
-  //         } else {
-  //           success(res, result, "Get Detail Success");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         failed(res, [], err.message);
-  //       });
-  //   } catch (error) {
-  //     failed(res, [], error.message);
-  //   }
-  // },
+  getId: (req, res) => {
+    try {
+      const id = req.params.idbooking;
+      bookingModel
+        .getId(id)
+        .then((result) => {
+          if (result.length === 0) {
+            failed(res, [], "Data Not Found!");
+          } else {
+            success(res, result, "Get Detail Success");
+          }
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+    } catch (error) {
+      failed(res, [], error.message);
+    }
+  },
 
-  // userbooking: (req, res) => {
-  //   try {
-  //     const iduser = req.params.iduser;
-  //     bookingModel
-  //       .userbooking(iduser)
-  //       .then((result) => {
-  //         if (result.length === 0) {
-  //           notfound(res, [], "Data not found");
-  //         } else {
-  //           success(
-  //             res,
-  //             result,
-  //             `Get data booking where ID users: ${iduser} success`
-  //           );
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         failed(res, [], err.message);
-  //       });
-  //   } catch (error) {
-  //     failed(res, [], error.message);
-  //   }
-  // },
+  userbooking: (req, res) => {
+    try {
+      const iduser = req.params.iduser;
+      bookingModel
+        .userbooking(iduser)
+        .then((result) => {
+          if (result.length === 0) {
+            notfound(res, [], "Data not found");
+          } else {
+            success(
+              res,
+              result,
+              `Get data booking where ID users: ${iduser} success`
+            );
+          }
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+    } catch (error) {
+      failed(res, [], error.message);
+    }
+  },
 
   update: (req, res) => {
     try {
