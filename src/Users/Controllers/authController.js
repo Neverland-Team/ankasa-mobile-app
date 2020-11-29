@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 exports.register = async (req,res) => {
     try {
-        const data = req.body;
+        const data = {...req.body,role: 7};
         const response = await authModel.postRegister(data);
         return res.status(200).send({
             success: true,

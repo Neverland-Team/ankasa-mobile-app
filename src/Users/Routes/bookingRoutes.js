@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const bookingController = require("../Controllers/bookingController");
+const verifyAuth = require("../../Middleware/verifyAuth");
 
 router
   // .get("/getId/:idbooking", bookingController.getId)
