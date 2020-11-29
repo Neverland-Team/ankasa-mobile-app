@@ -79,8 +79,9 @@ module.exports = {
       const pricefrom = !req.query.pricefrom ? "0" : req.query.pricefrom;
       const priceto = !req.query.priceto ? "99999999999" : req.query.priceto;
 
-      flightModel
-        .getAll(
+      if(req.query){
+        flightModel
+        .getAllSearch(
           fromcity,
           tocity,
           typeflight,
@@ -112,6 +113,20 @@ module.exports = {
         .catch((err) => {
           failed(res, [], err.message);
         });
+      }else{
+        flightModel
+        .getAll()
+        .then((result) => {
+          if (result.length === 0) {
+            notfound(res, [], "Data empty");
+          } else {
+            success(res, result, "Get all data success!");
+          }
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+      }
     } catch (error) {
       failed(res, [], "Error Internal Server");
     }
