@@ -15,6 +15,8 @@ import {
   EditProfile,
   MainProfile,
   SearchFlight,
+  SearchResult,
+  FlightDetail,
 } from '../pages';
 const Stack = createStackNavigator();
 
@@ -24,6 +26,7 @@ export default function Router({navigation}) {
     <Stack.Navigator initialRouteName={'WelcomeScreen'}>
       {/* Untuk Konfigurasi Redux kedepan */}
       {/* {
+
                 Auth?.data?.token ? (
                     
                     <>
@@ -100,6 +103,16 @@ export default function Router({navigation}) {
       <Stack.Screen
         name="SearchFlight"
         component={SearchFlight}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SearchResult"
+        component={SearchResult}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="FlightDetail"
+        component={FlightDetail}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

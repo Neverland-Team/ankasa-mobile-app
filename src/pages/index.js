@@ -10,7 +10,8 @@ import {EditProfile, MainProfile, AddCard} from './Profile';
 import Home from './Home';
 import Notification from './Notification';
 import SearchFlight from './SearchFlight';
-
+import SearchResult from './SearchResult';
+import FlightDetail from './FlightDetail';
 export {
   Login,
   SignUp,
@@ -25,4 +26,6 @@ export {
   EditProfile,
   MainProfile,
   SearchFlight,
+  SearchResult,
+  FlightDetail,
 };

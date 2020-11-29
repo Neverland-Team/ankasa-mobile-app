@@ -16,10 +16,16 @@ import IcNavHome from './NavHome.svg';
 import IcBtnBackHome from './BtnBackHome.svg';
 import IcSearchArrowWhite from './SearchArrowWhite.svg';
 import IcFullScreen from './FullScreen.svg';
-import IcSearchFlightArrowBlue from './SearchFlightArrowBlue.svg';
 import IcOneWay from './OneWay.svg';
 import IcRoundTrip from './RoundTrip.svg';
 import IcArrowRightBlue from './ArrowRightBlue.svg';
+import IcSearchFlightArrowBlue from './SearchFlightArrowBlue.svg';
+import IcSearchResultArrowWhite from './SearchResultArrowWhite.svg';
+import IcFilter from './Filter.svg';
+import IcStarYellow from './StarYellow.svg';
+import IcBurger from './Burger.svg';
+import IcWifi from './Wifi.svg';
+import IcMaleAndFamale from './MaleAndFamale.svg';
 export {
   IcFlight,
   IcArrowBackWhite,
@@ -39,8 +45,14 @@ export {
   IcBtnBackHome,
   IcSearchArrowWhite,
   IcFullScreen,
-  IcSearchFlightArrowBlue,
   IcOneWay,
   IcRoundTrip,
   IcArrowRightBlue,
+  IcSearchFlightArrowBlue,
+  IcSearchResultArrowWhite,
+  IcFilter,
+  IcStarYellow,
+  IcBurger,
+  IcWifi,
+  IcMaleAndFamale,
 };
