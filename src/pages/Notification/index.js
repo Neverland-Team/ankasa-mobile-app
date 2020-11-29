@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: '#fff',
-    marginTop: 20,
+    paddingTop: 20,
   },
   clearBtn: {
     fontSize: 16,
