@@ -15,8 +15,45 @@ import {Profile} from '../../../assets';
 import {Gap} from '../../../utils';
 import {Logout, SettingProfile, StarReview, Btnback, Btnbackred} from '../../../assets';
 import {BottomNav} from '../../../components';
+import imagePicker from 'react-native-image-picker';
 
 export default function MainProfile({navigation}) {
+
+  const uploadImage = () => {
+    imagePicker.showImagePicker({}, (response) => {
+      if (response.didCancel || response.error) {
+        // ketika image tidak di upload
+        alert("oops, you don't chouse image!");
+      } else {
+        const formData = new FormData();
+        formData.append('image', {
+          uri: response.uri,
+          name: response.fileName,
+          type: response.type,
+        });
+
+        // const header = {
+        //   headers: {
+        //     Authorization: `Bearer + ${token}`,
+        //     'Content-Type': 'multipart/form-data',
+        //     Accept: 'application/json',
+        //   },
+        // };
+        // Axios.patch(
+        //   `http://192.168.1.116/api/v1/profile/photo/${id_profile}`,
+        //   formData,
+        //   header,
+        // )
+        //   .then((res) => {
+        //     // jika berhasil
+        //   })
+        //   .catch((err) => {
+        //     // jika gagal upload image dari API/BackEnd
+        //   });
+      }
+    });
+  };
+
   const inputTypeCard = React.useRef();
   const [modalVisible, setModalVisible] = React.useState(false);
   const [value, onChangeText] = React.useState('');
@@ -37,7 +74,7 @@ export default function MainProfile({navigation}) {
         </View>
         <Gap height={40} />
         <View style={styles.vPhotoProfile}>
-          <TouchableOpacity style={styles.vclippingImange}>
+          <TouchableOpacity style={styles.vclippingImange} onPress={() => uploadImage()} >
             <Image source={Profile} style={styles.iProfile} />
           </TouchableOpacity>
         </View>
@@ -217,8 +254,8 @@ const styles = StyleSheet.create({
   },
   iProfile: {
     borderRadius: 30,
-    width: 100,
-    height: 110,
+    width: 130,
+    height: 125,
   },
   tName: {
     fontSize: 20,

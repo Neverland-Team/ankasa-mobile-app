@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  Picker,
   TouchableOpacity,
 } from 'react-native';
 import {Gap} from '../../../utils';
@@ -24,6 +25,7 @@ export default function EditProfile({navigation}) {
   const [city, setCity] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [postcode, setPostCode] = React.useState('');
+  const [selectedValue, setSelectedValue] = React.useState("city");
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>
       <View style={styles.containerTop}>
@@ -70,18 +72,16 @@ export default function EditProfile({navigation}) {
           returnKeyType="next"
           onSubmitEditing={() => inputCity.current.focus()}
         />
-        <Gap height={40} />
+        <Gap height={20} />
         <Text style={styles.tEmail}>City</Text>
-        <TextInput
-          style={styles.nameCard}
-          ref={inputCity}
-          placeholder="Add to city..."
-          onChangeText={(text) => setCity(text)}
-          value={city}
-          returnKeyType="next"
-          onSubmitEditing={() => inputAddress.current.focus()}
-        />
-        <Gap height={40} />
+        <Picker
+        selectedValue={selectedValue}
+        style={styles.dataPicker}
+        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)} >
+        <Picker.Item label="Java" value="java" />
+        <Picker.Item label="JavaScript" value="js" />
+      </Picker>
+        <Gap height={20} />
         <Text style={styles.tEmail}>Address</Text>
         <TextInput
           style={styles.nameCard}
@@ -165,5 +165,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000000',
     fontFamily: 'Poppins-Regular',
+  },
+  dataPicker: {
+    fontSize: 16,
+    color: '#000000',
+    fontFamily: 'Poppins-Regular',
+    width: "100%",
   },
 });
