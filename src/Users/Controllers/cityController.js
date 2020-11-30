@@ -72,62 +72,39 @@ module.exports = {
     }
   },
 
-  update: (req, res) => {
+  update: async (req, res) => {
     try {
-      upload.single("photo")(req, res, (err) => {
-        if (err) {
-          if (err.code === "LimitSize") {
-            failed(res, [], "photo must less 5 mb");
-          } else {
-            failed(res, [], err.message);
-          }
-        } else {
-          const id = req.params.idcity;
-          const body = req.body;
-          cityModel.getId(id).then(async (response) => {
-            const responses = response[0].photo;
-            const oldphoto = responses;
-            body.photo = !req.file ? oldphoto : req.file.filename;
-            if (body.photo !== oldphoto) {
-              if (body.photo !== "images.png") {
-                try {
-                  await fs.unlink(path.join(`public/images/${oldphoto}`));
-                  cityModel
-                    .update(body, id)
-                    .then((result) => {
-                      success(res, result, "Update success");
-                    })
-                    .catch((err) => {
-                      failed(res, [], err.message);
-                    });
-                } catch (err) {
-                  failed(res, [], err.message);
-                }
-              } else {
-                cityModel
-                  .update(body, id)
-                  .then((result) => {
-                    success(res, result, "Update success");
-                  })
-                  .catch((err) => {
-                    failed(res, [], err.message);
-                  });
-              }
-            } else {
-              cityModel
-                .update(body, id)
-                .then((result) => {
-                  success(res, result, "Update data success");
-                })
-                .catch((err) => {
-                  failed(res, [], err.message);
-                });
-            }
-          });
+      const { idcity } = req.params;
+      const user = await cityModel.getId(idcity);
+      if(user.length == 1){
+        const photo = !req.file ? user[0].photocity : req.file.filename;
+        const data = {...req.body, photo: photo};
+        const updated = await cityModel.update(data,idcity);
+        if(updated.affectedRows == 1){
+          return res.status(200).send({
+            success: true,
+            message: "successfully update data",
+            data: updated
+          })
         }
-      });
-    } catch (error) {
-      failed(res, [], "Internal Server Error");
+        return res.status(403).send({
+          success: false,
+          message: "update city cannot succesfully",
+          data: updated
+        })
+      }else{
+        return res.status(404).send({
+          success: false,
+          message: "user data cannot found",
+          data: []
+        })
+      }
+    }catch(err){
+      return res.status(500).send({
+        success: false,
+        status: 500,
+        message: `internal server error : ${err.message}`
+      })
     }
   },
 
