@@ -38,6 +38,7 @@ import Mail from './Mail.svg';
 import Bell from './Bell.svg';
 import Flight from './Flight.svg';
 import ArrowBackWhite from './ArrowBackWhite.svg';
+import IcSendChat from './SendChat.svg'
 export {
   IcFlight,
   IcArrowBackWhite,
@@ -79,4 +80,5 @@ export {
   Bell,
   Flight,
   ArrowBackWhite,
+  IcSendChat
 };
