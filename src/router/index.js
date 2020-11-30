@@ -23,7 +23,7 @@ const Stack = createStackNavigator();
 export default function Router({navigation}) {
   // const Auth = useSelector((s)=> s.Auth)
   return (
-    <Stack.Navigator initialRouteName={'WelcomeScreen'}>
+    <Stack.Navigator initialRouteName={'SearchFlight'}>
       {/* Untuk Konfigurasi Redux kedepan */}
       {/* {
 

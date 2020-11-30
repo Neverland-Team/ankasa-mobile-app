@@ -7,6 +7,7 @@ import IlHomeSlider from './HomeSlider.png';
 import IlNavSearchResult from './NavSearchResult.png';
 import IlBgFlightDetail from './BgFlightDetail.png';
 import IlGaruda from './Garuda.png';
+import IlChat from './Chat.png';
 
 export {
   IlFlight,
@@ -18,4 +19,5 @@ export {
   IlNavSearchResult,
   IlBgFlightDetail,
   IlGaruda,
+  IlChat,
 };

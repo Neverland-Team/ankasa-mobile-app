@@ -26,6 +26,8 @@ import IcStarYellow from './StarYellow.svg';
 import IcBurger from './Burger.svg';
 import IcWifi from './Wifi.svg';
 import IcMaleAndFamale from './MaleAndFamale.svg';
+import IcUnread from './Message.svg';
+import IcRead from './MessageBlue.svg';
 export {
   IcFlight,
   IcArrowBackWhite,
@@ -55,4 +57,6 @@ export {
   IcBurger,
   IcWifi,
   IcMaleAndFamale,
+  IcUnread,
+  IcRead,
 };
