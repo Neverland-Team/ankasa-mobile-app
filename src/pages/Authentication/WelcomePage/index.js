@@ -14,7 +14,7 @@ import {IcDotSlider} from '../../../assets/Icons/index';
 export default function WelcomePage({navigation}) {
   return (
     <>
-      <ScrollView style={styles.scroll} showVerticalScrollIndicator={false}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Gap height={35} />
         <Image style={styles.logo} source={IlFlight} />
         <Text style={styles.title}>Get Started</Text>

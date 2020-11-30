@@ -28,6 +28,16 @@ import IcWifi from './Wifi.svg';
 import IcMaleAndFamale from './MaleAndFamale.svg';
 import IcUnread from './Message.svg';
 import IcRead from './MessageBlue.svg';
+import Logout from './Logout.svg';
+import StarReview from './StarReview.svg';
+import SettingProfile from './SettingProfile.svg';
+import Btnback from './Btnback.svg';
+import Btnbackred from './Btnbackred.svg';
+import ArrowBackBlack from './ArrowBackBlack.svg';
+import Mail from './Mail.svg';
+import Bell from './Bell.svg';
+import Flight from './Flight.svg';
+import ArrowBackWhite from './ArrowBackWhite.svg';
 export {
   IcFlight,
   IcArrowBackWhite,
@@ -59,4 +69,14 @@ export {
   IcMaleAndFamale,
   IcUnread,
   IcRead,
+  Logout,
+  StarReview,
+  SettingProfile,
+  Btnback,
+  Btnbackred,
+  ArrowBackBlack,
+  Mail,
+  Bell,
+  Flight,
+  ArrowBackWhite,
 };
