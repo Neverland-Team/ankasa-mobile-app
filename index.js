@@ -40,6 +40,7 @@ app.get("/api/v1", (req, res) => {
 app.use(express.static("Images"));
 
 // Listen Port
-server.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 8000;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
