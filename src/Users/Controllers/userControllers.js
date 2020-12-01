@@ -1,6 +1,6 @@
 const { findAndUpdateById } = require("../Models/userModel");
 const userModel = require("../Models/userModel");
-const cloudinary = require("../utils/cloudinary");
+const cloudinary = require("../../Helper/cloudinary");
 
 module.exports = {
   getAllUser: async (req, res) => {
