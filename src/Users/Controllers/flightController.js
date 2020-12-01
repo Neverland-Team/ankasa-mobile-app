@@ -41,6 +41,27 @@ module.exports = {
       failed(res, [], "Internal Server Error");
     }
   },
+  getAllSearch: (req, res) => {
+    try {
+      const date = req.query.datedeparture;
+      const tocity = req.query.tocity;
+      // console.log(date, tocity);
+      flightModel
+        .getAllSearchToo(date, tocity)
+        .then((result) => {
+          if (result.length === 0) {
+            notfound(res, [], "Data not found!");
+          } else {
+            success(res, result, `Get by search dung success`);
+          }
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+    } catch (error) {
+      failed(res, [], "Internal Server Error");
+    }
+  },
 
   getAll: (req, res) => {
     try {
@@ -79,53 +100,53 @@ module.exports = {
       const pricefrom = !req.query.pricefrom ? "0" : req.query.pricefrom;
       const priceto = !req.query.priceto ? "99999999999" : req.query.priceto;
 
-      if(req.query){
+      if (req.query) {
         flightModel
-        .getAllSearch(
-          fromcity,
-          tocity,
-          typeflight,
-          child,
-          adult,
-          classflight,
-          datedeparture,
-          name,
-          luggage,
-          meal,
-          wifi,
-          direct,
-          transit,
-          more_transit,
-          departurefrom,
-          departureto,
-          arrivedfrom,
-          arrivedto,
-          pricefrom,
-          priceto
-        )
-        .then((result) => {
-          if (result.length === 0) {
-            notfound(res, [], "Data empty");
-          } else {
-            success(res, result, "Get all data success!");
-          }
-        })
-        .catch((err) => {
-          failed(res, [], err.message);
-        });
-      }else{
+          .getAllSearch(
+            fromcity,
+            tocity,
+            typeflight,
+            child,
+            adult,
+            classflight,
+            datedeparture,
+            name,
+            luggage,
+            meal,
+            wifi,
+            direct,
+            transit,
+            more_transit,
+            departurefrom,
+            departureto,
+            arrivedfrom,
+            arrivedto,
+            pricefrom,
+            priceto
+          )
+          .then((result) => {
+            if (result.length === 0) {
+              notfound(res, [], "Data empty");
+            } else {
+              success(res, result, "Get all data success!");
+            }
+          })
+          .catch((err) => {
+            failed(res, [], err.message);
+          });
+      } else {
         flightModel
-        .getAll()
-        .then((result) => {
-          if (result.length === 0) {
-            notfound(res, [], "Data empty");
-          } else {
-            success(res, result, "Get all data success!");
-          }
-        })
-        .catch((err) => {
-          failed(res, [], err.message);
-        });
+          .getAll()
+          .then((result) => {
+            if (result.length === 0) {
+              notfound(res, [], "Data empty");
+            } else {
+              success(res, result, "Get all data success!");
+            }
+          })
+          .catch((err) => {
+            failed(res, [], err.message);
+          });
       }
     } catch (error) {
       failed(res, [], "Error Internal Server");

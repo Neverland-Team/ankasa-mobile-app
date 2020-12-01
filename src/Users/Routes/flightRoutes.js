@@ -6,6 +6,7 @@ router
   .post("/", [verifyAuth.verifyToken], flightController.flight)
   .get("/getId/:idflight", [verifyAuth.verifyToken], flightController.getId)
   .get("/getAll", [verifyAuth.verifyToken], flightController.getAll)
+  .get("/search", [verifyAuth.verifyToken], flightController.getAllSearch)
   .patch("/update/:idflight", [verifyAuth.verifyToken], flightController.update)
   .delete(
     "/delete/:idflight",
