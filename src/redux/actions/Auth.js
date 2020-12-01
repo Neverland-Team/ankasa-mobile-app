@@ -1,33 +1,52 @@
-// const AuthLoginRequest = ()=> {
-//     return{
-//         type: 'LOGIN_REQUEST'
-//     }
-// }
+import Axios from 'axios';
+import {URI} from '../../utils';
 
-const AuthLoginSuccess = (data)=> {
-    return{
-        type: 'LOGIN_SUCCESS',
-        payload: data
-    }
-}
-// const AuthLoginError = (error)=> {
-//     return{
-//         type: 'LOGIN_ERROR',
-//         payload: error
-//     }
-// }
+const AuthLoginRequest = () => {
+  return {
+    type: 'LOGIN_REQUEST',
+  };
+};
 
-export const AuthLogin = (data) => {
-    return (dispatch) =>{
-        // dispatch(AuthLoginRequest())
-        dispatch(AuthLoginSuccess(data))
-        // dispatch(AuthLoginError(err))
-    }
+const AuthLoginSuccess = (data) => {
+  return {
+    type: 'LOGIN_SUCCESS',
+    payload: data,
+  };
+};
+const AuthLoginError = (error) => {
+  return {
+    type: 'LOGIN_ERROR',
+    payload: error,
+  };
+};
 
-}
+export const Logout = () => {
+  return {
+    type: 'LOGOUT',
+  };
+};
 
-export const AuthLogout = ()=> {
-    return{
-        type: 'LOGOUT',
-    }
-}
+export const AuthLogin = (fields) => {
+  return (dispatch) => {
+    dispatch(AuthLoginRequest());
+    return Axios({
+      method: 'POST',
+      data: fields,
+      url: `${URI}/auth/login`,
+    })
+      .then((res) => {
+        const data = res.data.accessToken;
+        dispatch(AuthLoginSuccess(data));
+      })
+      .catch((err) => {
+        const message = err.message;
+        dispatch(AuthLoginError(message));
+      });
+  };
+};
+
+export const AuthLogout = () => {
+  return (dispatch) => {
+    dispatch(Logout());
+  };
+};
