@@ -6,10 +6,12 @@ const Login = (data) =>
      const promise = new Promise((resolve, reject) => {
             axios.post(`${URI}/auth/login`,data)
             .then((result) =>{
+                
                 resolve(result.data);
-            },(err) => {
-                reject(err);
-            });
+            })
+            .catch(err => {
+                
+            })
      });
      return promise;
 }
@@ -19,9 +21,10 @@ const SignUp = (data) =>
             axios.post(``)
             .then((result)=>{
                 resolve(result);
-            },(err) => {
-                reject(err);
-            });
+            })
+            .catch(err => {
+                
+            })
      });
      return promise;
 }
@@ -31,9 +34,10 @@ const ForgotPassword = (data) =>
             axios.post(``)
             .then((result)=>{
                 resolve(result);
-            },(err) => {
-                reject(err);
-            });
+            })
+            .catch(err => {
+                
+            })
      });
      return promise;
 }

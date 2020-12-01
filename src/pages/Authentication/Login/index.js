@@ -24,14 +24,13 @@ export default function Login({navigation}) {
   const signIn = () => 
   { 
     
-      API.Login({username:'ayu',password:'12345678'})
+      API.Login({username:username,password:password})
       .then(res => {
           console.log(res)
       })
       .catch(err =>{
           
       })
- 
 
   }
   return (

@@ -6,9 +6,10 @@ const SearchFlight = (data) =>
             axios.get(``)
             .then((result)=>{
                 resolve(result);
-            },(err) => {
-                reject(err);
-            });
+            })
+            .catch(err => {
+                
+            })
      });
      return promise;
 }
@@ -18,9 +19,10 @@ const SearchResult = (data) =>
             axios.get(``)
             .then((result)=>{
                 resolve(result);
-            },(err) => {
-                reject(err);
-            });
+            })
+            .catch(err => {
+                
+            })
      });
      return promise;
 }
@@ -30,9 +32,10 @@ const FlightDetail = (data) =>
             axios.get(``)
             .then((result)=>{
                 resolve(result);
-            },(err) => {
-                reject(err);
-            });
+            })
+            .catch(err => {
+                
+            })
      });
      return promise;
 }

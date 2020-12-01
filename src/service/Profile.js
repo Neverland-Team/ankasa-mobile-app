@@ -6,9 +6,10 @@ const Profile = (data) =>
             axios.get(``)
             .then((result) =>{
                 resolve(result);
-            },(err) => {
-                reject(err);
-            });
+            })
+            .catch(err => {
+                
+            })
      });
      return promise;
 }
@@ -19,9 +20,10 @@ const Notifications = (data) =>
             axios.get(``)
             .then((result) =>{
                 resolve(result);
-            },(err) => {
-                reject(err);
-            });
+            })
+            .catch(err => {
+                
+            })
      });
      return promise;
 }
