@@ -26,10 +26,14 @@ export default function Router({navigation}) {
   // const Auth = useSelector((s)=> s.Auth)
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Stack.Navigator initialRouteName={'MainProfile'}>
 =======
     <Stack.Navigator initialRouteName={'ChatRoom'}>
 >>>>>>> 7a1c0ee... make Service
+=======
+    <Stack.Navigator initialRouteName={'WelcomePage'}>
+>>>>>>> d4be32b... fixed router
       {/* Untuk Konfigurasi Redux kedepan */}
       {/* {
 
