@@ -1,7 +1,7 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
-const server = require("https").createServer(app);
+const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
 const db = require("./src/Config/db");
@@ -40,7 +40,6 @@ app.get("/api/v1", (req, res) => {
 app.use(express.static("Images"));
 
 // Listen Port
-const PORT = process.env.PORT || 8000;
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+server.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });
