@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -17,11 +17,24 @@ import {Logout, SettingProfile, StarReview, Btnback, Btnbackred} from '../../../
 import {BottomNav} from '../../../components';
 import imagePicker from 'react-native-image-picker';
 import { AuthLogout } from '../../../redux/actions/Auth';
+import {ProfileUser} from '../../../redux/actions/Profile';
 import {useDispatch, useSelector} from 'react-redux';
 
 export default function MainProfile({navigation}) {
-
   const dispatch = useDispatch();
+  const {data} = useSelector((s) => s.DataProfile);
+  // const [username, setUsername] = React.useState('');
+  // const {data: dataAuth} = useSelector((s) => s.Auth);
+  // const {username} = data?.data;
+
+  // React.useEffect(() =>{
+  //   setUsername(data);
+  //   console.log(username, 'herliansyah')
+  // },[data])
+
+  console.log(`http://192.168.100.9:8000/Images/${data.data.photo}`)
+
+  // console.log(data, 'adjhsajhdg')
   const onLogout = () => {
     dispatch(AuthLogout());
   };
@@ -83,11 +96,11 @@ export default function MainProfile({navigation}) {
         <Gap height={40} />
         <View style={styles.vPhotoProfile}>
           <TouchableOpacity style={styles.vclippingImange} onPress={() => uploadImage()} >
-            <Image source={Profile} style={styles.iProfile} />
+            <Image source={{uri: `http://192.168.100.9:8000/images/${data.data.photo}`}} style={styles.iProfile} />
           </TouchableOpacity>
         </View>
-        <Text style={styles.tName}>Mike Kowalski</Text>
-        <Text style={styles.tNameDaerah}>Medan, Indoenesia</Text>
+        <Text style={styles.tName}>{data.data.username}</Text>
+        <Text style={styles.tNameDaerah}>{data.data.address}, {data.data.city}</Text>
         
         <View style={{alignItems:'center',marginTop:6,marginBottom:10}}>
           <TouchableOpacity style={{backgroundColor:'#2395FF',borderRadius:4,width:200,paddingVertical:5}} >

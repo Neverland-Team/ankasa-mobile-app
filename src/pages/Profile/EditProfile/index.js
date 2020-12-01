@@ -12,8 +12,11 @@ import {Gap} from '../../../utils';
 import {NavSearchResult} from '../../../assets';
 import {ScrollView} from 'react-native-gesture-handler';
 import {ArrowBackBlack} from '../../../assets';
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateProfile } from '../../../redux/actions/Profile';
 
 export default function EditProfile({navigation}) {
+  const dispatch = useDispatch();
   const inputEmail = React.useRef('');
   const inputUsername = React.useRef('');
   const inputCity = React.useRef('');
@@ -25,6 +28,29 @@ export default function EditProfile({navigation}) {
   const [city, setCity] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [postcode, setPostCode] = React.useState('');
+  const [selectedUser, setSelectedUser] = React.useState({});
+
+  const {data} = useSelector((s) => s.DataProfile);
+
+  const updateUser = () => {
+    dispatch(
+      UpdateProfile({
+        email: email,
+        phone: phone,
+        username: username,
+        city: city,
+        address: address,
+        postcode: postcode,
+      }),
+      setEmail(''),
+      setAddress(''),
+      setCity(''),
+      setPhone(''),
+      setPostCode(''),
+      setUsername(''),
+      navigation.navigate('MainProfile'),
+    );
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>

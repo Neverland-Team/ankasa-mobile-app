@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -14,8 +14,21 @@ import {
   IcDivider,
 } from '../../../assets/Icons/index';
 import CheckBox from '@react-native-community/checkbox';
+import API from '../../../service';
 
 export default function SignUp({navigation}) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+
+  const signUp= () => {
+    API.SignUp({username: username, email:email, password: password}, navigation.navigate("Login"))
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {});
+  };
+
   return (
     <>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -43,8 +56,8 @@ export default function SignUp({navigation}) {
               placeholder="Full Name"
               autoCapitalize={'none'}
               returnKeyType="next"
-              // value={username}
-              // onChangeText={(text) => setEmail(text)}
+              value={username}
+              onChangeText={(text) => setUsername(text)}
             />
           </View>
         </View>
@@ -56,8 +69,8 @@ export default function SignUp({navigation}) {
               placeholder="Email"
               autoCapitalize={'none'}
               returnKeyType="next"
-              // value={username}
-              // onChangeText={(text) => setEmail(text)}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
             />
           </View>
         </View>
@@ -70,15 +83,15 @@ export default function SignUp({navigation}) {
               autoCapitalize={'none'}
               returnKeyType="send"
               secureTextEntry={true}
-              // value={password}
-              // onChangeText={(text) => setPassword(text)}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
             />
             <IcEyePassword style={styles.eyePassword} />
           </View>
         </View>
         <Gap height={27} />
         <View style={styles.paddingButton}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => signUp()}>
             <Text
               style={styles.textButton}
               // onPress={() => navigation.navigate('WelcomePage')}
@@ -99,8 +112,7 @@ export default function SignUp({navigation}) {
         <Gap height={24} />
         <View style={styles.paddingButton}>
           <TouchableOpacity
-            style={styles.buttonSignIn}
-            onPress={() => navigation.navigate('Login')}>
+            style={styles.buttonSignIn}>
             <Text style={styles.textButtonSignIn}>Sign In</Text>
           </TouchableOpacity>
         </View>
