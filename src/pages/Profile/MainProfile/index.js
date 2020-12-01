@@ -58,6 +58,7 @@ export default function MainProfile({navigation}) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [value, onChangeText] = React.useState('');
   const [typeCard, settypeCard] = React.useState('');
+  
   return (
       <>
     <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>
@@ -80,6 +81,12 @@ export default function MainProfile({navigation}) {
         </View>
         <Text style={styles.tName}>Mike Kowalski</Text>
         <Text style={styles.tNameDaerah}>Medan, Indoenesia</Text>
+        
+        <View style={{alignItems:'center',marginTop:6,marginBottom:10}}>
+          <TouchableOpacity style={{backgroundColor:'#2395FF',borderRadius:4,width:200,paddingVertical:5}} >
+            <Text style={{color:'#fff',textAlign:'center',fontSize:14,fontFamily:'Poppins-SemiBold'}}>Customer Hub</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.positionView}>
           <View style={styles.vCards}>
             <Text style={styles.textCards}>Cards</Text>
@@ -204,7 +211,7 @@ export default function MainProfile({navigation}) {
           </View>
         </Modal>
         </ScrollView>
-        <BottomNav />
+        <BottomNav  navigation={navigation}/>
     </>
   );
 };

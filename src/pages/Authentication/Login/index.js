@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -16,8 +16,24 @@ import {
   IcFinger,
   IcDivider,
 } from '../../../assets/Icons/index';
+import API from '../../../service';
 
 export default function Login({navigation}) {
+  const [username,setUsername] = useState('')
+  const [password,setPassword] = useState('')
+  const signIn = () => 
+  { 
+    
+      API.Login({username:'ayu',password:'12345678'})
+      .then(res => {
+          console.log(res)
+      })
+      .catch(err =>{
+          
+      })
+ 
+
+  }
   return (
     <>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -59,10 +75,10 @@ export default function Login({navigation}) {
         </View>
         <Gap height={27} />
         <View style={styles.paddingButton}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => signIn()}>
             <Text
               style={styles.textButton}
-                onPress={() => navigation.navigate('Home')}
+                // onPress={() => navigation.navigate('Home')}
             >
               Sign In
             </Text>

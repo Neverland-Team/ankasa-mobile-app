@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import {
   Text,
   View,
@@ -7,10 +7,33 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {Gap} from '../../../utils';
+import {Gap, SOCKETURI} from '../../../utils';
 import {IcArrowBackWhite, IcSendChat} from '../../../assets/Icons/index';
+import { io } from 'socket.io-client'
+export default function ChatRoom({navigation,route}) {
+//  const  {idRoom} = route.params;
+ const  idRoom = '6_7';
+//  alert(idRoom)
+ const [chat,setChat] = useState('')
+ const socket = io(SOCKETURI);
+ useEffect(() => {
+  if(socket == null) return;
+  socket.emit('initial-chat-room',16);
+  socket.on('get-chat',(chat) => {
+        // alert(chat.id)
+        // setReceivers(chat)
+  });
+  return () => {
+    socket.off('get-messages')
+  }
+},[])
 
-export default function ChatRoom({navigation}) {
+
+ const sendChat = () =>
+ {
+    alert(chat)
+    setChat('')
+ }
   return (
     <>
       <View style={styles.bar}>
@@ -69,12 +92,12 @@ export default function ChatRoom({navigation}) {
             style={styles.textInput}
             placeholder="Write here ..."
             returnKeyType="send"
-            // value={username}
-            // onChangeText={(text) => setEmail(text)}
+            value={chat}
+            onChangeText={(text) => setChat(text)}
           />
         </View>
         <Gap width={10} />
-        <TouchableOpacity style={styles.sendButton}>
+        <TouchableOpacity style={styles.sendButton} onPress={() => sendChat()}>
           <IcSendChat />
         </TouchableOpacity>
       </View>

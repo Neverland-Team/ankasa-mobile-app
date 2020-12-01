@@ -17,6 +17,8 @@ import {
 import {Gap} from '../../utils';
 
 export default function Home({navigation}) {
+ 
+
   return (
     <>
       <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
@@ -25,7 +27,11 @@ export default function Home({navigation}) {
           <View style={styles.wrapperIcon}>
             <Text style={styles.wrapperIconText}>Explore</Text>
             <View style={{flexDirection: 'row'}}>
-              <IcMail />
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('Chat')}>
+                <IcMail />
+              </TouchableOpacity>
               <Gap width={23} />
               <TouchableOpacity
                 activeOpacity={0.5}
@@ -77,7 +83,7 @@ export default function Home({navigation}) {
         </ScrollView>
         <Gap heigh={16} />
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </>
   );
 }

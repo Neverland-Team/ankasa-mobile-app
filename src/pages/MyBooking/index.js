@@ -82,7 +82,7 @@ export default function MainProfile({navigation}) {
         </ImageBackground>
       </View>
     </ScrollView>
-    <BottomNav />
+    <BottomNav navigation={navigation} />
     </>
   );
 }
