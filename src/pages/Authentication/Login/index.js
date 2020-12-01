@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -17,22 +17,19 @@ import {
   IcDivider,
 } from '../../../assets/Icons/index';
 import API from '../../../service';
+import {AuthLogin} from '../../../redux/actions/Auth';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function Login({navigation}) {
-  const [username,setUsername] = useState('')
-  const [password,setPassword] = useState('')
-  const signIn = () => 
-  { 
-    
-      API.Login({username:username,password:password})
-      .then(res => {
-          console.log(res)
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const signIn = () => {
+    API.Login({username: username, password: password})
+      .then((res) => {
+        // console.log(res);
       })
-      .catch(err =>{
-          
-      })
-
-  }
+      .catch((err) => {});
+  };
   return (
     <>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -52,8 +49,8 @@ export default function Login({navigation}) {
               placeholder="Username"
               autoCapitalize={'none'}
               returnKeyType="next"
-              // value={username}
-              // onChangeText={(text) => setEmail(text)}
+              value={username}
+              onChangeText={(text) => setUsername(text)}
             />
           </View>
         </View>
@@ -66,8 +63,8 @@ export default function Login({navigation}) {
               autoCapitalize={'none'}
               returnKeyType="send"
               secureTextEntry={true}
-              // value={password}
-              // onChangeText={(text) => setPassword(text)}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
             />
             <IcEyePassword style={styles.eyePassword} />
           </View>
@@ -75,10 +72,7 @@ export default function Login({navigation}) {
         <Gap height={27} />
         <View style={styles.paddingButton}>
           <TouchableOpacity style={styles.button} onPress={() => signIn()}>
-            <Text
-              style={styles.textButton}
-                // onPress={() => navigation.navigate('Home')}
-            >
+            <Text style={styles.textButton} onPress={() => signIn()}>
               Sign In
             </Text>
           </TouchableOpacity>

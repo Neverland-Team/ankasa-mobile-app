@@ -1,33 +1,19 @@
-// const AuthLoginRequest = ()=> {
-//     return{
-//         type: 'LOGIN_REQUEST'
-//     }
-// }
-
-const AuthLoginSuccess = (data)=> {
-    return{
-        type: 'LOGIN_SUCCESS',
-        payload: data
-    }
-}
-// const AuthLoginError = (error)=> {
-//     return{
-//         type: 'LOGIN_ERROR',
-//         payload: error
-//     }
-// }
+const AuthLoginSuccess = (data) => {
+  return {
+    type: 'LOGIN_SUCCESS',
+    payload: data,
+  };
+};
 
 export const AuthLogin = (data) => {
-    return (dispatch) =>{
-        // dispatch(AuthLoginRequest())
-        dispatch(AuthLoginSuccess(data))
-        // dispatch(AuthLoginError(err))
-    }
+//   console.log('dari redux: ', data);
+  return (dispatch) => {
+    dispatch(AuthLoginSuccess(data));
+  };
+};
 
-}
-
-export const AuthLogout = ()=> {
-    return{
-        type: 'LOGOUT',
-    }
-}
+export const AuthLogout = () => {
+  return {
+    type: 'LOGOUT',
+  };
+};
