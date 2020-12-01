@@ -1,21 +1,22 @@
 import React from 'react'
-import { StyleSheet, Text, View ,Image} from 'react-native'
+import { StyleSheet, Text, View ,Image,TouchableOpacity} from 'react-native'
 import { IcBtnBackHome,IlHomeSlider } from '../../assets'
 import { Gap } from '../../utils'
 
-export default function CardDestination() {
+export default function CardDestination({country,city,photoCity,idCity,onPress}) {
     return (
-        <View>
+        <>
+        <TouchableOpacity onPress={() => onPress()}>
             <View style={styles.container}>
                 <View style={styles.wrapper}>
-                        <Text style={styles.count}>15</Text>
+                        <Text style={styles.count}>{idCity}</Text>
                         <Text style={styles.airlines}> Airlines</Text>
                 </View>
                 <Gap height={137}/>
                 <View style={styles.wrapperDestination}>
                     <View>
-                        <Text style={styles.city}>Tokyo,</Text>
-                        <Text style={styles.country}>Japan</Text>
+                        <Text style={styles.city}>{city},</Text>
+                        <Text style={styles.country}>{country}</Text>
                     </View>
                     <View style={styles.back}>
                         <IcBtnBackHome />
@@ -23,7 +24,9 @@ export default function CardDestination() {
                 </View>
             </View>
             <Image style={{borderRadius:20}} source={IlHomeSlider} />
-        </View>
+        </TouchableOpacity>
+        <Gap width={20}/>
+     </>
     )
 }
 
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
         borderRadius:20,
         paddingTop:19,paddingRight:24,
         paddingBottom:26,
-        paddingLeft:26
+        paddingLeft:26,
     },
     wrapper:{
         paddingVertical:5,
@@ -45,6 +48,7 @@ const styles = StyleSheet.create({
         backgroundColor:'rgba(255, 255, 255, 0.41)',
         borderRadius:33,flexDirection:'row',
         justifyContent:'center'
+        
     },
     count:{
         color:'white',

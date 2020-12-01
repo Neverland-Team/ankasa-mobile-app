@@ -66,7 +66,7 @@ export default function Chat({navigation}) {
           onPress={() => navigation.navigate('ChatRoom',{idRoom:item.id_room})}>
           <Image source={IlChat} />
           <View style={[styles.titleWrapper, {flex: 0.9}]}>
-            <Text style={styles.titleNotif(item.unread)}>mas komang</Text>
+            <Text style={styles.titleNotif(item.unread)}>{item.fullName}</Text>
             <Text style={styles.subtitleNotif(item.unread)}>
               {item.last_chat}
             </Text>
@@ -91,7 +91,7 @@ export default function Chat({navigation}) {
         barStyle="dark-content"
       />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <IcArrowBackBlack />
         </TouchableOpacity>
         <TouchableOpacity
