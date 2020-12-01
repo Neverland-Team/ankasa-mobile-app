@@ -2,12 +2,13 @@ const multer = require("multer");
 const helper = require("../Helper/imageFilter");
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}.png`);
-  },
+  //when not use cloudinary not use this
+  // destination: (req, file, cb) => {
+  //   cb(null, "./public/images");
+  // },
+  // filename: (req, file, cb) => {
+  //   cb(null, `${file.fieldname}-${Date.now()}.png`);
+  // },
 });
 
 const upload = multer({

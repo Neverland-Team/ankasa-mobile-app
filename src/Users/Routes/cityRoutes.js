@@ -4,7 +4,7 @@ const verifyAuth = require("../../Middleware/verifyAuth");
 const { preUploadImage } = require("../../Middleware/Type-File");
 
 router
-  .post("/", [verifyAuth.verifyToken], cityController.city)
+  .post("/", [verifyAuth.verifyToken, preUploadImage], cityController.city)
   .get("/", [verifyAuth.verifyToken], cityController.getAll)
   .get("/:idcity", [verifyAuth.verifyToken], cityController.getId)
   .patch("/update/:idcity", [verifyAuth.verifyToken,preUploadImage], cityController.update)
