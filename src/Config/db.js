@@ -5,7 +5,6 @@ const connection = mysql.createConnection({
   user: 'admin',
   password: 'neverlandteam3',
   database: 'neverlandbackend',
-  connectTimeout: 60000
 });
 
 connection.connect((error) => {
