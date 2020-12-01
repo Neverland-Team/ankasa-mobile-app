@@ -6,7 +6,7 @@ import {SearchFlight,SearchResult,FlightDetail} from './Payment'
 
 
 const API ={
-    Login,
+    // Login,
     SignUp,
     ForgotPassword,
     Home,

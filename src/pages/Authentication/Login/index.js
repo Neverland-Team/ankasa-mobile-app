@@ -21,15 +21,18 @@ import {AuthLogin} from '../../../redux/actions/Auth';
 import {useDispatch, useSelector} from 'react-redux';
 
 export default function Login({navigation}) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const signIn = () => {
-    API.Login({username: username, password: password})
-      .then((res) => {
-        // console.log(res);
-      })
-      .catch((err) => {});
+  
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const dispatch = useDispatch();
+  const onSubmit = () => {
+    if (username.length < 1 || password.length < 1) {
+      return ToastAndroid.show('Enter your username/password', 2000);
+    }
+    let data = {username, password};
+    dispatch(AuthLogin(data));
   };
+
   return (
     <>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -71,8 +74,8 @@ export default function Login({navigation}) {
         </View>
         <Gap height={27} />
         <View style={styles.paddingButton}>
-          <TouchableOpacity style={styles.button} onPress={() => signIn()}>
-            <Text style={styles.textButton} onPress={() => signIn()}>
+          <TouchableOpacity style={styles.button} onPress={onSubmit}>
+            <Text style={styles.textButton}>
               Sign In
             </Text>
           </TouchableOpacity>

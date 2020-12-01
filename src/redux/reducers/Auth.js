@@ -1,6 +1,7 @@
 const initialState = {
   data: [],
   loading: false,
+  isLogin: false,
 };
 
 const Auth = (state = initialState, action = {}) => {

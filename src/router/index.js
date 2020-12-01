@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-// import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Login,
   SignUp,
@@ -20,34 +20,21 @@ import {
   SearchResult,
   FlightDetail,
 } from '../pages';
-import {useSelector} from 'react-redux';
 const Stack = createStackNavigator();
 
-export default function Router({navigation}) {
-  const Auth = useSelector((s) => s.Auth);
+export default function Router({ navigation }) {
+  
+   const {isLogin, data} = useSelector((state) => state.Auth);
+  // const dispatch = useDispatch();
+  // dispatch(GetProfile(data));
 
   return (
-    <Stack.Navigator initialRouteName={'Login'}>
-      {Auth?.data ? (
+    <Stack.Navigator initialRouteName={'WelcomePage'}>
+      {isLogin && data ? (
         <>
           <Stack.Screen
             name="Home"
             component={Home}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ForgotPassword"
-            component={ForgotPassword}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="FingerPrint"
-            component={FingerPrint}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="WelcomePage"
-            component={WelcomePage}
             options={{headerShown: false}}
           />
           <Stack.Screen

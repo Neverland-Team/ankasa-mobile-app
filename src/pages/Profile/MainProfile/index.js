@@ -16,8 +16,15 @@ import {Gap} from '../../../utils';
 import {Logout, SettingProfile, StarReview, Btnback, Btnbackred} from '../../../assets';
 import {BottomNav} from '../../../components';
 import imagePicker from 'react-native-image-picker';
+import { AuthLogout } from '../../../redux/actions/Auth';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function MainProfile({navigation}) {
+
+  const dispatch = useDispatch();
+  const onLogout = () => {
+    dispatch(AuthLogout());
+  };
 
   const uploadImage = () => {
     imagePicker.showImagePicker({}, (response) => {
@@ -160,7 +167,7 @@ export default function MainProfile({navigation}) {
         </View>
         <View style={styles.positionViewRowLogout}>
             <Logout width={30} height={25} style={styles.startReview} />
-            <Text style={styles.tReviewLogout} onPress={() => alert('Berhasil')}>Logout</Text>
+            <Text style={styles.tReviewLogout} onPress={onLogout}>Logout</Text>
             <Btnbackred width={30} height={25} style={styles.bReview}  />
         </View>
         </View>
