@@ -130,7 +130,7 @@ export default function MyBooking({navigation}) {
       {/* </View> */}
 
     </ScrollView>
-    <BottomNav navigation={navigation} />
+    <BottomNav navigation={navigation}  active="MyBooking"/>
     </>
   );
 }

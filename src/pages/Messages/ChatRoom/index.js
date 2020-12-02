@@ -10,9 +10,11 @@ import {
 import {Gap, SOCKETURI} from '../../../utils';
 import {IcArrowBackWhite, IcSendChat} from '../../../assets/Icons/index';
 import { io } from 'socket.io-client'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function ChatRoom({navigation,route}) {
-//  const  {idRoom} = route.params;
- const  idRoom = '19_16';
+ const  {idRoom,id} = route.params;
+ console.log('id dari params: ',id)
+//  const  idRoom = '19_16';
 //  alert(idRoom)
  const [chat,setChat] = useState([])
  const [messages,setMessages] = useState('')
@@ -28,7 +30,8 @@ export default function ChatRoom({navigation,route}) {
         // setReceivers(chat)
   });
   return () => {
-    socket.off('get-messages')
+    // socket.off('get-messages')
+    socket.off('get-chat')
   }
 },[])
 
@@ -39,8 +42,12 @@ export default function ChatRoom({navigation,route}) {
         alert('message is required')
         return false
     }
-    socket.emit('send-chat',{id:19,message:messages,data_id:idRoom});
-    socket.emit('initial-chat-room',idRoom);
+    AsyncStorage.getItem('user').then(res => {
+      const profile = JSON.parse(res)
+      socket.emit('send-chat',{id:profile.iduser,message:messages,data_id:idRoom});
+      socket.emit('initial-chat-room',idRoom);
+      socket.emit('initial-chat',id);
+    })
     // alert(messages)
     setMessages('')
     // setChat([])
@@ -82,7 +89,7 @@ export default function ChatRoom({navigation,route}) {
         {
           chat.map((res,index) => {
 
-            if (res.id_user == 16) {
+            if (res.id_user != id) {
                 return(
                   <View key={index} style={styles.row}>
                     <View style={styles.bubbleChat}>

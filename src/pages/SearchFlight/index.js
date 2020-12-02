@@ -29,7 +29,7 @@ import moment from 'moment';
 import API from '../../service';
 
 export default function SearchFlight({navigation, route}) {
-  // const {idCity} = route.params;
+  const {idCity} = route.params;
   const [active, setActive] = React.useState(true);
   const [isModalVisible, setModalVisible] = React.useState(false);
   const [isModalVisibleAdult, setModalVisibleAdult] = React.useState(false);
@@ -111,7 +111,7 @@ export default function SearchFlight({navigation, route}) {
 
   React.useEffect(() => {
     // params kasih => idCity
-    API.SearchFlightService(12)
+    API.SearchFlightService(idCity)
       .then((res) => {
         setDest(res);
       })

@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -19,19 +19,26 @@ import {
 import {CardChat, Search} from '../../../components';
 import {Gap,SOCKETURI} from '../../../utils';
 import { io } from 'socket.io-client'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Chat({navigation}) {
   const [unread, setUnread] = React.useState(false);
   const [receivers, setReceivers] = React.useState([]);
+  const [id,setId] = useState(0)
   const socket = io(SOCKETURI);
 
   useEffect(() => {
     if(socket == null) return;
-    socket.emit('initial-chat',16);
-    socket.on('get-messages',(chat) => {
-          // alert(chat.id)
-          setReceivers(chat)
-    });
+    AsyncStorage.getItem('user').then(res => {
+      const profile = JSON.parse(res)
+      setId(profile.iduser)
+      console.log('dari user profile : ',profile.iduser)
+      socket.emit('initial-chat',profile.iduser);
+      socket.on('get-messages',(chat) => {
+            // alert(chat.id)
+            setReceivers(chat)
+      });
+    })
     return () => {
       socket.off('get-messages')
     }
@@ -63,10 +70,10 @@ export default function Chat({navigation}) {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.card(item.unread)}
-          onPress={() => navigation.navigate('ChatRoom',{idRoom:item.id_room})}>
+          onPress={() => navigation.navigate('ChatRoom',{idRoom:item.id_room,id:id})}>
           <Image source={IlChat} />
           <View style={[styles.titleWrapper, {flex: 0.9}]}>
-            <Text style={styles.titleNotif(item.unread)}>{item.fullName}</Text>
+            <Text style={styles.titleNotif(item.unread)}>{item.fullName == 'Customer Service' ? item.fullName : 'Customer Service' }</Text>
             <Text style={styles.subtitleNotif(item.unread)}>
               {item.last_chat}
             </Text>

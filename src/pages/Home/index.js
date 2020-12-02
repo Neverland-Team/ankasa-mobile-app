@@ -17,6 +17,7 @@ import {
   Search,
 } from '../../components';
 import { GetProfile } from '../../redux/actions/Profile';
+import API from '../../service';
 import {Gap} from '../../utils';
 
 export default function Home({navigation}) {
@@ -27,20 +28,21 @@ export default function Home({navigation}) {
  
 
  const [cards,setCards] = useState([])
- const [data,setData] = useState([])
+ const [datas,setData] = useState([])
   useEffect(() => {
       API.Home().then( res => {
         setCards(res.data)
         setData(res.data)
       })
+      console.log('test : ',data)
   },[])
 
   const search = (keyword) => {
       if (!keyword) {
-        return setCards(data)
+        return setCards(datas)
       }
       console.log(keyword)
-      let result =  data.filter(res => {
+      let result =  datas.filter(res => {
         console.log(res.name_city)
         return res.name_city == keyword
       });
@@ -86,7 +88,7 @@ export default function Home({navigation}) {
           {
             cards.map((card,index) => {
               return(
-                 index === 0 ? <CardDestination3D key={index} city={card.name_city} country={card.name_country}  onPress={() => navigation.navigate('SearchFlight',{idcity:card.idcity})} /> : <CardDestination key={index} city={card.name_city} country={card.name_country} onPress={() => navigation.navigate('SearchFlight',{idcity:card.idcity})}/>
+                 index === 0 ? <CardDestination3D key={index} city={card.name_city} country={card.name_country}  onPress={() => navigation.navigate('SearchFlight',{idCity:card.idcity})} /> : <CardDestination key={index} city={card.name_city} country={card.name_country} onPress={() => navigation.navigate('SearchFlight',{idCity:card.idcity})}/>
               )
             })
           }
@@ -100,9 +102,9 @@ export default function Home({navigation}) {
           style={{flexDirection: 'row'}}>
           <Gap width={28} />
           {
-            data.reverse().map((card,index) => {
+            datas.reverse().map((card,index) => {
               return(
-                <CardRounded key={index} country={card.name_country} onPress={() => navigation.navigate('SearchFlight',{idcity:card.idcity})} />
+                <CardRounded key={index} country={card.name_country} onPress={() => navigation.navigate('SearchFlight',{idCity:card.idcity})} />
               )
             })
           }

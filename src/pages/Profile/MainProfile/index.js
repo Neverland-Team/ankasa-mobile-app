@@ -12,13 +12,14 @@ import {
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Profile} from '../../../assets';
-import {Gap} from '../../../utils';
+import {Gap, SOCKETURI, URI} from '../../../utils';
 import {Logout, SettingProfile, StarReview, Btnback, Btnbackred} from '../../../assets';
 import {BottomNav} from '../../../components';
 import imagePicker from 'react-native-image-picker';
 import { AuthLogout } from '../../../redux/actions/Auth';
 import {ProfileUser} from '../../../redux/actions/Profile';
 import {useDispatch, useSelector} from 'react-redux';
+import Axios from 'axios';
 
 export default function MainProfile({navigation}) {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ export default function MainProfile({navigation}) {
   //   console.log(username, 'herliansyah')
   // },[data])
 
-  console.log(`http://192.168.100.9:8000/Images/${data.data.photo}`)
+  console.log(`http://192.168.100.9:8000/Images/${data?.data?.photo}`)
 
   // console.log(data, 'adjhsajhdg')
   const onLogout = () => {
@@ -41,6 +42,7 @@ export default function MainProfile({navigation}) {
 
   const uploadImage = () => {
     imagePicker.showImagePicker({}, (response) => {
+      console.log('hasil dari picker: ',response)
       if (response.didCancel || response.error) {
         // ketika image tidak di upload
         alert("oops, you don't chouse image!");
@@ -52,24 +54,26 @@ export default function MainProfile({navigation}) {
           type: response.type,
         });
 
-        // const header = {
-        //   headers: {
-        //     Authorization: `Bearer + ${token}`,
-        //     'Content-Type': 'multipart/form-data',
-        //     Accept: 'application/json',
-        //   },
-        // };
-        // Axios.patch(
-        //   `http://192.168.1.116/api/v1/profile/photo/${id_profile}`,
-        //   formData,
-        //   header,
-        // )
-        //   .then((res) => {
-        //     // jika berhasil
-        //   })
-        //   .catch((err) => {
-        //     // jika gagal upload image dari API/BackEnd
-        //   });
+        const header = {
+          headers: {
+            Authorization: `${token}`,
+            'Content-Type': 'multipart/form-data',
+            Accept: 'application/json',
+          },
+        };
+        Axios.post(
+          `${URI}/profile/upload`,
+          formData,
+          header,
+        )
+          .then((res) => {
+            // jika berhasil
+            console.log('berhasil upload foto')
+          })
+          .catch((err) => {
+            // jika gagal upload image dari API/BackEnd
+            console.log('gagal upload foto')
+          });
       }
     });
   };
@@ -96,11 +100,11 @@ export default function MainProfile({navigation}) {
         <Gap height={40} />
         <View style={styles.vPhotoProfile}>
           <TouchableOpacity style={styles.vclippingImange} onPress={() => uploadImage()} >
-            <Image source={{uri: `http://192.168.100.9:8000/images/${data.data.photo}`}} style={styles.iProfile} />
+            <Image source={{uri: `https://img.icons8.com/officel/2x/person-male.png`}} style={styles.iProfile} />
           </TouchableOpacity>
         </View>
-        <Text style={styles.tName}>{data.data.username}</Text>
-        <Text style={styles.tNameDaerah}>{data.data.address}, {data.data.city}</Text>
+        <Text style={styles.tName}>{data?.data?.username}</Text>
+        <Text style={styles.tNameDaerah}>{data?.data?.address}, {data?.data?.city}</Text>
         
         <View style={{alignItems:'center',marginTop:6,marginBottom:10}}>
           <TouchableOpacity style={{backgroundColor:'#2395FF',borderRadius:4,width:200,paddingVertical:5}} >
@@ -231,7 +235,7 @@ export default function MainProfile({navigation}) {
           </View>
         </Modal>
         </ScrollView>
-        <BottomNav  navigation={navigation}/>
+        <BottomNav active="Profile"  navigation={navigation}/>
     </>
   );
 };
@@ -281,8 +285,8 @@ const styles = StyleSheet.create({
   },
   iProfile: {
     borderRadius: 30,
-    width: 130,
-    height: 125,
+    width: 100,
+    height: 100,
   },
   tName: {
     fontSize: 20,
