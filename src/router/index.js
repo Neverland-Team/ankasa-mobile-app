@@ -20,16 +20,14 @@ import {
   SearchResult,
   FlightDetail,
 } from '../pages';
-import { GetProfile } from '../redux/actions/Profile';
+import {GetProfile} from '../redux/actions/Profile';
 const Stack = createStackNavigator();
 
-export default function Router({ navigation }) {
-  
-   const {isLogin, data} = useSelector((state) => state.Auth);
-
+export default function Router({navigation}) {
+  const {isLogin, data} = useSelector((state) => state.Auth);
 
   return (
-    <Stack.Navigator initialRouteName={'MainProfile'}>
+    <Stack.Navigator initialRouteName={'Home'}>
       {isLogin && data ? (
         <>
           <Stack.Screen
