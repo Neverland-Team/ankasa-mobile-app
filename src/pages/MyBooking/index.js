@@ -13,76 +13,78 @@ import {BottomNav} from '../../components';
 
 export default function MainProfile({navigation}) {
   return (
-      <>
-    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>
-      <Gap height={28} />
-      <View style={styles.BookingLogo}>
-        <Text style={styles.tBooking}>My Booking</Text>
-        <View style={styles.MyLogo}>
-          <Mail
-            style={styles.iMail}
-            width={35}
-            height={30}
-            onPress={() => alert('EditProfile')}
-          />
-          <Bell
-            style={styles.iBell}
-            width={35}
-            height={30}
-            onPress={() => alert('EditProfile')}
-          />
+    <>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{backgroundColor: '#ffffff'}}>
+        <Gap height={28} />
+        <View style={styles.BookingLogo}>
+          <Text style={styles.tBooking}>My Booking</Text>
+          <View style={styles.MyLogo}>
+            <Mail
+              style={styles.iMail}
+              width={35}
+              height={30}
+              onPress={() => navigation.navigate('Chat')}
+            />
+            <Bell
+              style={styles.iBell}
+              width={35}
+              height={30}
+              onPress={() => navigation.navigate('Noification')}
+            />
+          </View>
         </View>
-      </View>
-      <View style={styles.BookingLogoo}>
-        <ImageBackground
-          source={require('../../assets/Images/ticketBackground.png')}
-          style={styles.image}>
-          <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
-          <View style={styles.flight}>
-            <Text style={styles.tIDN}>IDN</Text>
-            <Flight style={styles.iFlight} width={60} height={25} />
-            <Text style={styles.tIDNN}>JPN</Text>
-          </View>
-          <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
-          <Text style={styles.tBorder} />
-          <View style={styles.MyLogo}>
-            <Text style={styles.tStatus}>Status</Text>
-            <TouchableOpacity style={styles.button}>
-              <Text
-                style={styles.textButton}
-                onPress={() => alert('WelcomePage')}>
-                Waiting for payment
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ImageBackground>
-      </View>
-      <View style={styles.BookingLogoo}>
-        <ImageBackground
-          source={require('../../assets/Images/ticketBackground.png')}
-          style={styles.image}>
-          <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
-          <View style={styles.flight}>
-            <Text style={styles.tIDN}>IDN</Text>
-            <Flight style={styles.iFlight} width={60} height={25} />
-            <Text style={styles.tIDNN}>JPN</Text>
-          </View>
-          <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
-          <Text style={styles.tBorder} />
-          <View style={styles.MyLogo}>
-            <Text style={styles.tStatus}>Status</Text>
-            <TouchableOpacity style={styles.buttonIssued}>
-              <Text
-                style={styles.textButton}
-                onPress={() => alert('WelcomePage')}>
-                Eticket issued
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ImageBackground>
-      </View>
-    </ScrollView>
-    <BottomNav navigation={navigation} />
+        <View style={styles.BookingLogoo}>
+          <ImageBackground
+            source={require('../../assets/Images/ticketBackground.png')}
+            style={styles.image}>
+            <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
+            <View style={styles.flight}>
+              <Text style={styles.tIDN}>IDN</Text>
+              <Flight style={styles.iFlight} width={60} height={25} />
+              <Text style={styles.tIDNN}>JPN</Text>
+            </View>
+            <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
+            <Text style={styles.tBorder} />
+            <View style={styles.MyLogo}>
+              <Text style={styles.tStatus}>Status</Text>
+              <TouchableOpacity style={styles.button}>
+                <Text
+                  style={styles.textButton}
+                  onPress={() => alert('WelcomePage')}>
+                  Waiting for payment
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        </View>
+        <View style={styles.BookingLogoo}>
+          <ImageBackground
+            source={require('../../assets/Images/ticketBackground.png')}
+            style={styles.image}>
+            <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
+            <View style={styles.flight}>
+              <Text style={styles.tIDN}>IDN</Text>
+              <Flight style={styles.iFlight} width={60} height={25} />
+              <Text style={styles.tIDNN}>JPN</Text>
+            </View>
+            <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
+            <Text style={styles.tBorder} />
+            <View style={styles.MyLogo}>
+              <Text style={styles.tStatus}>Status</Text>
+              <TouchableOpacity style={styles.buttonIssued}>
+                <Text
+                  style={styles.textButton}
+                  onPress={() => alert('WelcomePage')}>
+                  Eticket issued
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        </View>
+      </ScrollView>
+      <BottomNav navigation={navigation} />
     </>
   );
 }
@@ -90,12 +92,12 @@ export default function MainProfile({navigation}) {
 const styles = StyleSheet.create({
   BookingLogo: {
     flexDirection: 'row',
-    alignItems:"center",
-    paddingHorizontal:28,
+    alignItems: 'center',
+    paddingHorizontal: 28,
   },
   BookingLogoo: {
-    alignItems:"center",
-    paddingHorizontal:10,
+    alignItems: 'center',
+    paddingHorizontal: 10,
     marginBottom: 15,
   },
   MyLogo: {
@@ -115,8 +117,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   image: {
-   width: "100%",
+    width: '100%',
     marginTop: 31,
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   dateBooking: {
     fontSize: 14,

@@ -27,9 +27,9 @@ import {WheelPicker} from 'react-native-wheel-picker-android';
 import RadioForm from 'react-native-simple-radio-button';
 import moment from 'moment';
 import API from '../../service';
+import {useSelector} from 'react-redux';
 
 export default function SearchFlight({navigation, route}) {
-  // const {idCity} = route.params;
   const [active, setActive] = React.useState(true);
   const [isModalVisible, setModalVisible] = React.useState(false);
   const [isModalVisibleAdult, setModalVisibleAdult] = React.useState(false);
@@ -40,6 +40,9 @@ export default function SearchFlight({navigation, route}) {
   const [child, setChild] = React.useState('');
   const [adult, setAdult] = React.useState('');
   const [dest, setDest] = React.useState();
+  // const {idCity} = route.params;
+  const {data} = useSelector((s) => s.Auth);
+  const idCity = 12;
 
   const radioItems = [
     {label: 'Economy', value: 0},
@@ -111,7 +114,7 @@ export default function SearchFlight({navigation, route}) {
 
   React.useEffect(() => {
     // params kasih => idCity
-    API.SearchFlightService(12)
+    API.SearchFlightService(idCity ? idCity : 12, data)
       .then((res) => {
         setDest(res);
       })
@@ -281,7 +284,7 @@ export default function SearchFlight({navigation, route}) {
           onPress={() =>
             navigation.navigate('SearchResult', {
               date: dates,
-              // idCity: idCity,
+              idCity: idCity ? idCity : 12,
               child: child,
               adult: adult,
               classFlight: classType,

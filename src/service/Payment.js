@@ -1,18 +1,17 @@
 import axios from 'axios';
 import {URI} from '../utils';
 
-const SearchFlightService = (data) => {
+const SearchFlightService = (data, token) => {
   const promise = new Promise((resolve, reject) => {
     axios
       .get(`${URI}/users/city/${data}`, {
         headers: {
-          Authorization:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzZXIiOjIyLCJlbWFpbCI6Im11aGtod2FmYUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im11aGtod2FmYSIsInJvbGUiOjcsImlhdCI6MTYwNjgyNjYyNn0.sOm8ZorhVEn3ykML-tIqE8-OfwZl1drJhU7tN5OXbTA',
+          Authorization: token,
         },
       })
       .then((result) => {
         resolve(result.data.data[0]);
-        // console.log(result.data.data[0]);
+        console.log(result.data.data[0]);
       })
       .catch((err) => {
         console.log(err.message);
@@ -20,15 +19,14 @@ const SearchFlightService = (data) => {
   });
   return promise;
 };
-const SearchResult = (date, idtocity) => {
+const SearchResult = (date, idtocity, token) => {
   const promise = new Promise((resolve, reject) => {
     axios
       .get(
         `${URI}/users/flight/search?datedeparture=${date}&tocity=${idtocity}`,
         {
           headers: {
-            Authorization:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzZXIiOjIyLCJlbWFpbCI6Im11aGtod2FmYUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im11aGtod2FmYSIsInJvbGUiOjcsImlhdCI6MTYwNjgyNjYyNn0.sOm8ZorhVEn3ykML-tIqE8-OfwZl1drJhU7tN5OXbTA',
+            Authorization: token,
           },
         },
       )
@@ -40,10 +38,31 @@ const SearchResult = (date, idtocity) => {
   });
   return promise;
 };
-const FlightDetail = (data) => {
+const GetProfileOnFlight = (token) => {
   const promise = new Promise((resolve, reject) => {
     axios
-      .get(``)
+      .get(`${URI}/users/profile`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((result) => {
+        console.log(result.data.data);
+        console.log('========');
+        resolve(result.data.data);
+      })
+      .catch((err) => {});
+  });
+  return promise;
+};
+const FlightDetail = (data, token) => {
+  const promise = new Promise((resolve, reject) => {
+    axios
+      .post(`${URI}/users/booking`, data, {
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((result) => {
         resolve(result);
       })
@@ -51,4 +70,4 @@ const FlightDetail = (data) => {
   });
   return promise;
 };
-export {SearchFlightService, SearchResult, FlightDetail};
+export {SearchFlightService, SearchResult, FlightDetail, GetProfileOnFlight};

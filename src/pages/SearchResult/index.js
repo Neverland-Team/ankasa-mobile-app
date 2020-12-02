@@ -11,15 +11,16 @@ import {CardSearchResult} from '../../components';
 import {Gap} from '../../utils';
 import moment from 'moment';
 import API from '../../service';
+import {useSelector} from 'react-redux';
 
 export default function SearchResult({navigation, route}) {
-  const {date, child, adult, classFlight} = route.params;
+  const {date, child, adult, classFlight, idCity} = route.params;
   const [dest, setDest] = React.useState();
   const [search, setSearch] = React.useState();
-
+  const {data} = useSelector((s) => s.Auth);
   React.useEffect(() => {
     // params kasih => idCity
-    API.SearchFlightService(12)
+    API.SearchFlightService(idCity, data)
       .then((res) => {
         setDest(res);
       })
@@ -28,11 +29,12 @@ export default function SearchResult({navigation, route}) {
 
   React.useEffect(() => {
     const dates = moment(date).format('YYYY-MM-DD');
-    API.SearchResult(dates, 12)
+    API.SearchResult(dates, 12, data)
       .then((res) => setSearch(res))
       .catch((err) => console.warn(err.message));
   }, []);
   console.log(search, 'seaaarrccchhhh');
+
   const renderItem = ({item, index}) => {
     return (
       <>
@@ -50,6 +52,7 @@ export default function SearchResult({navigation, route}) {
           classFlight={classFlight}
           child={child}
           adult={adult}
+          idflight={item?.idflight}
         />
         <Gap height={15} />
       </>

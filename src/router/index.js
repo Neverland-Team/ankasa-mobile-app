@@ -28,7 +28,7 @@ export default function Router({navigation}) {
   // dispatch(GetProfile(data));
 
   return (
-    <Stack.Navigator initialRouteName={'WelcomePage'}>
+    <Stack.Navigator initialRouteName={'MainProfile'}>
       {isLogin && data ? (
         <>
           <Stack.Screen

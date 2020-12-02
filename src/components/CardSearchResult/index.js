@@ -14,6 +14,7 @@ export default function CardSearchResult({
   classFlight,
   child,
   adult,
+  idflight,
 }) {
   const navigation = useNavigation();
   return (
@@ -31,6 +32,7 @@ export default function CardSearchResult({
             child: child,
             adult: adult,
             price: price,
+            idflight: idflight,
           });
         }}>
         <View>

@@ -12,7 +12,10 @@ import {
   IcWifi,
   IcMaleAndFamale,
 } from '../../assets';
+import API from '../../service';
 import {Gap} from '../../utils';
+import {useSelector} from 'react-redux';
+
 export default function FlightDetail({navigation, route}) {
   const {
     tocountry,
@@ -24,8 +27,39 @@ export default function FlightDetail({navigation, route}) {
     child,
     adult,
     price,
+    idflight,
   } = route.params;
   //   console.log(route, 'params');
+  const {data} = useSelector((s) => s.Auth);
+  const [profile, setProfile] = React.useState();
+
+  React.useEffect(() => {
+    API.GetProfileOnFlight(data)
+      .then((res) => setProfile(res))
+      .catch((err) => console.log(err.errors));
+  }, []);
+  const onSubmit = () => {
+    API.FlightDetail(
+      {
+        iduser: profile.iduser,
+        idflight: idflight,
+        title: classFlight,
+        fullName: 'Ferguso',
+        nationality: 'Indonesia',
+        insurance: 1,
+        paymentStatus: 1,
+        terminal: 0,
+        gate: 0,
+        total: price,
+      },
+      data,
+    ).then((res) => {
+      console.log(res);
+      if (res.data.data.length !== 0) {
+        navigation.navigate('MyBooking');
+      }
+    });
+  };
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.navigation}>
@@ -81,7 +115,7 @@ export default function FlightDetail({navigation, route}) {
               </View>
               <View>
                 <Text style={styles.title}>Class</Text>
-                <Text style={styles.codeType}>A</Text>
+                <Text style={styles.codeType}>{classFlight}</Text>
               </View>
               <View>
                 <Text style={styles.title}>Terminal</Text>
@@ -144,9 +178,11 @@ export default function FlightDetail({navigation, route}) {
             <Text style={styles.amount}>$ {price}</Text>
           </View>
           <Gap height={31} />
-          <View style={styles.button}>
-            <Text style={styles.buttonField}>BOOK FLIGHT</Text>
-          </View>
+          <TouchableOpacity activeOpacity={0.7} onPress={() => onSubmit()}>
+            <View style={styles.button}>
+              <Text style={styles.buttonField}>BOOK FLIGHT</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
