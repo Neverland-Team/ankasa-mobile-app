@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
+import { URI } from '../../utils';
 // const SaveRequest = ()=> {
 //     return{
 //         type: 'SAVE_DATA_REQUEST'
@@ -57,16 +59,18 @@ const ProfileRequest = () => {
   
   export const GetProfile = (token) => {
       return (dispatch) =>{
+        console.log('get profile dari redux: ',token)
           dispatch(ProfileRequest())
           return Axios({
             method: 'GET',
-            url: `http://192.168.100.9:8000/api/v1/users/profile`,
+            url: `${URI}/users/profile`,
             headers: {
               Authorization: token,
             },
           })
             .then((res) => {
               const data = res.data;
+              AsyncStorage.setItem('user',JSON.stringify(data.data))
               console.log('ini dataa', data)
               dispatch(ProfileSuccess(data));
             })
@@ -83,7 +87,7 @@ const ProfileRequest = () => {
         dispatch(ProfileRequest())
         return Axios({
           method: 'PATCH',
-          url: `http://192.168.100.9:8000/api/v1/users/profile`,
+          url: `${URI}/users/profile`,
           headers: {
             Authorization: token,
           },

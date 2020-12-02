@@ -1,24 +1,24 @@
 import React from 'react'
-import { StyleSheet, Text, View ,Image} from 'react-native'
+import { StyleSheet, Text, View ,Image,TouchableOpacity} from 'react-native'
 import { IcBtnBackHome,IlHomeSlider } from '../../assets'
 import { Gap } from '../../utils'
 
-export default function CardDestination3D() {
+export default function CardDestination3D({country,city,photoCity,idCity,onPress}) {
     return (
-        <View style={styles.wrapperCard}>
+        <TouchableOpacity style={styles.wrapperCard} onPress={() => onPress()}>
                  <View style={styles.layer1}></View>
                  <View style={styles.layer2}></View>
                  <View>
                      <View style={styles.container}>
                          <View style={styles.badge}>
-                                 <Text style={styles.badgeCount}>15</Text>
+                                 <Text style={styles.badgeCount}>{idCity}</Text>
                                  <Text style={styles.badgeText}> Airlines</Text>
                          </View>
                          <Gap height={137}/>
                          <View style={styles.destination}>
                              <View>
-                                 <Text style={styles.city}>Tokyo,</Text>
-                                 <Text style={styles.country}>Japan</Text>
+                                 <Text style={styles.city}>{city},</Text>
+                                 <Text style={styles.country}>{country}</Text>
                              </View>
                              <View style={styles.back}>
                                   <IcBtnBackHome />
@@ -27,7 +27,7 @@ export default function CardDestination3D() {
                   </View>
                 <Image style={styles.image} source={IlHomeSlider} />
             </View>
-        </View>       
+        </TouchableOpacity>       
     )
 }
 
@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
         height:262,
         width:252,
         position:'relative',
-        justifyContent:'center'
+        justifyContent:'center',
+        marginRight:20
     },
     layer1:{
         backgroundColor:'rgba(196, 196, 196, 0.65)',

@@ -12,6 +12,8 @@ import IcMail from './Mail.svg';
 import IcSearch from './Search.svg';
 import IcNavBooking from './NavBooking.svg';
 import IcNavUser from './NavUser.svg';
+import IcNavUserActive from './NavUserActive.svg';
+import IcNavBookingActive from './NavBookingActive.svg';
 import IcNavHome from './NavHome.svg';
 import IcBtnBackHome from './BtnBackHome.svg';
 import IcSearchArrowWhite from './SearchArrowWhite.svg';
@@ -80,5 +82,7 @@ export {
   Bell,
   Flight,
   ArrowBackWhite,
-  IcSendChat
+  IcSendChat,
+  IcNavUserActive,
+  IcNavBookingActive
 };

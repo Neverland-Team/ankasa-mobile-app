@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,8 +10,17 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {Mail, Bell, Flight} from '../../assets';
 import {Gap} from '../../utils';
 import {BottomNav} from '../../components';
+import API from '../../service';
 
-export default function MainProfile({navigation}) {
+export default function MyBooking({navigation}) {
+  const [booking, setBooking] = useState([]);
+  useEffect(() => {
+    API.Booking().then((res) => {
+      setBooking(res);
+    });
+    console.log('hasil dari booking: ', booking);
+  }, []);
+
   return (
     <>
       <ScrollView
@@ -31,60 +40,91 @@ export default function MainProfile({navigation}) {
               style={styles.iBell}
               width={35}
               height={30}
-              onPress={() => navigation.navigate('Noification')}
+              onPress={() => navigation.navigate('Notification')}
             />
           </View>
         </View>
-        <View style={styles.BookingLogoo}>
-          <ImageBackground
-            source={require('../../assets/Images/ticketBackground.png')}
-            style={styles.image}>
-            <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
-            <View style={styles.flight}>
-              <Text style={styles.tIDN}>IDN</Text>
-              <Flight style={styles.iFlight} width={60} height={25} />
-              <Text style={styles.tIDNN}>JPN</Text>
+
+        {booking.map((res, index) => {
+          return (
+            <View key={index} style={styles.BookingLogoo}>
+              <ImageBackground
+                source={require('../../assets/Images/ticketBackground.png')}
+                style={styles.image}>
+                <Text style={styles.dateBooking}>Monday, {res.createdAt}</Text>
+                <View style={styles.flight}>
+                  <Text style={styles.tIDN}>{res.from_country}</Text>
+                  <Flight style={styles.iFlight} width={60} height={25} />
+                  <Text style={styles.tIDNN}>{res.to_country}</Text>
+                </View>
+                <Text style={styles.tMaskapai}>{res.name_airlines}</Text>
+                <Text style={styles.tBorder} />
+                <View style={styles.MyLogo}>
+                  <Text style={styles.tStatus}>Status</Text>
+                  <TouchableOpacity style={styles.button}>
+                    <Text style={styles.textButton}>Waiting for payment</Text>
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
             </View>
-            <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
-            <Text style={styles.tBorder} />
-            <View style={styles.MyLogo}>
-              <Text style={styles.tStatus}>Status</Text>
-              <TouchableOpacity style={styles.button}>
-                <Text
-                  style={styles.textButton}
-                  onPress={() => alert('WelcomePage')}>
-                  Waiting for payment
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </ImageBackground>
-        </View>
-        <View style={styles.BookingLogoo}>
-          <ImageBackground
-            source={require('../../assets/Images/ticketBackground.png')}
-            style={styles.image}>
-            <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
-            <View style={styles.flight}>
-              <Text style={styles.tIDN}>IDN</Text>
-              <Flight style={styles.iFlight} width={60} height={25} />
-              <Text style={styles.tIDNN}>JPN</Text>
-            </View>
-            <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
-            <Text style={styles.tBorder} />
-            <View style={styles.MyLogo}>
-              <Text style={styles.tStatus}>Status</Text>
-              <TouchableOpacity style={styles.buttonIssued}>
-                <Text
-                  style={styles.textButton}
-                  onPress={() => alert('WelcomePage')}>
-                  Eticket issued
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </ImageBackground>
-        </View>
+          );
+        })}
+
+        {/* <View style={styles.BookingLogoo}>
+        <ImageBackground
+          source={require('../../assets/Images/ticketBackground.png')}
+          style={styles.image}>
+          <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
+          <View style={styles.flight}>
+            <Text style={styles.tIDN}>{booking.from_country}</Text>
+            <Flight style={styles.iFlight} width={60} height={25} />
+            <Text style={styles.tIDNN}>JPN</Text>
+          </View>
+          <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
+          <Text style={styles.tBorder} />
+          <View style={styles.MyLogo}>
+            <Text style={styles.tStatus}>Status</Text>
+            <TouchableOpacity style={styles.button}>
+              <Text
+                style={styles.textButton}
+                onPress={() => alert('WelcomePage')}>
+                Waiting for payment
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </View> */}
+
+        {/* <View style={styles.BookingLogoo}> */}
+        {/* <ImageBackground
+          source={require('../../assets/Images/ticketBackground.png')}
+          style={styles.image}>
+          <Text style={styles.dateBooking}>Monday, 20 July 2020 - 12.33</Text>
+          <View style={styles.flight}>
+            <Text style={styles.tIDN}>IDN</Text>
+            <Flight style={styles.iFlight} width={60} height={25} />
+            <Text style={styles.tIDNN}>JPN</Text>
+          </View>
+          <Text style={styles.tMaskapai}>Garuda Indonesia, AB-221</Text>
+          <Text style={styles.tBorder} />
+          <View style={styles.MyLogo}>
+            <Mail
+              style={styles.iMail}
+              width={35}
+              height={30}
+              onPress={() => navigation.navigate('Chat')}
+            />
+            <Bell
+              style={styles.iBell}
+              width={35}
+              height={30}
+              onPress={() => navigation.navigate('Noification')}
+            />
+          </View>
+        </ImageBackground> */}
+        {/* </View> */}
       </ScrollView>
-      <BottomNav navigation={navigation} />
+      <BottomNav navigation={navigation} active="MyBooking" />
     </>
   );
 }
