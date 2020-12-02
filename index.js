@@ -16,10 +16,6 @@ const cityRoute = require("./src/Users/Routes/cityRoutes");
 const countryRoute = require("./src/Users/Routes/countryRoutes");
 const airlinesRoute = require("./src/Users/Routes/airlinesRoutes");
 const flightRoute = require("./src/Users/Routes/flightRoutes");
-<<<<<<< HEAD
-=======
-const { S_IFDIR } = require("constants");
->>>>>>> ec3526e... add chat
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -43,8 +39,6 @@ app.get("/api/v1", (req, res) => {
 // Middleware Photos
 app.use(express.static("Images"));
 
-<<<<<<< HEAD
-=======
 // Socket 
 io.on('connection', (socket)=> {
   console.log('user connect')
@@ -120,7 +114,6 @@ io.on('connection', (socket)=> {
   })
 
 
->>>>>>> ec3526e... add chat
 // Listen Port
 server.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
