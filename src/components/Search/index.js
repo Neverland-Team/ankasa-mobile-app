@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, View ,TextInput} from 'react-native'
 import { IcSearch } from '../../assets'
 
-export default function Search({text}) {
+export default function Search({text,onChangeText}) {
     return (
         <View>
-            <TextInput placeholder={text} style={styles.input} />
+            <TextInput placeholder={text} style={styles.input}  onChangeText={(keyword) => onChangeText(keyword) }/>
             <View style={styles.wrapper}>
                 <IcSearch/>
             </View>

@@ -1,21 +1,22 @@
 import React from 'react'
-import { StyleSheet, Text, View ,Image } from 'react-native'
+import { StyleSheet, Text, View ,Image,TouchableOpacity } from 'react-native'
 
-export default function CardRounded() {
+export default function CardRounded({country,onPress}) {
     return (
-        <View style={styles.wrapper}>
+        <TouchableOpacity style={styles.wrapper} onPress={() => onPress()}>
             <View style={styles.container}>
                 <Image source={{uri:'https://i.stack.imgur.com/N4TSy.jpg'}} style={styles.image} />
             </View>
-            <Text style={styles.text}>PARIS</Text>
-        </View>
+            <Text style={styles.text}>{country}</Text>
+        </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     wrapper:{
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        marginRight:20
     },
     container:{
         justifyContent:'center',

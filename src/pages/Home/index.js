@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -6,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import {IcBell, IcMail} from '../../assets';
 import {
   BottomNav,
@@ -14,9 +16,39 @@ import {
   CardRounded,
   Search,
 } from '../../components';
+import { GetProfile } from '../../redux/actions/Profile';
+import API from '../../service';
 import {Gap} from '../../utils';
 
 export default function Home({navigation}) {
+  const {data} = useSelector((s) => s.Auth);
+  const dispatch = useDispatch();
+  dispatch(GetProfile(data));
+  console.log(data, 'testdstsdtstst')
+ 
+
+ const [cards,setCards] = useState([])
+ const [datas,setData] = useState([])
+  useEffect(() => {
+      API.Home().then( res => {
+        setCards(res.data)
+        setData(res.data)
+      })
+      console.log('test : ',data)
+  },[])
+
+  const search = (keyword) => {
+      if (!keyword) {
+        return setCards(datas)
+      }
+      console.log(keyword)
+      let result =  datas.filter(res => {
+        console.log(res.name_city)
+        return res.name_city == keyword
+      });
+      setCards(result)
+      console.log('dari result: ',result)
+  }
   return (
     <>
       <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
@@ -25,7 +57,11 @@ export default function Home({navigation}) {
           <View style={styles.wrapperIcon}>
             <Text style={styles.wrapperIconText}>Explore</Text>
             <View style={{flexDirection: 'row'}}>
-              <IcMail />
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('Chat')}>
+                <IcMail />
+              </TouchableOpacity>
               <Gap width={23} />
               <TouchableOpacity
                 activeOpacity={0.5}
@@ -35,7 +71,9 @@ export default function Home({navigation}) {
             </View>
           </View>
           <Gap height={15} />
-          <Search text="Where you want to go?" />
+
+          <Search text="Where you want to go?" onChangeText={(keyword) => search(keyword) } />
+
           <Gap height={24} />
           <View style={styles.wrapperTrending}>
             <Text style={styles.wrapperTrendingText}>
@@ -47,13 +85,13 @@ export default function Home({navigation}) {
         <Gap height={23} />
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <Gap width={28} />
-          <CardDestination3D />
-          <Gap width={20} />
-          <CardDestination />
-          <Gap width={20} />
-          <CardDestination />
-          <Gap width={20} />
-          <CardDestination />
+          {
+            cards.map((card,index) => {
+              return(
+                 index === 0 ? <CardDestination3D key={index} city={card.name_city} country={card.name_country}  onPress={() => navigation.navigate('SearchFlight',{idCity:card.idcity})} /> : <CardDestination key={index} city={card.name_city} country={card.name_country} onPress={() => navigation.navigate('SearchFlight',{idCity:card.idcity})}/>
+              )
+            })
+          }
         </ScrollView>
         <Gap height={35} />
         <Text style={styles.topDestination}>Top 10 destinations</Text>
@@ -63,21 +101,17 @@ export default function Home({navigation}) {
           horizontal
           style={{flexDirection: 'row'}}>
           <Gap width={28} />
-          <CardRounded />
-          <Gap width={20} />
-          <CardRounded />
-          <Gap width={20} />
-          <CardRounded />
-          <Gap width={20} />
-          <CardRounded />
-          <Gap width={20} />
-          <CardRounded />
-          <Gap width={20} />
-          <CardRounded />
+          {
+            datas.reverse().map((card,index) => {
+              return(
+                <CardRounded key={index} country={card.name_country} onPress={() => navigation.navigate('SearchFlight',{idCity:card.idcity})} />
+              )
+            })
+          }
         </ScrollView>
         <Gap heigh={16} />
       </ScrollView>
-      <BottomNav />
+      <BottomNav navigation={navigation} />
     </>
   );
 }

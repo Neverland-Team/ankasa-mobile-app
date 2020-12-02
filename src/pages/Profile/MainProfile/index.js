@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -12,15 +12,43 @@ import {
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Profile} from '../../../assets';
-import {Gap} from '../../../utils';
-import {Logout, SettingProfile, StarReview, Btnback, Btnbackred} from '../../../assets';
+import {Gap, SOCKETURI, URI} from '../../../utils';
+import {
+  Logout,
+  SettingProfile,
+  StarReview,
+  Btnback,
+  Btnbackred,
+} from '../../../assets';
 import {BottomNav} from '../../../components';
 import imagePicker from 'react-native-image-picker';
+import {AuthLogout} from '../../../redux/actions/Auth';
+import {ProfileUser} from '../../../redux/actions/Profile';
+import {useDispatch, useSelector} from 'react-redux';
+import Axios from 'axios';
 
 export default function MainProfile({navigation}) {
+  const dispatch = useDispatch();
+  const {data} = useSelector((s) => s.DataProfile);
+  // const [username, setUsername] = React.useState('');
+  // const {data: dataAuth} = useSelector((s) => s.Auth);
+  // const {username} = data?.data;
+
+  // React.useEffect(() =>{
+  //   setUsername(data);
+  //   console.log(username, 'herliansyah')
+  // },[data])
+
+  console.log(`http://192.168.100.9:8000/Images/${data?.data?.photo}`);
+
+  // console.log(data, 'adjhsajhdg')
+  const onLogout = () => {
+    dispatch(AuthLogout());
+  };
 
   const uploadImage = () => {
     imagePicker.showImagePicker({}, (response) => {
+      console.log('hasil dari picker: ', response);
       if (response.didCancel || response.error) {
         // ketika image tidak di upload
         alert("oops, you don't chouse image!");
@@ -32,24 +60,22 @@ export default function MainProfile({navigation}) {
           type: response.type,
         });
 
-        // const header = {
-        //   headers: {
-        //     Authorization: `Bearer + ${token}`,
-        //     'Content-Type': 'multipart/form-data',
-        //     Accept: 'application/json',
-        //   },
-        // };
-        // Axios.patch(
-        //   `http://192.168.1.116/api/v1/profile/photo/${id_profile}`,
-        //   formData,
-        //   header,
-        // )
-        //   .then((res) => {
-        //     // jika berhasil
-        //   })
-        //   .catch((err) => {
-        //     // jika gagal upload image dari API/BackEnd
-        //   });
+        const header = {
+          headers: {
+            Authorization: `${token}`,
+            'Content-Type': 'multipart/form-data',
+            Accept: 'application/json',
+          },
+        };
+        Axios.post(`${URI}/profile/upload`, formData, header)
+          .then((res) => {
+            // jika berhasil
+            console.log('berhasil upload foto');
+          })
+          .catch((err) => {
+            // jika gagal upload image dari API/BackEnd
+            console.log('gagal upload foto');
+          });
       }
     });
   };
@@ -58,104 +84,143 @@ export default function MainProfile({navigation}) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [value, onChangeText] = React.useState('');
   const [typeCard, settypeCard] = React.useState('');
+
   return (
-      <>
-    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>
-      <View style={styles.containerTop}>
-        <View style={styles.positionView}>
-          <View style={styles.vProfile}>
-            <Text style={styles.textProfile}>Profile</Text>
+    <>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{backgroundColor: '#ffffff'}}>
+        <View style={styles.containerTop}>
+          <View style={styles.positionView}>
+            <View style={styles.vProfile}>
+              <Text style={styles.textProfile}>Profile</Text>
+            </View>
+            <View>
+              <Text
+                style={styles.textEdit}
+                onPress={() => navigation.navigate('EditProfile')}>
+                Edit
+              </Text>
+            </View>
           </View>
-          <View>
-            <Text style={styles.textEdit} onPress={() => navigation.navigate('EditProfile')}>
-              Edit
-            </Text>
+          <Gap height={40} />
+          <View style={styles.vPhotoProfile}>
+            <TouchableOpacity
+              style={styles.vclippingImange}
+              onPress={() => uploadImage()}>
+              <Image
+                source={{
+                  uri: `http://192.168.100.9:8000/images/${data.data.photo}`,
+                }}
+                style={styles.iProfile}
+              />
+            </TouchableOpacity>
           </View>
         </View>
-        <Gap height={40} />
-        <View style={styles.vPhotoProfile}>
-          <TouchableOpacity style={styles.vclippingImange} onPress={() => uploadImage()} >
-            <Image source={Profile} style={styles.iProfile} />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.tName}>Mike Kowalski</Text>
-        <Text style={styles.tNameDaerah}>Medan, Indoenesia</Text>
         <View style={styles.positionView}>
           <View style={styles.vCards}>
             <Text style={styles.textCards}>Cards</Text>
           </View>
           <View>
-            <Text
+            <TouchableOpacity
               style={styles.textAdd}
               onPress={() => {
                 setModalVisible(true);
               }}>
-              + Add
-            </Text>
+              <Text
+                style={{
+                  color: '#fff',
+                  textAlign: 'center',
+                  fontSize: 14,
+                  fontFamily: 'Poppins-SemiBold',
+                }}>
+                Customer Hub
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.positionView}>
+            <View style={styles.vCards}></View>
+            <View>
+              <Text
+                style={styles.textAdd}
+                onPress={() => {
+                  setModalVisible(true);
+                }}>
+                + Add
+              </Text>
+            </View>
           </View>
         </View>
-        </View>
         <Gap height={10} />
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal style={{flexDirection: "row"}}>
-        <Gap width={20} />
-        <View style={styles.vDesCard}>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          style={{flexDirection: 'row'}}>
+          <Gap width={20} />
+          <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-                <View style={styles.positionView}>
-                 <Text style={styles.tNameCard}>X Card</Text>
-                 <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
+            <View style={styles.positionView}>
+              <Text style={styles.tNameCard}>X Card</Text>
+              <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
-        </View>
-        <Gap width={20} />
-        <View style={styles.vDesCard}>
+          </View>
+          <Gap width={20} />
+          <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-                <View style={styles.positionView}>
-                 <Text style={styles.tNameCard}>X Card</Text>
-                 <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
+            <View style={styles.positionView}>
+              <Text style={styles.tNameCard}>X Card</Text>
+              <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
-        </View>
-        <Gap width={20} />
-        <View style={styles.vDesCard}>
+          </View>
+          <Gap width={20} />
+          <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-                <View style={styles.positionView}>
-                 <Text style={styles.tNameCard}>X Card</Text>
-                 <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
+            <View style={styles.positionView}>
+              <Text style={styles.tNameCard}>X Card</Text>
+              <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
-        </View>
-        <Gap width={20} />
-        <View style={styles.vDesCard}>
+          </View>
+          <Gap width={20} />
+          <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-                <View style={styles.positionView}>
-                 <Text style={styles.tNameCard}>X Card</Text>
-                 <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
+            <View style={styles.positionView}>
+              <Text style={styles.tNameCard}>X Card</Text>
+              <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
-        </View>
-        <Gap width={20} />
-        <View style={styles.vDesCard}>
+          </View>
+          <Gap width={20} />
+          <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-                <View style={styles.positionView}>
-                 <Text style={styles.tNameCard}>X Card</Text>
-                 <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
+            <View style={styles.positionView}>
+              <Text style={styles.tNameCard}>X Card</Text>
+              <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
-        </View>
+          </View>
         </ScrollView>
 
         <Gap height={30} />
         <View style={styles.containerTop}>
-        <View style={styles.positionViewRow}>
+          <View style={styles.positionViewRow}>
             <StarReview width={30} height={25} style={styles.startReview} />
-            <Text style={styles.tReview} onPress={() => alert('Berhasil')}>My Review</Text>
-            <Btnback width={30} height={25} style={styles.bReview}  />
-        </View>
-        <View style={styles.positionViewRow}>
+            <Text style={styles.tReview} onPress={() => alert('Berhasil')}>
+              My Review
+            </Text>
+            <Btnback width={30} height={25} style={styles.bReview} />
+          </View>
+          <View style={styles.positionViewRow}>
             <SettingProfile width={30} height={25} style={styles.startReview} />
-            <Text style={styles.tReview} onPress={() => alert('Berhasil')}>Settings</Text>
-            <Btnback width={30} height={25} style={styles.bReview}  />
-        </View>
-        <View style={styles.positionViewRowLogout}>
+            <Text style={styles.tReview} onPress={() => alert('Berhasil')}>
+              Settings
+            </Text>
+            <Btnback width={30} height={25} style={styles.bReview} />
+          </View>
+          <View style={styles.positionViewRowLogout}>
             <Logout width={30} height={25} style={styles.startReview} />
-            <Text style={styles.tReviewLogout} onPress={() => alert('Berhasil')}>Logout</Text>
-            <Btnbackred width={30} height={25} style={styles.bReview}  />
-        </View>
+            <Text style={styles.tReviewLogout} onPress={onLogout}>
+              Logout
+            </Text>
+            <Btnbackred width={30} height={25} style={styles.bReview} />
+          </View>
         </View>
 
         <Modal
@@ -175,18 +240,20 @@ export default function MainProfile({navigation}) {
                 onChangeText={(text) => onChangeText(text)}
                 value={value}
                 keyboardType="numeric"
-                returnKeyType="next" 
-                onSubmitEditing={() => inputTypeCard.current.focus()} />
+                returnKeyType="next"
+                onSubmitEditing={() => inputTypeCard.current.focus()}
+              />
 
-                <Text style={styles.numberCard}>Type Card</Text>
-                <TextInput
+              <Text style={styles.numberCard}>Type Card</Text>
+              <TextInput
                 style={styles.nameCard}
                 ref={inputTypeCard}
                 placeholder="Add to type card"
                 onChangeText={(text) => settypeCard(text)}
                 value={typeCard}
                 returnKeyType="send"
-                onSubmitEditing={() => onSubmit()} />
+                onSubmitEditing={() => onSubmit()}
+              />
 
               <TouchableHighlight
                 style={styles.openButton}
@@ -203,11 +270,11 @@ export default function MainProfile({navigation}) {
             </View>
           </View>
         </Modal>
-        </ScrollView>
-        <BottomNav />
+      </ScrollView>
+      <BottomNav active="Profile" navigation={navigation} />
     </>
   );
-};
+}
 
 const styles = StyleSheet.create({
   containerTop: {
@@ -219,11 +286,11 @@ const styles = StyleSheet.create({
   textProfile: {
     fontSize: 36,
     color: '#000000',
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
   },
   textEdit: {
     fontSize: 16,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
     color: '#2395FF',
     paddingTop: 18,
   },
@@ -254,30 +321,30 @@ const styles = StyleSheet.create({
   },
   iProfile: {
     borderRadius: 30,
-    width: 130,
-    height: 125,
+    width: 100,
+    height: 100,
   },
   tName: {
     fontSize: 20,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
     textAlign: 'center',
     color: '#000000',
     paddingTop: 15,
   },
   tNameDaerah: {
     fontSize: 14,
-    fontFamily: "Poppins-Regular",
+    fontFamily: 'Poppins-Regular',
     textAlign: 'center',
     color: '#6B6B6B',
   },
   textCards: {
     paddingTop: 29,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 16,
     color: '#000000',
   },
   textAdd: {
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 16,
     color: '#2395FF',
     paddingTop: 29,
@@ -307,7 +374,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    marginBottom:15,
+    marginBottom: 15,
   },
   textStyle: {
     color: 'white',
@@ -320,58 +387,58 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   nameCard: {
-    paddingLeft:15,
+    paddingLeft: 15,
     height: 40,
     width: 200,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 20,
-    marginBottom:15,
+    marginBottom: 15,
   },
   numberCard: {
-    marginBottom:15
+    marginBottom: 15,
   },
   vDesCard: {
-      backgroundColor: "#2395FF",
-      borderRadius: 10,
-      elevation: 5,
-      width: 227,
-      paddingVertical: 12,
-      paddingLeft: 22,
+    backgroundColor: '#2395FF',
+    borderRadius: 10,
+    elevation: 5,
+    width: 227,
+    paddingVertical: 12,
+    paddingLeft: 22,
   },
   tCard: {
-      color: "#ffffff",
-      fontSize: 14,
-      fontFamily: "Poppins-SemiBold",
-      paddingTop: 12,
+    color: '#ffffff',
+    fontSize: 14,
+    fontFamily: 'Poppins-SemiBold',
+    paddingTop: 12,
   },
   tNameCard: {
-      color: "#AEFAFF",
-      fontSize: 14,
-      paddingBottom:12,
-      flex: 1,
+    color: '#AEFAFF',
+    fontSize: 14,
+    paddingBottom: 12,
+    flex: 1,
   },
   tMoneyCard: {
-    color: "#AEFAFF",
+    color: '#AEFAFF',
     fontSize: 14,
-    paddingBottom:12,
+    paddingBottom: 12,
     flex: 1.4,
   },
-tReview: {
+  tReview: {
     flex: 1,
-    paddingLeft:"15%",
-    fontFamily: "Poppins-SemiBold",
+    paddingLeft: '15%',
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 16,
     color: '#000000',
-},
-tReviewLogout: {
+  },
+  tReviewLogout: {
     flex: 1,
-    paddingLeft:"15%",
-    fontFamily: "Poppins-SemiBold",
+    paddingLeft: '15%',
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 16,
     color: 'red',
-},
-positionViewRow: {
+  },
+  positionViewRow: {
     flexDirection: 'row',
     marginBottom: 30,
   },
@@ -379,4 +446,3 @@ positionViewRow: {
     flexDirection: 'row',
   },
 });
-
