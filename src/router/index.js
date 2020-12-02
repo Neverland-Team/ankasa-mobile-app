@@ -20,12 +20,13 @@ import {
   SearchResult,
   FlightDetail,
 } from '../pages';
+import { GetProfile } from '../redux/actions/Profile';
 const Stack = createStackNavigator();
 
-export default function Router({navigation}) {
-  const {isLogin, data} = useSelector((state) => state.Auth);
-  // const dispatch = useDispatch();
-  // dispatch(GetProfile(data));
+export default function Router({ navigation }) {
+  
+   const {isLogin, data} = useSelector((state) => state.Auth);
+
 
   return (
     <Stack.Navigator initialRouteName={'MainProfile'}>

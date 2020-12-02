@@ -50,3 +50,17 @@ export const AuthLogout = () => {
     dispatch(Logout());
   };
 };
+
+const RegisterSuccess = (data) => {
+  return {
+    type: 'REGISTER_SUCCESS',
+    payload: data,
+  };
+};
+
+export const Register = (data) => {
+//   console.log('dari redux: ', data);
+  return (dispatch) => {
+    dispatch(RegisterSuccess(data));
+  };
+};

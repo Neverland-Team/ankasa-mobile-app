@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import {IcBell, IcMail} from '../../assets';
 import {
   BottomNav,
@@ -14,9 +15,14 @@ import {
   CardRounded,
   Search,
 } from '../../components';
+import { GetProfile } from '../../redux/actions/Profile';
 import {Gap} from '../../utils';
 
 export default function Home({navigation}) {
+  const {data} = useSelector((s) => s.Auth);
+  const dispatch = useDispatch();
+  dispatch(GetProfile(data));
+  console.log(data, 'testdstsdtstst')
  
 
   return (
