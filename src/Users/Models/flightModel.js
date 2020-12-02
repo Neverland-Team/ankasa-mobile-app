@@ -5,14 +5,19 @@ require("dotenv").config();
 module.exports = {
   flight: (data) => {
     return new Promise((resolve, reject) => {
+<<<<<<< HEAD
       db.query(
         `INSERT INTO flight SET 
+=======
+      db.query(`INSERT INTO flight SET 
+>>>>>>> ec3526e... add chat
       ('idairlines', (SELECT idairlines FROM airlines WHERE idairlines = ${data.idairlines})),
       ('idfromcity', (SELECT idcity FROM city WHERE idcity = ${data.fromcity})),
       ('idtocity', (SELECT idcity FROM city WHERE idcity = ${data.tocity})),
       code = ?, classflight = ?, typeflight = ?, child = ?, adult = ?, transit = ?,
       direct = ?, moretransit = ?, luggage = ?, meal = ?, wifi = ?, date_departure = ?,
       departure = ?, arrived = ?, price = ?, rating = ?, total_review = ?`,
+<<<<<<< HEAD
         [
           data.code,
           data.classflight,
@@ -40,6 +45,19 @@ module.exports = {
           }
         }
       );
+=======
+      [
+        data.code, data.classflight, data.typeflight, data.child, data.adult, data.transit,data.direct,
+        data.moretransit, data.luggage, data.meal, data.wifi, data.date_departure, data.departure, data.arrived,
+        data.price, data.rating, data.totalreview
+      ],(err,result) => {
+        if(!err){
+          resolve(result);
+        }else{
+          reject(new Error(err));
+        }
+      })
+>>>>>>> ec3526e... add chat
 
       db.query(`INSERT INTO flight SET ?`, data, (err, result) => {
         if (err) {
@@ -53,8 +71,12 @@ module.exports = {
 
   getId: (id) => {
     return new Promise((resolve, reject) => {
+<<<<<<< HEAD
       db.query(
         `
+=======
+      db.query(`
+>>>>>>> ec3526e... add chat
         SELECT flight.*, a.name_airlines as airlane_name, cf.name_city as from_city,
         ct.name_city as to_city, f_c.name_country as from_country, t_c.name_country as to_country FROM flight
         INNER JOIN airlines as a ON flight.idairlines = a.idairlines
@@ -63,6 +85,7 @@ module.exports = {
         INNER JOIN country as f_c ON cf.idcountry = f_c.idcountry
         INNER JOIN country as t_c ON ct.idcountry = t_c.idcountry
         WHERE flight.idflight = ${id}
+<<<<<<< HEAD
       `,
         (err, result) => {
           if (!err) {
@@ -100,6 +123,20 @@ module.exports = {
 
   getAll: () => {
     return new Promise((resolve, reject) => {
+=======
+      `,(err,result) => {
+        if(!err){
+          resolve(result);
+        }else{
+          reject(new Error(err));
+        }
+      })
+    });
+  },
+
+  getAll : () => {
+    return new Promise((resolve,reject) => {
+>>>>>>> ec3526e... add chat
       db.query(
         `SELECT flight.*, a.name_airlines as airlane_name, cf.name_city as from_city,
         ct.name_city as to_city, f_c.name_country as from_country, t_c.name_country as to_country 
@@ -108,6 +145,7 @@ module.exports = {
         INNER JOIN city as cf ON flight.idfromcity = cf.idcity
         INNER JOIN city as ct ON flight.idtocity = ct.idcity
         INNER JOIN country as f_c ON cf.idcountry = f_c.idcountry
+<<<<<<< HEAD
         INNER JOIN country as t_c ON ct.idcountry = t_c.idcountry`,
         (err, result) => {
           if (!err) {
@@ -118,6 +156,17 @@ module.exports = {
         }
       );
     });
+=======
+        INNER JOIN country as t_c ON ct.idcountry = t_c.idcountry`
+      ,(err,result) => {
+        if(!err){
+          resolve(result);
+        }else{
+          reject(new Error(err));
+        }
+      })
+    })
+>>>>>>> ec3526e... add chat
   },
 
   getAllSearch: (
@@ -143,8 +192,12 @@ module.exports = {
     priceto
   ) => {
     return new Promise((resolve, reject) => {
+<<<<<<< HEAD
       db.query(
         `
+=======
+      db.query(`
+>>>>>>> ec3526e... add chat
         SELECT flight.*, a.name_airlines as airlane_name, cf.name_city as from_city,
         ct.name_city as to_city, f_c.name_country as from_country, t_c.name_country as to_country 
         FROM flight
@@ -162,6 +215,7 @@ module.exports = {
         AND flight.transit LIKE '%${transit}%' AND flight.moretransit LIKE '%${more_transit}%'
         AND flight.departure BETWEEN '${departurefrom}' AND '${departureto}' 
         AND flight.arrived BETWEEN '${arrivedfrom}' AND '${arrivedto}'
+<<<<<<< HEAD
         AND flight.price BETWEEN '${pricefrom}' AND '${priceto}'`,
         (err, result) => {
           if (!err) {
@@ -171,6 +225,16 @@ module.exports = {
           }
         }
       );
+=======
+        AND flight.price BETWEEN '${pricefrom}' AND '${priceto}'`
+        ,(err,result) => {
+        if(!err){
+          resolve(result);
+        }else{
+          reject(err);
+        }
+      })
+>>>>>>> ec3526e... add chat
     });
   },
 

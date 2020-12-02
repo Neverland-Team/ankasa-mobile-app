@@ -1,7 +1,10 @@
 const { success, failed, notfound } = require("../../Helper/response");
 const airlinesModel = require("../Models/airlinesModel");
 const { upload } = require("../../Middleware/Type-File");
+<<<<<<< HEAD
 const cloudinary = require("../../Helper/cloudinary");
+=======
+>>>>>>> ec3526e... add chat
 const fs = require("fs-extra");
 const path = require("path");
 

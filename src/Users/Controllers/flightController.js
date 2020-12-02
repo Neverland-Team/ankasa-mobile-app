@@ -41,6 +41,7 @@ module.exports = {
       failed(res, [], "Internal Server Error");
     }
   },
+<<<<<<< HEAD
   getAllSearch: (req, res) => {
     try {
       const date = req.query.datedeparture;
@@ -62,6 +63,8 @@ module.exports = {
       failed(res, [], "Internal Server Error");
     }
   },
+=======
+>>>>>>> ec3526e... add chat
 
   getAll: (req, res) => {
     try {
@@ -100,6 +103,7 @@ module.exports = {
       const pricefrom = !req.query.pricefrom ? "0" : req.query.pricefrom;
       const priceto = !req.query.priceto ? "99999999999" : req.query.priceto;
 
+<<<<<<< HEAD
       if (req.query) {
         flightModel
           .getAllSearch(
@@ -147,6 +151,55 @@ module.exports = {
           .catch((err) => {
             failed(res, [], err.message);
           });
+=======
+      if(req.query){
+        flightModel
+        .getAllSearch(
+          fromcity,
+          tocity,
+          typeflight,
+          child,
+          adult,
+          classflight,
+          datedeparture,
+          name,
+          luggage,
+          meal,
+          wifi,
+          direct,
+          transit,
+          more_transit,
+          departurefrom,
+          departureto,
+          arrivedfrom,
+          arrivedto,
+          pricefrom,
+          priceto
+        )
+        .then((result) => {
+          if (result.length === 0) {
+            notfound(res, [], "Data empty");
+          } else {
+            success(res, result, "Get all data success!");
+          }
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+      }else{
+        flightModel
+        .getAll()
+        .then((result) => {
+          if (result.length === 0) {
+            notfound(res, [], "Data empty");
+          } else {
+            success(res, result, "Get all data success!");
+          }
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+>>>>>>> ec3526e... add chat
       }
     } catch (error) {
       failed(res, [], "Error Internal Server");
