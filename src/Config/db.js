@@ -1,9 +1,9 @@
 const mysql = require("mysql");
 
 const connection = mysql.createConnection({
-  host: 'neverland-1.cvddkp7ijaot.us-east-1.rds.amazonaws.com',
+  host: 'maridadb-1.cvddkp7ijaot.us-east-1.rds.amazonaws.com',
   user: 'admin',
-  password: 'neverlandteam3',
+  password: 'tuesblues_030195',
   database: 'neverlandbackend',
 });
 
