@@ -32,6 +32,7 @@ export default function MainProfile({navigation}) {
   const {data} = useSelector((s) => s.DataProfile);
   // const [username, setUsername] = React.useState('');
   // const {data: dataAuth} = useSelector((s) => s.Auth);
+  const Auth = useSelector((s) => s.Auth);
   // const {username} = data?.data;
 
   // React.useEffect(() =>{
@@ -40,6 +41,7 @@ export default function MainProfile({navigation}) {
   // },[data])
 
   console.log(`http://192.168.100.9:8000/Images/${data?.data?.photo}`);
+  console.log(Auth.data);
 
   // console.log(data, 'adjhsajhdg')
   const onLogout = () => {
@@ -54,20 +56,20 @@ export default function MainProfile({navigation}) {
         alert("oops, you don't chouse image!");
       } else {
         const formData = new FormData();
-        formData.append('image', {
-          uri: response.uri,
-          name: response.fileName,
+        formData.append('photo', {
           type: response.type,
+          uri: response.uri,
+          name: response.fileName || response.uri.substr(response.uri.lastIndexOf("/") + 1)
         });
 
         const header = {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `${Auth.data}`,
             'Content-Type': 'multipart/form-data',
             Accept: 'application/json',
           },
         };
-        Axios.post(`${URI}/profile/upload`, formData, header)
+        Axios.post(`${URI}/users/profile/upload`, formData, header)
           .then((res) => {
             // jika berhasil
             console.log('berhasil upload foto');
@@ -110,7 +112,7 @@ export default function MainProfile({navigation}) {
               onPress={() => uploadImage()}>
               <Image
                 source={{
-                  uri: `http://192.168.100.9:8000/images/${data.data.photo}`,
+                  uri: `${(data.data.photo) ? data.data.photo : "https://www.zooniverse.org/assets/simple-avatar.png"}`,
                 }}
                 style={styles.iProfile}
               />
