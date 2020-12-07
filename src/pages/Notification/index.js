@@ -16,8 +16,7 @@ export default function Notification({navigation}) {
     {
       key: 0,
       title: 'Congratulations',
-      subtitle:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore....',
+      subtitle: 'Your Payment has been validated, Have a nice Trip Dear!',
       date: '5h ago',
       unread: true,
     },
@@ -25,15 +24,14 @@ export default function Notification({navigation}) {
       key: 0,
       title: 'Ticket Booked',
       subtitle:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore....',
+        'Ticket has been booked, please complete the Payment as soon as possible and hope you have a great trip',
       date: '5h ago',
       unread: true,
     },
     {
       key: 0,
       title: 'Continue Payment',
-      subtitle:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+      subtitle: 'Payment Confirmed we will send your Eticket soon!',
       date: '5h ago',
       unread: false,
     },
@@ -41,7 +39,7 @@ export default function Notification({navigation}) {
       key: 0,
       title: 'Ticket Booked',
       subtitle:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        'Ticket has been booked, please complete the Payment as soon as possible and hope you have a great trip',
       date: '5h ago',
       unread: false,
     },
@@ -49,15 +47,14 @@ export default function Notification({navigation}) {
       key: 0,
       title: 'Maintenance',
       subtitle:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+        'We apologize that we need to maintain our services for a while, Just be patient and it will work soon!',
       date: '5h ago',
       unread: false,
     },
     {
       key: 0,
       title: 'Congratulations',
-      subtitle:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+      subtitle: 'Your Payment has been validated, Have a nice Trip Dear!',
       date: '5h ago',
       unread: false,
     },

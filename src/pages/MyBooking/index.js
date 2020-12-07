@@ -11,6 +11,7 @@ import {Mail, Bell, Flight} from '../../assets';
 import {Gap} from '../../utils';
 import {BottomNav} from '../../components';
 import API from '../../service';
+import moment from 'moment';
 
 export default function MyBooking({navigation}) {
   const [booking, setBooking] = useState([]);
@@ -47,26 +48,32 @@ export default function MyBooking({navigation}) {
 
         {booking.map((res, index) => {
           return (
-            <View key={index} style={styles.BookingLogoo}>
-              <ImageBackground
-                source={require('../../assets/Images/ticketBackground.png')}
-                style={styles.image}>
-                <Text style={styles.dateBooking}>Monday, {res.createdAt}</Text>
-                <View style={styles.flight}>
-                  <Text style={styles.tIDN}>{res.from_country}</Text>
-                  <Flight style={styles.iFlight} width={60} height={25} />
-                  <Text style={styles.tIDNN}>{res.to_country}</Text>
-                </View>
-                <Text style={styles.tMaskapai}>{res.name_airlines}</Text>
-                <Text style={styles.tBorder} />
-                <View style={styles.MyLogo}>
-                  <Text style={styles.tStatus}>Status</Text>
-                  <TouchableOpacity style={styles.button}>
-                    <Text style={styles.textButton}>Waiting for payment</Text>
-                  </TouchableOpacity>
-                </View>
-              </ImageBackground>
-            </View>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={() => navigation.navigate('BookingDetail')}>
+              <View key={index} style={styles.BookingLogoo}>
+                <ImageBackground
+                  source={require('../../assets/Images/ticketBackground.png')}
+                  style={styles.image}>
+                  <Text style={styles.dateBooking}>
+                    {moment(res.createdAt).format('dddd, DD MMMM YYYY - hh:mm')}
+                  </Text>
+                  <View style={styles.flight}>
+                    <Text style={styles.tIDN}>{res.from_country}</Text>
+                    <Flight style={styles.iFlight} width={60} height={25} />
+                    <Text style={styles.tIDNN}>{res.to_country}</Text>
+                  </View>
+                  <Text style={styles.tMaskapai}>{res.name_airlines}</Text>
+                  <Text style={styles.tBorder} />
+                  <View style={styles.MyLogo}>
+                    <Text style={styles.tStatus}>Status</Text>
+                    <TouchableOpacity style={styles.button}>
+                      <Text style={styles.textButton}>Waiting for payment</Text>
+                    </TouchableOpacity>
+                  </View>
+                </ImageBackground>
+              </View>
+            </TouchableOpacity>
           );
         })}
 
