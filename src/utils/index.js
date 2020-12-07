@@ -1,4 +1,4 @@
 import Gap from './Gap';
-import {URI,SOCKETURI} from './URI';
+import {URI, SOCKETURI, URIIMAGE} from './URI';
 
-export {Gap, URI, SOCKETURI};
+export {Gap, URI, SOCKETURI, URIIMAGE};

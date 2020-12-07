@@ -5,18 +5,18 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  Picker,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Gap} from '../../../utils';
-import {NavSearchResult} from '../../../assets';
 import {ScrollView} from 'react-native-gesture-handler';
-import {ArrowBackBlack} from '../../../assets';
-import { useDispatch, useSelector } from 'react-redux';
-import { UpdateProfile } from '../../../redux/actions/Profile';
+import {ArrowBackBlack, NavSearchResult} from '../../../assets';
+import {useDispatch, useSelector} from 'react-redux';
+import API from '../../../service';
 
 export default function EditProfile({navigation}) {
   const dispatch = useDispatch();
+  const [dataProfileUser, setDataProfileUser] = React.useState();
   const inputEmail = React.useRef('');
   const inputUsername = React.useRef('');
   const inputCity = React.useRef('');
@@ -28,32 +28,42 @@ export default function EditProfile({navigation}) {
   const [city, setCity] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [postcode, setPostCode] = React.useState('');
-  const [selectedUser, setSelectedUser] = React.useState({});
 
-  const {data} = useSelector((s) => s.DataProfile);
+  // const {data} = useSelector((s) => s.DataProfile);
+  const Auth = useSelector((s) => s.Auth);
 
+  React.useEffect(() => {
+    API.Profile(Auth.data)
+      .then((res) => {
+        setDataProfileUser(res);
+      })
+      .then(() => {
+        setEmail(dataProfileUser?.email);
+        setPhone(`${dataProfileUser?.phone}`);
+        setUsername(dataProfileUser?.username);
+        setCity(dataProfileUser?.city);
+        setAddress(dataProfileUser?.address);
+        setPostCode(`${dataProfileUser?.post_code}`);
+      });
+  }, [Auth.data]);
   const updateUser = () => {
-    dispatch(
-      UpdateProfile({
-        email: email,
-        phone: phone,
-        username: username,
-        city: city,
-        address: address,
-        postcode: postcode,
-      }),
-      setEmail(''),
-      setAddress(''),
-      setCity(''),
-      setPhone(''),
-      setPostCode(''),
-      setUsername(''),
+    const edited = {
+      email: email,
+      phone: phone,
+      username: username,
+      city: city,
+      address: address,
+      post_code: postcode,
+    };
+    API.EditProfile(edited, Auth.data).then(() =>
       navigation.navigate('MainProfile'),
     );
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:"#ffffff",}}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{backgroundColor: '#ffffff'}}>
       <View style={styles.containerTop}>
         <Gap height={40} />
         <View style={styles.vLogo}>
@@ -80,7 +90,7 @@ export default function EditProfile({navigation}) {
           ref={inputEmail}
           placeholder="Add to phone number..."
           onChangeText={(text) => setPhone(text)}
-          value={phone}
+          value={`0${phone}`}
           keyboardType="numeric"
           returnKeyType="next"
           onSubmitEditing={() => inputUsername.current.focus()}
@@ -129,14 +139,12 @@ export default function EditProfile({navigation}) {
           onChangeText={(text) => setPostCode(text)}
           value={postcode}
           returnKeyType="send"
-          onSubmitEditing={() => alert('berhasil')}
+          onSubmitEditing={() => updateUser()}
         />
         <Gap height={20} />
         <View style={{marginBottom: 30, alignItems: 'flex-end'}}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.textButton} onPress={() => alert('Berhasil')}>
-              Save
-            </Text>
+          <TouchableOpacity style={styles.button} onPress={() => updateUser()}>
+            <Text style={styles.textButton}>Save</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -149,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2395FF',
     height: 57,
     borderRadius: 10,
-    width:150,
+    width: 150,
   },
   textButton: {
     color: '#fff',

@@ -27,7 +27,7 @@ export default function Router({navigation}) {
   const {isLogin, data} = useSelector((state) => state.Auth);
 
   return (
-    <Stack.Navigator initialRouteName={'Home'}>
+    <Stack.Navigator initialRouteName={'EditProfile'}>
       {isLogin && data ? (
         <>
           <Stack.Screen
