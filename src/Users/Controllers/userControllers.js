@@ -57,8 +57,8 @@ module.exports = {
 
   updateProfile: async (req, res) => {
     try {
-      const id = req.iduser;
-      const data = Object.entries(req.body).map((item) => {
+        const id = req.iduser;
+        const data = Object.entries(req.body).map((item) => {
         return parseInt(item[1]) > 0
           ? `${item[0]} = ${item[1]}`
           : `${item[0]} = '${item[1]}'`;
@@ -91,7 +91,7 @@ module.exports = {
       const user = await userModel.findUserById(id);
       const photo = !req.file
         ? user[0].photo
-        : `${process.env.BASE_URI}/public/images/${req.file.filename}`;
+        : (await cloudinary.uploader.upload(req.file.path)).secure_url;
       const data = Object.entries({ photo: photo }).map((item) => {
         return parseInt(item[1]) > 0
           ? `${item[0]} = ${item[1]}`

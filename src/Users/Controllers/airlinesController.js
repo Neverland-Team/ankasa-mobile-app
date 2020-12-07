@@ -6,31 +6,32 @@ const fs = require("fs-extra");
 const path = require("path");
 
 module.exports = {
-  airlines: (req, res) => {
+  airlines: async (req, res) => {
     try {
-      upload.single("photo")(req, res, (err) => {
-        if (err) {
-          if (err.code === "LimitSize") {
-            failed(res, [], "Image must less 5 mb");
-          } else {
-            failed(res, [], err.message);
-          }
-        } else {
-          const body = req.body;
-          body.photo = !req.file ? "images.png" : req.file.filename;
-
-          airlinesModel
-            .airlines(body)
-            .then((result) => {
-              success(res, result, `Insert data success!`);
-            })
-            .catch((err) => {
-              failed(res, [], err.message);
-            });
-        }
+      let body = {};
+      if(req.file){
+        const image = await cloudinary.uploader.upload(req.file.path);
+        body = {...req.body, photo: image.secure_url}
+      }else{
+        body = {...req.body, photo: "images.png"}
+      }
+      airlinesModel.airlines(body)
+      .then((result) => {
+        success(res, result, `Insert data success!`);
+      })
+      .catch((err) => {
+        return res.status(500).send({
+          success: false,
+          status: 500,
+          message: `internal server error ${err.message}`
+        })
       });
     } catch (error) {
-      failed(res, [], error.me);
+      return res.status(500).send({
+        success: false,
+        message: `internal server error : ${error.message}`,
+        data: []
+      })
     }
   },
 
@@ -106,60 +107,30 @@ module.exports = {
     }
   },
 
-  update: (req, res) => {
+  update: async (req, res) => {
     try {
-      upload.single("photo")(req, res, (err) => {
-        if (err) {
-          if (err.code === "LimitSize") {
-            failed(res, [], "photo must less 5 mb");
-          } else {
-            failed(res, [], err.message);
-          }
-        } else {
-          const id = req.params.idairlines;
-          const body = req.body;
-          airlinesModel.getId(id).then(async (response) => {
-            const responses = response[0].photo;
-            const oldphoto = responses;
-            body.photo = !req.file ? oldphoto : req.file.filename;
-            if (body.photo !== oldphoto) {
-              if (body.photo !== "images.png") {
-                try {
-                  await fs.unlink(path.join(`public/images/${oldphoto}`));
-                  airlinesModel
-                    .update(body, id)
-                    .then((result) => {
-                      success(res, result, "Update success");
-                    })
-                    .catch((err) => {
-                      failed(res, [], err.message);
-                    });
-                } catch (err) {
-                  failed(res, [], err.message);
-                }
-              } else {
-                airlinesModel
-                  .update(body, id)
-                  .then((result) => {
-                    success(res, result, "Update success");
-                  })
-                  .catch((err) => {
-                    failed(res, [], err.message);
-                  });
-              }
-            } else {
-              airlinesModel
-                .update(body, id)
-                .then((result) => {
-                  success(res, result, "Update data success");
-                })
-                .catch((err) => {
-                  failed(res, [], err.message);
-                });
-            }
-          });
-        }
-      });
+      const id = req.params.idairlines;
+      let body = {};
+      if(req.file){
+        const image = await cloudinary.uploader.upload(req.file.path);
+        body = {...req.body, photo: image.secure_url}
+      }else{
+        const user = await airlinesModel.getId(id);
+        body = {...req.body, photo: user[0].photo};
+      }
+      const updated = await airlinesModel.update(body,id);
+      if(updated.affectedRows !== 0){
+        return res.status(201).send({
+          success: true,
+          status: 200,
+          message: "successfully updated data"
+        })
+      }
+      return res.status(403).send({
+        success: false,
+        status: 403,
+        message: "update data cannot succesfully"
+      })
     } catch (error) {
       failed(res, [], "Internal Server Error");
     }

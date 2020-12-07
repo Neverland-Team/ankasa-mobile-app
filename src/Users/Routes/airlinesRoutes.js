@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const airlinesController = require("../Controllers/airlinesController");
 const verifyAuth = require("../../Middleware/verifyAuth");
+const { preUploadImage } = require("../../Middleware/Type-File");
 
 router
-  .post("/", [verifyAuth.verifyToken], airlinesController.airlines)
+  .post("/", [verifyAuth.verifyToken, preUploadImage], airlinesController.airlines)
 
   .get("/getAll", [verifyAuth.verifyToken], airlinesController.getAllData)
 
@@ -13,7 +14,7 @@ router
 
   .patch(
     "/update/:idairlines",
-    [verifyAuth.verifyToken],
+    [verifyAuth.verifyToken, preUploadImage],
     airlinesController.update
   )
 

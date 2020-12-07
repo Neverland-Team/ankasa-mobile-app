@@ -22,7 +22,7 @@ module.exports = {
       db.query(
         `SELECT booking.*, ct.name_city as to_city, 
         cf.name_city as from_city, a.name_airlines, 
-        c_f.name_country as from_country, c_T.name_country as to_country,
+        c_f.name_country as from_country, c_t.name_country as to_country,
         u.email as user_email, u.username as user_name, u.phone as user_phone,
         u.city as user_city, u.address as user_address, u.post_code as user_post_code,
         u.photo as user_photo FROM booking
@@ -49,7 +49,7 @@ module.exports = {
       db.query(
         `SELECT booking.*, ct.name_city as to_city, 
         cf.name_city as from_city, a.name_airlines, 
-        c_f.name_country as from_country, c_T.name_country as to_country,
+        c_f.name_country as from_country, c_t.name_country as to_country,
         u.email as user_email, u.username as user_name, u.phone as user_phone,
         u.city as user_city, u.address as user_address, u.post_code as user_post_code,
         u.photo as user_photo FROM booking
@@ -78,7 +78,7 @@ module.exports = {
       db.query(
         `SELECT booking.*, ct.name_city as to_city, 
         cf.name_city as from_city, a.name_airlines, 
-        c_f.name_country as from_country, c_T.name_country as to_country,
+        c_f.name_country as from_country, c_t.name_country as to_country,
         u.email as user_email, u.username as user_name, u.phone as user_phone,
         u.city as user_city, u.address as user_address, u.post_code as user_post_code,
         u.photo as user_photo FROM booking
