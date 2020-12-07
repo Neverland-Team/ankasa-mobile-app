@@ -6,7 +6,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
 import {Gap} from '../../../utils';
 import {
@@ -20,18 +20,55 @@ import {
 import API from '../../../service';
 import {AuthLogin} from '../../../redux/actions/Auth';
 import {useDispatch, useSelector} from 'react-redux';
+import * as Keychain from 'react-native-keychain';
 
 export default function Login({navigation}) {
-  
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const dispatch = useDispatch();
-  const onSubmit = () => {
+  const Auth = useSelector((s) => s.Auth);
+  const onSubmit = async () => {
     if (username.length < 1 || password.length < 1) {
       return ToastAndroid.show('Enter your username/password', 2000);
     }
-    let data = {username, password};
-    dispatch(AuthLogin(data));
+    try {
+      // Retrieve the credentials
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials) {
+        console.log(
+          'Credentials successfully loaded for user ' + credentials.username,
+        );
+        if (
+          credentials.username === username &&
+          credentials.password === password
+        ) {
+          console.log('sama semuaaa');
+          console.log(credentials.username);
+          console.log(credentials.password);
+          let data = {username, password};
+          return dispatch(AuthLogin(data));
+        }
+        if (
+          credentials.username !== username ||
+          credentials.password !== password
+        ) {
+          await Keychain.resetGenericPassword();
+          console.log('ga samaa semua');
+          console.log(credentials.username);
+          console.log(credentials.password);
+          await Keychain.setGenericPassword(username, password);
+          let data = {username, password};
+          return dispatch(AuthLogin(data));
+        }
+      } else {
+        console.log(`Belum ada keychain`);
+        await Keychain.setGenericPassword(username, password);
+        let data = {username, password};
+        return dispatch(AuthLogin(data));
+      }
+    } catch (error) {
+      console.log("Keychain couldn't be accessed!", error);
+    }
   };
 
   return (
@@ -76,9 +113,7 @@ export default function Login({navigation}) {
         <Gap height={27} />
         <View style={styles.paddingButton}>
           <TouchableOpacity style={styles.button} onPress={onSubmit}>
-            <Text style={styles.textButton}>
-              Sign In
-            </Text>
+            <Text style={styles.textButton}>Sign In</Text>
           </TouchableOpacity>
         </View>
         <Gap height={18} />
