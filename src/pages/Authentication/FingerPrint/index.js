@@ -6,12 +6,58 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Gap} from '../../../utils';
 import {IcArrowBackBlack} from '../../../assets/Icons/index';
 import {IlFinger} from '../../../assets/Images/index';
+import TouchID from 'react-native-touch-id';
+import * as Keychain from 'react-native-keychain';
+import {useDispatch, useSelector} from 'react-redux';
+import {AuthLogin} from '../../../redux/actions/Auth';
 
 export default function FingerPrint({navigation}) {
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const dispatch = useDispatch();
+  const onSuccess = async () => {
+    const credentials = await Keychain.getGenericPassword();
+    if (credentials) {
+      setUsername(credentials.username);
+      setPassword(credentials.password);
+      console.log(
+        'Credentials successfully loaded for user ' + credentials.username,
+      );
+      // dispatch login here with email and password above
+      let data = {username, password};
+      return dispatch(AuthLogin(data));
+    } else {
+      console.log(
+        'No credentials stored, Login with Regular login at first before using Login with Touch ID',
+      );
+    }
+  };
+  const handleProcess = () => {
+    const optionalConfigObject = {
+      title: 'Login with FingerPrint', // Android
+      imageColor: '#2395FF', // Android
+      imageErrorColor: '#ff0000', // Android
+      sensorDescription: 'Touch sensor', // Android
+      sensorErrorDescription: 'Failed', // Android
+      cancelText: 'Cancel', // Android
+    };
+    TouchID.authenticate('', optionalConfigObject)
+      .then((success) => {
+        Alert.alert('Authenticated Successfully');
+        console.warn(success, '<= success tu');
+        onSuccess();
+      })
+      .catch((error) => {
+        Alert.alert('Authentication Failed');
+        console.warn(error.message, '<= error tu');
+      });
+  };
   return (
     <>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -32,19 +78,16 @@ export default function FingerPrint({navigation}) {
         <Text style={styles.title}>Touch ID</Text>
         <Gap height={19} />
         <Text style={styles.content}>
-          Authenticate using app’s Touch ID instead of tentering your password
+          Authenticate using app’s Touch ID instead of entering your password
         </Text>
         <Gap height={48} />
         <Image style={styles.logo} source={IlFinger} />
         <Gap height={48} />
         <View style={styles.paddingButton}>
-          <TouchableOpacity style={styles.buttonProceced}>
-            <Text
-              style={styles.textButtonProceced}
-              // onPress={() => navigation.navigate('')}
-            >
-              PROCECED
-            </Text>
+          <TouchableOpacity
+            style={styles.buttonProceced}
+            onPress={() => handleProcess()}>
+            <Text style={styles.textButtonProceced}>PROCECED</Text>
           </TouchableOpacity>
         </View>
         <Gap height={100} />

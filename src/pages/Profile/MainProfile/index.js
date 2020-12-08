@@ -26,22 +26,31 @@ import {AuthLogout} from '../../../redux/actions/Auth';
 import {ProfileUser} from '../../../redux/actions/Profile';
 import {useDispatch, useSelector} from 'react-redux';
 import Axios from 'axios';
+import API from '../../../service';
 
 export default function MainProfile({navigation}) {
   const dispatch = useDispatch();
   const {data} = useSelector((s) => s.DataProfile);
+<<<<<<< HEAD
   // const [username, setUsername] = React.useState('');
   // const {data: dataAuth} = useSelector((s) => s.Auth);
   const Auth = useSelector((s) => s.Auth);
   // const {username} = data?.data;
+=======
+  const Auth = useSelector((s) => s.Auth);
+  const [dataProfileUser, setDataProfileUser] = React.useState();
+>>>>>>> bf5fd3e75297a077203b84d9e1c98d600cfe21fb
 
-  // React.useEffect(() =>{
-  //   setUsername(data);
-  //   console.log(username, 'herliansyah')
-  // },[data])
+  React.useEffect(() => {
+    API.Profile(Auth.data).then((res) => setDataProfileUser(res));
+  }, [Auth.data, dataProfileUser]);
 
+<<<<<<< HEAD
   console.log(`http://192.168.100.9:8000/Images/${data?.data?.photo}`);
   console.log(Auth.data);
+=======
+  // console.log(`http://192.168.100.9:8000/Images/${data?.data?.photo}`);
+>>>>>>> bf5fd3e75297a077203b84d9e1c98d600cfe21fb
 
   // console.log(data, 'adjhsajhdg')
   const onLogout = () => {
@@ -86,6 +95,8 @@ export default function MainProfile({navigation}) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [value, onChangeText] = React.useState('');
   const [typeCard, settypeCard] = React.useState('');
+  const [fullName, setFullName] = React.useState('');
+  const [address, setAddress] = React.useState('');
 
   return (
     <>
@@ -93,7 +104,7 @@ export default function MainProfile({navigation}) {
         showsVerticalScrollIndicator={false}
         style={{backgroundColor: '#ffffff'}}>
         <View style={styles.containerTop}>
-          <View style={styles.positionView}>
+          <View style={styles.positionView(true)}>
             <View style={styles.vProfile}>
               <Text style={styles.textProfile}>Profile</Text>
             </View>
@@ -112,46 +123,40 @@ export default function MainProfile({navigation}) {
               onPress={() => uploadImage()}>
               <Image
                 source={{
+<<<<<<< HEAD
                   uri: `${(data.data.photo) ? data.data.photo : "https://www.zooniverse.org/assets/simple-avatar.png"}`,
+=======
+                  uri: `https://png.pngtree.com/png-vector/20191103/ourlarge/pngtree-handsome-young-guy-avatar-cartoon-style-png-image_1947775.jpg`,
+>>>>>>> bf5fd3e75297a077203b84d9e1c98d600cfe21fb
                 }}
                 style={styles.iProfile}
               />
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.positionView}>
-          <View style={styles.vCards}>
-            <Text style={styles.textCards}>Cards</Text>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.textAdd}
-              onPress={() => {
-                setModalVisible(true);
+          <Gap height={10} />
+          <View style={{alignItems: 'center'}}>
+            <Text style={{fontFamily: 'Poppins-Bold', fontSize: 20}}>
+              {dataProfileUser?.username}
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'Poppins-Light',
+                fontSize: 14,
+                color: '#999',
               }}>
-              <Text
-                style={{
-                  color: '#fff',
-                  textAlign: 'center',
-                  fontSize: 14,
-                  fontFamily: 'Poppins-SemiBold',
-                }}>
-                Customer Hub
-              </Text>
-            </TouchableOpacity>
+              {dataProfileUser?.address}
+            </Text>
           </View>
-          <View style={styles.positionView}>
-            <View style={styles.vCards}></View>
-            <View>
-              <Text
-                style={styles.textAdd}
-                onPress={() => {
-                  setModalVisible(true);
-                }}>
-                + Add
-              </Text>
-            </View>
-          </View>
+        </View>
+        <View style={styles.positionView(false)}>
+          <Text style={styles.textCards}>Cards</Text>
+          <Text
+            style={styles.textAdd}
+            onPress={() => {
+              setModalVisible(true);
+            }}>
+            + Add
+          </Text>
         </View>
         <Gap height={10} />
         <ScrollView
@@ -161,7 +166,7 @@ export default function MainProfile({navigation}) {
           <Gap width={20} />
           <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-            <View style={styles.positionView}>
+            <View style={styles.positionView(true)}>
               <Text style={styles.tNameCard}>X Card</Text>
               <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
@@ -169,7 +174,7 @@ export default function MainProfile({navigation}) {
           <Gap width={20} />
           <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-            <View style={styles.positionView}>
+            <View style={styles.positionView(true)}>
               <Text style={styles.tNameCard}>X Card</Text>
               <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
@@ -177,7 +182,7 @@ export default function MainProfile({navigation}) {
           <Gap width={20} />
           <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-            <View style={styles.positionView}>
+            <View style={styles.positionView(true)}>
               <Text style={styles.tNameCard}>X Card</Text>
               <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
@@ -185,7 +190,7 @@ export default function MainProfile({navigation}) {
           <Gap width={20} />
           <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-            <View style={styles.positionView}>
+            <View style={styles.positionView(true)}>
               <Text style={styles.tNameCard}>X Card</Text>
               <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
@@ -193,7 +198,7 @@ export default function MainProfile({navigation}) {
           <Gap width={20} />
           <View style={styles.vDesCard}>
             <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-            <View style={styles.positionView}>
+            <View style={styles.positionView(true)}>
               <Text style={styles.tNameCard}>X Card</Text>
               <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
             </View>
@@ -282,9 +287,11 @@ const styles = StyleSheet.create({
   containerTop: {
     padding: 28,
   },
-  positionView: {
+  positionView: (isCard) => ({
     flexDirection: 'row',
-  },
+    justifyContent: 'space-between',
+    marginHorizontal: isCard ? 0 : 20,
+  }),
   textProfile: {
     fontSize: 36,
     color: '#000000',

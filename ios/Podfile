@@ -10,6 +10,8 @@ target 'ankasa' do
 
   pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
 
+  pod 'TouchID', :path => '../node_modules/react-native-touch-id'
+
   target 'ankasaTests' do
     inherit! :complete
     # Pods for testing

@@ -1,6 +1,6 @@
 import {Login, SignUp, ForgotPassword} from './Authentication';
 import {Home} from './Home';
-import {Profile, Notifications} from './Profile';
+import {Profile, EditProfile, Notifications} from './Profile';
 import {Booking} from './Booking';
 import {
   SearchFlightService,
@@ -15,6 +15,7 @@ const API = {
   ForgotPassword,
   Home,
   Profile,
+  EditProfile,
   Notifications,
   Booking,
   SearchFlightService,

@@ -114,7 +114,7 @@ export default function SearchFlight({navigation, route}) {
   };
 
   React.useEffect(() => {
-    // params kasih => idCity
+    // console.log(idCity, 'id citi oi');
     API.SearchFlightService(idCity, data)
       .then((res) => {
         setDest(res);
