@@ -37,7 +37,7 @@ app.get("/api/v1", (req, res) => {
 });
 
 // Middleware Photos
-app.use(express.static("Images"));
+app.use('/public/images',express.static("public/images"));
 
 // Socket 
 io.on('connection', (socket)=> {

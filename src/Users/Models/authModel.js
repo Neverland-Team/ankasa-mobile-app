@@ -7,8 +7,8 @@ module.exports = {
         return new Promise((resolve,reject) => {
             bcrypt.genSalt(10,(err,salt) => {
                 bcrypt.hash(password, salt, (err,hash) => {
-                    const body = { ...data,password: hash, email: email.toLowerCase() }
-                    db.query("INSERT INTO users SET ? ", body, (err,results) => {
+                    const body = { ...data,password: hash, email: email.toLowerCase(),photo:'default.png' }
+                    db.query("INSERT INTO users SET  ? ", body, (err,results) => {
                         if(!err){
                             resolve(results);
                         }else{

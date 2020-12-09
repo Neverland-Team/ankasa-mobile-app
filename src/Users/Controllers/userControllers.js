@@ -87,16 +87,23 @@ module.exports = {
 
   uploadAvatar: async (req, res) => {
     try {
+      console.log('masuk')
+      console.log(req.file)
       const id = req.iduser;
       const user = await userModel.findUserById(id);
       const photo = !req.file
         ? user[0].photo
-        : (await cloudinary.uploader.upload(req.file.path)).secure_url;
-      const data = Object.entries({ photo: photo }).map((item) => {
-        return parseInt(item[1]) > 0
-          ? `${item[0]} = ${item[1]}`
-          : `${item[0]} = '${item[1]}'`;
-      });
+        : req.file.filename;
+        // : (await cloudinary.uploader.upload(req.file.path)).secure_url;
+
+      // const data = Object.entries({ photo: photo }).map((item) => {
+      //   return parseInt(item[1]) > 0
+      //     ? `${item[0]} = ${item[1]}`
+      //     : `${item[0]} = '${item[1]}'`;
+      // });
+
+      console.log('data foto: ',photo)
+      const data = `photo="${photo}"`
       const updated = await userModel.findAndUpdateById(id, data);
       if (updated.affectedRows) {
         return res.status(200).send({

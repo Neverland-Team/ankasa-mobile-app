@@ -154,6 +154,7 @@ module.exports = {
   },
 
   update: (req, res) => {
+    
     try {
       const id = req.params.idflight;
       const body = req.body;
