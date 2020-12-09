@@ -22,11 +22,14 @@ export default function SignUp({navigation}) {
   const [email, setEmail] = useState('');
 
   const signUp= () => {
-    API.SignUp({username: username, email:email, password: password}, navigation.navigate("Login"))
+    API.SignUp({username: username, email:email, password: password})
       .then((res) => {
+        navigation.navigate("Login")
         console.log(res);
       })
-      .catch((err) => {});
+      .catch((err) => {
+
+      });
   };
 
   return (

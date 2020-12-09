@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Profile} from '../../../assets';
-import {Gap, SOCKETURI, URI} from '../../../utils';
+import {Gap, SOCKETURI, URI, URIIMAGE} from '../../../utils';
 import {
   Logout,
   SettingProfile,
@@ -23,7 +23,7 @@ import {
 import {BottomNav} from '../../../components';
 import imagePicker from 'react-native-image-picker';
 import {AuthLogout} from '../../../redux/actions/Auth';
-import {ProfileUser} from '../../../redux/actions/Profile';
+import {GetProfile, ProfileUser} from '../../../redux/actions/Profile';
 import {useDispatch, useSelector} from 'react-redux';
 import Axios from 'axios';
 import API from '../../../service';
@@ -31,26 +31,18 @@ import API from '../../../service';
 export default function MainProfile({navigation}) {
   const dispatch = useDispatch();
   const {data} = useSelector((s) => s.DataProfile);
-<<<<<<< HEAD
-  // const [username, setUsername] = React.useState('');
-  // const {data: dataAuth} = useSelector((s) => s.Auth);
   const Auth = useSelector((s) => s.Auth);
-  // const {username} = data?.data;
-=======
-  const Auth = useSelector((s) => s.Auth);
-  const [dataProfileUser, setDataProfileUser] = React.useState();
->>>>>>> bf5fd3e75297a077203b84d9e1c98d600cfe21fb
+  const [dataProfileUser, setDataProfileUser] = React.useState([]);
 
   React.useEffect(() => {
-    API.Profile(Auth.data).then((res) => setDataProfileUser(res));
-  }, [Auth.data, dataProfileUser]);
+    dispatch(GetProfile(Auth.data))
+    API.Profile(Auth.data).then( res => {
+      setDataProfileUser(res)
+    });
+    console.log(dataProfileUser?.photo)
+  }, [Auth.data]);
 
-<<<<<<< HEAD
-  console.log(`http://192.168.100.9:8000/Images/${data?.data?.photo}`);
-  console.log(Auth.data);
-=======
   // console.log(`http://192.168.100.9:8000/Images/${data?.data?.photo}`);
->>>>>>> bf5fd3e75297a077203b84d9e1c98d600cfe21fb
 
   // console.log(data, 'adjhsajhdg')
   const onLogout = () => {
@@ -81,6 +73,7 @@ export default function MainProfile({navigation}) {
         Axios.post(`${URI}/users/profile/upload`, formData, header)
           .then((res) => {
             // jika berhasil
+            dispatch(GetProfile(Auth.data))
             console.log('berhasil upload foto');
           })
           .catch((err) => {
@@ -123,11 +116,7 @@ export default function MainProfile({navigation}) {
               onPress={() => uploadImage()}>
               <Image
                 source={{
-<<<<<<< HEAD
-                  uri: `${(data.data.photo) ? data.data.photo : "https://www.zooniverse.org/assets/simple-avatar.png"}`,
-=======
-                  uri: `https://png.pngtree.com/png-vector/20191103/ourlarge/pngtree-handsome-young-guy-avatar-cartoon-style-png-image_1947775.jpg`,
->>>>>>> bf5fd3e75297a077203b84d9e1c98d600cfe21fb
+                  uri: URIIMAGE+data?.data?.photo,
                 }}
                 style={styles.iProfile}
               />
