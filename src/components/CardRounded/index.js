@@ -5,7 +5,7 @@ export default function CardRounded({country,onPress}) {
     return (
         <TouchableOpacity style={styles.wrapper} onPress={() => onPress()}>
             <View style={styles.container}>
-                <Image source={{uri:'https://i.stack.imgur.com/N4TSy.jpg'}} style={styles.image} />
+                <Image source={{uri:'https://cf.bstatic.com/images/hotel/max500/222/222790006.jpg'}} style={styles.image} />
             </View>
             <Text style={styles.text}>{country}</Text>
         </TouchableOpacity>
