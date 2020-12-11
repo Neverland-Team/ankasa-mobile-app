@@ -11,6 +11,9 @@ Booking aja Langsung di <strong>Ankasa</strong>!
 </p>
 
 
+
+
+
 ![Group 3](https://user-images.githubusercontent.com/69374541/101909835-a61c6280-3bf0-11eb-9f01-938dd8dda646.jpg)
 
 
@@ -18,6 +21,7 @@ Booking aja Langsung di <strong>Ankasa</strong>!
 ### # ABOUT
 
 Halo,<strong>Everyone</strong> Kami segenap team Neverland Mempersembahkan.
+<br/>
 Ankasa Apps adalah sebuah aplikasi berbasis Mobile yang digunakan untuk melakukan Booking Ticket Airline, serta dilengkapi fitur Authentication,Chat,hingga transaksi pembayaran. Aplikasi ini dibangun dengan React Native sebagai Freamwork.
 
 ### # HOW TO INSTALL
