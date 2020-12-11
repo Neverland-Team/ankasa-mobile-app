@@ -1,15 +1,13 @@
 <h1 align="center">
 	<a href="https://github.com/muhammadridwan47/My-Doctor">
-		My Doctor App
+		Ankasa
 	</a>
 </h1>
 
 <p align="center">
-Konsultasi dengan
-dokter
+ Ingin Pesan Tiket Pesawat Online?
 <br/>
-jadi lebih
-mudah & fleksibel
+Booking aja Langsung di <strong>Ankasa</strong>!
 </p>
 
 
