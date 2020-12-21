@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+
 const {
   tokenExpiredResult,
   tokenErrorResult,
@@ -6,35 +7,43 @@ const {
 } = require("../Helper/response");
 
 module.exports = {
-  authentication: (req, res, next) => {
-    const token = req.headers.token;
-    if (token === undefined || token === "") {
-      tokenErrorResult(res, [], "Token Must Be Completed !");
-    } else {
-      next();
+  verifyToken: (req, res, next) => {
+    let tokenHeader = req.headers["authorization"];
+    if (!tokenHeader) {
+      return res.status(403).send({
+        success: false,
+        auth: false,
+        message: "Error",
+        errors: "No token provided",
+      });
     }
-  },
-  authorization: (req, res, next) => {
-    const token = req.headers.token;
-    jwt.verify(token, process.env.SECRET_KEY, (err) => {
-      if (err && err.name === "TokenExpiredError") {
-        tokenExpiredResult(res, [], "Authentication failed or token expired !");
-      } else if (err && err.name === "JsonWebTokenError") {
-        tokenErrorResult(
-          res,
-          [],
-          "Authentication failed or token dont match !"
-        );
-      } else {
-        next();
+    jwt.verify(tokenHeader, process.env.SECRET_KEY, (err, decoded) => {
+      if (err) {
+        return res.status(500).send({
+          success: false,
+          message: err,
+        });
       }
+      req.iduser = decoded.iduser;
+      req.email = decoded.email;
+      (req.username = decoded.username), (req.role = decoded.role);
+      return next();
     });
   },
-  admin: (req, res, next) => {
-    const token = req.headers.token;
-    jwt.verify(token, process.env.SECRET_KEY, (err, decode) => {
+
+  verifyAdmin: (req, res, next) => {
+    let tokenHeader = req.headers["authorization"];
+    if (!tokenHeader) {
+      return res.status(403).send({
+        success: false,
+        auth: false,
+        message: "Error",
+        errors: "No token provided",
+      });
+    }
+    jwt.verify(tokenHeader, process.env.SECRET_KEY, (err, decode) => {
       if (err && err.name === "JsonWebTokenError") {
-        tokenErrorResult(res, [], "Authentication failed !");
+        tokenErrorResult(res, [], "Authentification failed !");
       } else if (err && err.name === "TokenExpiredError") {
         tokenExpiredResult(res, [], "Token Expired !");
       } else {
