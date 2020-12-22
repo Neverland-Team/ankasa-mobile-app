@@ -1,6 +1,7 @@
 const initialState = {
   data: [],
   loading: false,
+  isLogin: false,
 };
 
 const Auth = (state = initialState, action = {}) => {
@@ -38,6 +39,12 @@ const Auth = (state = initialState, action = {}) => {
           version: -1
         }
       };
+      case 'REGISTER_SUCCESS':
+        return {
+          ...state,
+          loading: false,
+          data: action.payload
+        };
     default:
       return state
   }
