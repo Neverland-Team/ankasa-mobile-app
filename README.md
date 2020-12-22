@@ -5,21 +5,25 @@
 </h1>
 
 <p align="center">
- Neverland Team
+ Ingin Pesan Tiket Pesawat Online?
 <br/>
-Structure <strong>Organization Team</strong>!
+Booking aja Langsung di <strong>Ankasa</strong>!
 </p>
+
+
+
+
+
+![Group 3](https://user-images.githubusercontent.com/69374541/101909835-a61c6280-3bf0-11eb-9f01-938dd8dda646.jpg)
+
+
 
 ### # ABOUT
 
-Halo,<strong>Everyone</strong> Disini kami beritahu siapa aja sih yang ikut kontribuasi dalam pembuatan aplikasi ini ?
+Halo,<strong>Everyone</strong> Kami segenap team Neverland Mempersembahkan.
 <br/>
-Yaps, ini adalah kita!
+Ankasa Apps adalah sebuah aplikasi berbasis Mobile yang digunakan untuk melakukan Booking Ticket Airlines, serta dilengkapi fitur Authentication, Chat, hingga transaksi pembayaran. Aplikasi ini dibangun dengan React Native sebagai Freamwork.
 
-<img src="https://user-images.githubusercontent.com/46896802/102052638-eeb66480-3e18-11eb-9a73-d07f2583e21b.png">
-
-
-<strong> Bagi kalian yang mau coba Aplikasi ini bisa ikutan Tutorial dibawah ini ya </strong>
 ### # HOW TO INSTALL
 
 Download the projects:
@@ -37,3 +41,5 @@ running App
 ```
 yarn android or react-native run-android
 ```
+
+

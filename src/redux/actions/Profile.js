@@ -22,8 +22,6 @@ import { URI } from '../../utils';
 // }
 
 
-
-
 // export const SaveDataProfile = (data) => {
 //     return (dispatch) =>{
 //         // dispatch(SaveRequest())
