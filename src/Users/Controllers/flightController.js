@@ -45,7 +45,6 @@ module.exports = {
     try {
       const date = req.query.datedeparture;
       const tocity = req.query.tocity;
-      // console.log(date, tocity);
       flightModel
         .getAllSearchToo(date, tocity)
         .then((result) => {
