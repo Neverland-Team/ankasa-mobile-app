@@ -5,74 +5,27 @@ import {
   StatusBar,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
 import {IcArrowBackBlack} from '../../assets';
 import {CardNotification} from '../../components';
+import API from '../../service';
 
 export default function Notification({navigation}) {
-  //dummy notif
-  const notifData = [
-    {
-      key: 0,
-      title: 'Congratulations',
-      subtitle: 'Your Payment has been validated, Have a nice Trip Dear!',
-      date: '5h ago',
-      unread: true,
-    },
-    {
-      key: 0,
-      title: 'Ticket Booked',
-      subtitle:
-        'Ticket has been booked, please complete the Payment as soon as possible and hope you have a great trip',
-      date: '5h ago',
-      unread: true,
-    },
-    {
-      key: 0,
-      title: 'Continue Payment',
-      subtitle: 'Payment Confirmed we will send your Eticket soon!',
-      date: '5h ago',
-      unread: false,
-    },
-    {
-      key: 0,
-      title: 'Ticket Booked',
-      subtitle:
-        'Ticket has been booked, please complete the Payment as soon as possible and hope you have a great trip',
-      date: '5h ago',
-      unread: false,
-    },
-    {
-      key: 0,
-      title: 'Maintenance',
-      subtitle:
-        'We apologize that we need to maintain our services for a while, Just be patient and it will work soon!',
-      date: '5h ago',
-      unread: false,
-    },
-    {
-      key: 0,
-      title: 'Congratulations',
-      subtitle: 'Your Payment has been validated, Have a nice Trip Dear!',
-      date: '5h ago',
-      unread: false,
-    },
-  ];
-
-  const renderItem = ({item, index}) => {
-    return (
-      <CardNotification
-        unread={item.unread}
-        title={item.title}
-        subtitle={item.subtitle}
-        date={item.date}
-      />
-    );
-  };
+  const {data} = useSelector((s) => s.Auth);
+ 
+  const [notification, setNotification] = React.useState([]);
+  React.useEffect(() => {
+    API.Booking(data).then((res) => {
+      setNotification(res);
+    });
+  }, []);
 
   return (
     <>
+    <View style={styles.container}>
+
       <StatusBar
         animated={true}
         backgroundColor="#ffffff"
@@ -82,32 +35,42 @@ export default function Notification({navigation}) {
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <IcArrowBackBlack />
         </TouchableOpacity>
-        <TouchableOpacity
-        // onPress={() => navigation.navigate('')}
-        >
+        <TouchableOpacity>
           <Text style={styles.clearBtn}>Clear</Text>
         </TouchableOpacity>
       </View>
       <Text style={styles.title}>Notifications</Text>
-      <FlatList
-        data={notifData}
-        backgroundColor="#fff"
-        style={{paddingHorizontal: 20}}
-        showsVerticalScrollIndicator={false}
-        // ListHeaderComponent={header}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={renderItem}
-      />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {
+          notification.map((data,index) => {
+            return(
+              <CardNotification
+                key={index}
+                unread={data.paymentStatus == 0 ? false : true}
+                title={data.paymentStatus == 0 ? 'Continue Payment': 'Congratulations'}
+                subtitle={data.paymentStatus == 0 ?'Payment Confirmed we will send your Eticket soon!' :'Your Payment has been validated, Have a nice Trip Dear!'}
+            />
+            )
+          
+          })
+        }
+      </ScrollView>
+
+
+    </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {paddingHorizontal: 20, backgroundColor: '#fff'},
+  container: {
+    paddingHorizontal: 28,
+     backgroundColor: '#fff',
+     flex:1
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: '#fff',
     paddingTop: 20,
@@ -116,12 +79,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Poppins-Bold',
     color: '#2395FF',
-    marginRight: 20,
   },
   title: {
     fontSize: 36,
     fontFamily: 'Poppins-Bold',
-    paddingHorizontal: 20,
     backgroundColor: '#fff',
   },
 });

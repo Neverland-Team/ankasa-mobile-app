@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -6,7 +6,6 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
-  ToastAndroid,
 } from 'react-native';
 import {Gap} from '../../../utils';
 import {
@@ -17,34 +16,38 @@ import {
   IcFinger,
   IcDivider,
 } from '../../../assets/Icons/index';
-import API from '../../../service';
 import {AuthLogin} from '../../../redux/actions/Auth';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import * as Keychain from 'react-native-keychain';
+import { showMessage} from "react-native-flash-message";
 
 export default function Login({navigation}) {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [username, setUsername] = React.useState('ayuarmadani');
+  const [password, setPassword] = React.useState('12345678');
+  const [show, setShow] = React.useState(true);
   const dispatch = useDispatch();
-  const Auth = useSelector((s) => s.Auth);
   const onSubmit = async () => {
-    if (username.length < 1 || password.length < 1) {
-      return ToastAndroid.show('Enter your username/password', 2000);
+    if (!username) {
+        showMessage({
+          message: "Username is required!",
+          type: "danger",
+        });
+        return false;
+    }
+    if (!password) {
+        showMessage({
+          message: "Password is required!",
+          type: "danger",
+        });
+        return false;
     }
     try {
-      // Retrieve the credentials
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {
-        console.log(
-          'Credentials successfully loaded for user ' + credentials.username,
-        );
         if (
           credentials.username === username &&
           credentials.password === password
         ) {
-          console.log('sama semuaaa');
-          console.log(credentials.username);
-          console.log(credentials.password);
           let data = {username, password};
           return dispatch(AuthLogin(data));
         }
@@ -53,24 +56,25 @@ export default function Login({navigation}) {
           credentials.password !== password
         ) {
           await Keychain.resetGenericPassword();
-          console.log('ga samaa semua');
-          console.log(credentials.username);
-          console.log(credentials.password);
           await Keychain.setGenericPassword(username, password);
           let data = {username, password};
           return dispatch(AuthLogin(data));
         }
       } else {
-        console.log(`Belum ada keychain`);
         await Keychain.setGenericPassword(username, password);
         let data = {username, password};
         return dispatch(AuthLogin(data));
       }
     } catch (error) {
-      console.log("Keychain couldn't be accessed!", error);
     }
   };
-
+  const feature = () => 
+  {
+    showMessage({
+      message: "Feature not yet available",
+      type: "warning",
+    });
+  }
   return (
     <>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -103,16 +107,18 @@ export default function Login({navigation}) {
               placeholder="Password"
               autoCapitalize={'none'}
               returnKeyType="send"
-              secureTextEntry={true}
+              secureTextEntry={show}
               value={password}
               onChangeText={(text) => setPassword(text)}
             />
-            <IcEyePassword style={styles.eyePassword} />
+            <TouchableOpacity onPress={() => show ? setShow(false) : setShow(true)} style={styles.eyePassword}>
+               <IcEyePassword  />
+            </TouchableOpacity>
           </View>
         </View>
         <Gap height={27} />
         <View style={styles.paddingButton}>
-          <TouchableOpacity style={styles.button} onPress={onSubmit}>
+          <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
             <Text style={styles.textButton}>Sign In</Text>
           </TouchableOpacity>
         </View>
@@ -132,10 +138,10 @@ export default function Login({navigation}) {
         <Text style={styles.signWith}>or sign in with</Text>
         <Gap height={16} />
         <View style={styles.sign}>
-          <TouchableOpacity style={styles.buttonLink}>
+          <TouchableOpacity style={styles.buttonLink} onPress={() => feature()}>
             <IcGoogle style={styles.logo} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonLink}>
+          <TouchableOpacity style={styles.buttonLink} onPress={() => feature()}>
             <IcFacebook style={styles.logo} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -185,9 +191,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#9B96AB',
+    width:'100%'
   },
   eyePassword: {
-    marginVertical: 10,
+    position:'absolute',
+    right:0,
+    top:16
   },
   paddingButton: {
     paddingHorizontal: 30,

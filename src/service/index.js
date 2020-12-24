@@ -1,5 +1,5 @@
 import {Login, SignUp, ForgotPassword} from './Authentication';
-import {Home} from './Home';
+import {Home,HomeDetail} from './Home';
 import {Profile, EditProfile, Notifications} from './Profile';
 import {Booking} from './Booking';
 import {
@@ -7,6 +7,7 @@ import {
   SearchResult,
   FlightDetail,
   GetProfileOnFlight,
+  Midtrans
 } from './Payment';
 
 const API = {
@@ -14,6 +15,7 @@ const API = {
   SignUp,
   ForgotPassword,
   Home,
+  HomeDetail,
   Profile,
   EditProfile,
   Notifications,
@@ -22,6 +24,7 @@ const API = {
   SearchResult,
   FlightDetail,
   GetProfileOnFlight,
+  Midtrans
 };
 
 export default API;

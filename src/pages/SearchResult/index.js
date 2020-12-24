@@ -18,6 +18,7 @@ export default function SearchResult({navigation, route}) {
   const [dest, setDest] = React.useState();
   const [search, setSearch] = React.useState();
   const {data} = useSelector((s) => s.Auth);
+  const [count,setCount] = React.useState(1);
   React.useEffect(() => {
     // params kasih => idCity
     API.SearchFlightService(idCity, data)
@@ -25,15 +26,27 @@ export default function SearchResult({navigation, route}) {
         setDest(res);
       })
       .catch((err) => console.warn(err.message));
+      
+      if (child && adult) {
+        if (parseInt(child) != 0 && parseInt(adult) != 0) {
+            setCount(parseInt(child) + parseInt(adult))
+        }else{
+          if (parseInt(child) > 1 || parseInt(adult) > 1) { 
+             parseInt(child) != 0 && setCount(parseInt(child))
+             parseInt(adult) != 0 && setCount(parseInt(adult))
+          }
+        }
+      }else{
+        setCount(1)
+      }
   }, []);
 
   React.useEffect(() => {
     const dates = moment(date).format('YYYY-MM-DD');
-    API.SearchResult(dates, 12, data)
+    API.SearchResult(dates, idCity, data)
       .then((res) => setSearch(res))
       .catch((err) => console.warn(err.message));
   }, []);
-  console.log(search, 'seaaarrccchhhh');
 
   const renderItem = ({item, index}) => {
     return (
@@ -41,7 +54,7 @@ export default function SearchResult({navigation, route}) {
         <CardSearchResult
           toCountry={dest?.name_country}
           airlines={item?.airlane_name}
-          price={(Number(child) + Number(adult)) * Number(item?.price)}
+          price={ count * item.price }
           departure={`${item?.departure?.split(':')[0]}:${
             item?.departure?.split(':')[1]
           }`}

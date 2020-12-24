@@ -11,46 +11,38 @@ import {Gap, SOCKETURI} from '../../../utils';
 import {IcArrowBackWhite, IcSendChat} from '../../../assets/Icons/index';
 import { io } from 'socket.io-client'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { showMessage } from 'react-native-flash-message';
 export default function ChatRoom({navigation,route}) {
  const  {idRoom,id} = route.params;
- console.log('id dari params: ',id)
-//  const  idRoom = '19_16';
-//  alert(idRoom)
  const [chat,setChat] = useState([])
  const [messages,setMessages] = useState('')
-
  const socket = io(SOCKETURI);
  useEffect(() => {
-  if(socket == null) return;
+  // if(socket == null) return;
   socket.emit('initial-chat-room',idRoom);
   socket.on('get-chat',(chat) => {
-        console.log('dari chat: ',chat)
         setChat(chat)
-        // alert(chat.id)
-        // setReceivers(chat)
   });
   return () => {
-    // socket.off('get-messages')
     socket.off('get-chat')
   }
 },[])
-
-
  const sendChat = () =>
  {
     if (!messages) {
-        alert('message is required')
+        showMessage({
+          message: "Message is required",
+          type: "danger",
+        });
         return false
     }
     AsyncStorage.getItem('user').then(res => {
       const profile = JSON.parse(res)
-      socket.emit('send-chat',{id:profile.iduser,message:messages,data_id:idRoom});
+      socket.emit('send-chat',{id:profile.iduser,message:messages,data_id:idRoom,name:profile.username});
       socket.emit('initial-chat-room',idRoom);
       socket.emit('initial-chat',id);
     })
-    // alert(messages)
     setMessages('')
-    // setChat([])
  }
   return (
     <>
@@ -62,34 +54,12 @@ export default function ChatRoom({navigation,route}) {
         <Text style={styles.textBar}>Costumer Services</Text>
       </View>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Gap height={20} />
-        <Text style={styles.date}>Senin, 21 maret 2020</Text>
-        <Gap height={20} />
-
-        {/* Costumer services */}
-        {/* <View style={styles.row}>
-          <View style={styles.bubbleChat}>
-            <Text style={styles.textChat}>hai</Text>
-          </View>
-          <Gap height={8} />
-          <Text style={styles.dateCs}>12.00</Text>
-        </View> */}
-
-        {/* Users */}
-        {/* <View style={styles.row}>
-          <View style={styles.bubbleChatUser}>
-            <Text style={styles.textChat}>kita temenan aja ya :)</Text>
-          </View>
-          <Gap height={8} />
-          <Text style={styles.dateUser}>12.00</Text>
-        </View> */}
-
-        {/* Costumer services */}
+        <Gap height={40} />
 
         {
           chat.map((res,index) => {
 
-            if (res.id_user != id) {
+            if (res.id_user == id) {
                 return(
                   <View key={index} style={styles.row}>
                     <View style={styles.bubbleChat}>
@@ -97,8 +67,6 @@ export default function ChatRoom({navigation,route}) {
                         {res.chat}
                       </Text>
                     </View>
-                    {/* <Gap height={8} /> */}
-                    {/* <Text style={styles.dateCs}>{res.date}</Text> */}
                   </View>
                 )
             }else{
@@ -107,27 +75,13 @@ export default function ChatRoom({navigation,route}) {
                       <View style={styles.bubbleChatUser}>
                         <Text style={styles.textChat}>{res.chat}</Text>
                       </View>
-                      {/* <Gap height={8} /> */}
-                      {/* <Text style={styles.dateUser}></Text> */}
                     </View> 
               )
             }
            
           })
-
-
         }
-      
 
-
-        {/* Users */}
-        {/* <View style={styles.row}>
-          <View style={styles.bubbleChatUser}>
-            <Text style={styles.textChat}>gpp :)</Text>
-          </View>
-          <Gap height={8} />
-          <Text style={styles.dateUser}>12.00</Text>
-        </View> */}
       </ScrollView>
 
       <View style={styles.chat}>
@@ -141,7 +95,7 @@ export default function ChatRoom({navigation,route}) {
           />
         </View>
         <Gap width={10} />
-        <TouchableOpacity style={styles.sendButton} onPress={() => sendChat()}>
+        <TouchableOpacity style={styles.sendButton} onPress={() => sendChat()} >
           <IcSendChat />
         </TouchableOpacity>
       </View>

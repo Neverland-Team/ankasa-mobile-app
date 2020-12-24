@@ -1,6 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StyleSheet, Text, View, Image, ScrollView, SafeAreaView,TouchableOpacity} from 'react-native';
 import {
   IlNavSearchResult,
   IcArrowBackWhite,
@@ -11,10 +10,13 @@ import {
   IcBurger,
   IcWifi,
   IcMaleAndFamale,
+  IlAirAsia,
+  IlLionAir
 } from '../../assets';
 import API from '../../service';
-import {Gap} from '../../utils';
+import {Gap, MidtransPage} from '../../utils';
 import {useSelector} from 'react-redux';
+import {WebView} from 'react-native-webview';
 
 export default function FlightDetail({navigation, route}) {
   const {
@@ -29,15 +31,29 @@ export default function FlightDetail({navigation, route}) {
     price,
     idflight,
   } = route.params;
-  //   console.log(route, 'params');
   const {data} = useSelector((s) => s.Auth);
   const [profile, setProfile] = React.useState();
-
+  const [page,setPage] = React.useState('')
+  const [payment,setPayment] = React.useState(false)
   React.useEffect(() => {
+
     API.GetProfileOnFlight(data)
-      .then((res) => setProfile(res))
-      .catch((err) => console.log(err.errors));
+      .then((res) => {
+        setProfile(res)
+      })
   }, []);
+
+  const Logo = () => {
+    if (airline == "Garuda Indonesia"){
+      return IlGaruda
+    }
+    if (airline == "Air Asia"){
+      return IlAirAsia
+    }
+    if (airline == "Lion Air"){
+      return IlLionAir
+    }
+  }
   const onSubmit = () => {
     API.FlightDetail(
       {
@@ -54,139 +70,160 @@ export default function FlightDetail({navigation, route}) {
       },
       data,
     ).then((res) => {
-      console.log(res);
-      if (res.data.data.length !== 0) {
-        navigation.navigate('MyBooking');
-      }
+      setPage(MidtransPage(res.data))
+      setPayment(true)
     });
-  };
-  return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.navigation}>
-        <Image source={IlNavSearchResult} style={styles.image} />
-        <Gap height={33} />
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <IcArrowBackWhite />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.card}>
-        <View style={{width: '100%', position: 'relative'}}>
-          <Image source={IlBgFlightDetail} style={styles.imageCard} />
-          <View style={styles.wrapperCard}>
-            <View style={styles.wrapperRouter}>
-              <View>
-                <Text style={styles.routerText}>IDN</Text>
-                <Text style={styles.hours}>{departure}</Text>
-              </View>
-              <IcFlight />
-              <View>
-                <Text style={styles.routerText}>
-                  {tocountry === 'Indonesia'
-                    ? 'IDN'
-                    : toCountry === 'Japan'
-                    ? 'JPN'
-                    : 'ENG'}
-                </Text>
-                <Text style={styles.hoursRight}>{arrived}</Text>
-              </View>
-            </View>
-            <Gap height={30} />
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Image source={IlGaruda} />
-              <View>
-                <View style={{flexDirection: 'row'}}>
-                  <IcStarYellow />
-                  <Gap width={6} />
-                  <IcStarYellow />
-                  <Gap width={6} />
-                  <IcStarYellow />
-                  <Gap width={6} />
-                  <IcStarYellow />
-                </View>
-                <Text style={styles.rating}>120k review</Text>
-              </View>
-            </View>
-            <Gap height={30} />
-            <View style={styles.code}>
-              <View>
-                <Text style={styles.title}>Code</Text>
-                <Text style={styles.codeType}>{code}</Text>
-              </View>
-              <View>
-                <Text style={styles.title}>Class</Text>
-                <Text style={styles.codeType}>{classFlight}</Text>
-              </View>
-              <View>
-                <Text style={styles.title}>Terminal</Text>
-                <Text style={styles.codeType}>A</Text>
-              </View>
-              <View>
-                <Text style={styles.title}>Gate</Text>
-                <Text style={styles.codeType}>221</Text>
-              </View>
-            </View>
-            <Gap height={30} />
-            <View style={styles.wrapperStatus}>
-              <View style={styles.bagde}>
-                <View style={styles.count}>
-                  <Text style={styles.countField}>{child}</Text>
-                </View>
-                <Text style={styles.person}>Child</Text>
-              </View>
-              <View style={styles.bagde}>
-                <View style={styles.count}>
-                  <Text style={styles.countField}>{adult}</Text>
-                </View>
-                <Text style={styles.person}>Adults</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
 
-      <View style={{transform: [{translateY: -113}]}}>
-        <Gap height={20} />
-        <View style={{paddingHorizontal: 28}}>
-          <Text style={styles.facilities}>Facilities</Text>
-        </View>
-        <Gap height={11} />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <Gap width={28} />
-          <View style={styles.badgeFacility1}>
-            <IcBurger />
-            <Gap width={21} />
-            <Text style={styles.badgeText}>Snack</Text>
+  };
+  const myBooking = () => {
+     navigation.navigate('MyBooking');
+  }
+  if (payment) {
+    return(
+      <>
+        <SafeAreaView style={{flex:1}}>
+          <WebView
+              originWhitelist={['*']}
+              source={{ html: page }} />
+              <TouchableOpacity activeOpacity={0.7} onPress={() => myBooking()}>
+                <View style={styles.buttonExit}>
+                  <Text style={styles.buttonField}>Exit</Text>
+                </View>
+              </TouchableOpacity>
+         </SafeAreaView>
+      </>
+    )
+  }else{
+    return(
+      <>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+          <View style={styles.navigation}>
+            <Image source={IlNavSearchResult} style={styles.image} />
+            <Gap height={33} />
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <IcArrowBackWhite />
+            </TouchableOpacity>
           </View>
-          <Gap width={12} />
-          <View style={styles.badgeFacility2}>
-            <IcWifi />
-            <Gap width={21} />
-            <Text style={styles.badgeText}>Wifi</Text>
+          <View style={styles.card}>
+            <View style={{width: '100%', position: 'relative'}}>
+              <Image source={IlBgFlightDetail} style={styles.imageCard} />
+              <View style={styles.wrapperCard}>
+                <View style={styles.wrapperRouter}>
+                  <View>
+                    <Text style={styles.routerText}>IDN</Text>
+                    <Text style={styles.hours}>{departure}</Text>
+                  </View>
+                  <IcFlight />
+                  <View>
+                    <Text style={styles.routerText}>
+                      {tocountry === 'Indonesia'
+                        ? 'IDN'
+                        : toCountry === 'Japan'
+                        ? 'JPN'
+                        : 'ENG'}
+                    </Text>
+                    <Text style={styles.hoursRight}>{arrived}</Text>
+                  </View>
+                </View>
+                <Gap height={30} />
+                <View
+                  style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                  <Image source={ Logo() } />
+                  <View>
+                    <View style={{flexDirection: 'row'}}>
+                      <IcStarYellow />
+                      <Gap width={6} />
+                      <IcStarYellow />
+                      <Gap width={6} />
+                      <IcStarYellow />
+                      <Gap width={6} />
+                      <IcStarYellow />
+                    </View>
+                    <Text style={styles.rating}>120k review</Text>
+                  </View>
+                </View>
+                <Gap height={30} />
+                <View style={styles.code}>
+                  <View>
+                    <Text style={styles.title}>Code</Text>
+                    <Text style={styles.codeType}>{code}</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.title}>Class</Text>
+                    <Text style={styles.codeType}>{classFlight}</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.title}>Terminal</Text>
+                    <Text style={styles.codeType}>A</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.title}>Gate</Text>
+                    <Text style={styles.codeType}>221</Text>
+                  </View>
+                </View>
+                <Gap height={30} />
+                <View style={styles.wrapperStatus}>
+                  <View style={styles.bagde}>
+                    <View style={styles.count}>
+                      <Text style={styles.countField}>{child}</Text>
+                    </View>
+                    <Text style={styles.person}>Child</Text>
+                  </View>
+                  <View style={styles.bagde}>
+                    <View style={styles.count}>
+                      <Text style={styles.countField}>{adult}</Text>
+                    </View>
+                    <Text style={styles.person}>Adults</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
           </View>
-          <Gap width={12} />
-          <View style={styles.badgeFacility3}>
-            <IcMaleAndFamale />
-            <Gap width={21} />
-            <Text style={styles.badgeText}>Restroom</Text>
+
+          <View style={{transform: [{translateY: -113}]}}>
+            <Gap height={20} />
+            <View style={{paddingHorizontal: 28}}>
+              <Text style={styles.facilities}>Facilities</Text>
+            </View>
+            <Gap height={11} />
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <Gap width={28} />
+              <View style={styles.badgeFacility1}>
+                <IcBurger />
+                <Gap width={21} />
+                <Text style={styles.badgeText}>Snack</Text>
+              </View>
+              <Gap width={12} />
+              <View style={styles.badgeFacility2}>
+                <IcWifi />
+                <Gap width={21} />
+                <Text style={styles.badgeText}>Wifi</Text>
+              </View>
+              <Gap width={12} />
+              <View style={styles.badgeFacility3}>
+                <IcMaleAndFamale />
+                <Gap width={21} />
+                <Text style={styles.badgeText}>Restroom</Text>
+              </View>
+            </ScrollView>
+            <View style={{paddingHorizontal: 28}}>
+              <Gap height={53} />
+              <View style={styles.buttonWrapper}>
+                <Text style={styles.buttonText}>Total you’ll pay</Text>
+                <Text style={styles.amount}>$ {price}</Text>
+              </View>
+              <Gap height={31} />
+              <TouchableOpacity activeOpacity={0.7} onPress={() => onSubmit()}>
+                <View style={styles.button}>
+                  <Text style={styles.buttonField}>BOOK FLIGHT</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
-        <View style={{paddingHorizontal: 28}}>
-          <Gap height={53} />
-          <View style={styles.buttonWrapper}>
-            <Text style={styles.buttonText}>Total you’ll pay</Text>
-            <Text style={styles.amount}>$ {price}</Text>
-          </View>
-          <Gap height={31} />
-          <TouchableOpacity activeOpacity={0.7} onPress={() => onSubmit()}>
-            <View style={styles.button}>
-              <Text style={styles.buttonField}>BOOK FLIGHT</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
-  );
+      </>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -325,6 +362,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#2395FF',
     paddingVertical: 15,
     borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonExit: {
+    backgroundColor: '#2395FF',
+    paddingVertical: 15,
     alignItems: 'center',
   },
   buttonField: {

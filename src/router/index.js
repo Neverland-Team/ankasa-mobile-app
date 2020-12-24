@@ -19,6 +19,7 @@ import {
   SearchFlight,
   SearchResult,
   FlightDetail,
+  ContactPerson
 } from '../pages';
 import {GetProfile} from '../redux/actions/Profile';
 const Stack = createStackNavigator();
@@ -88,6 +89,11 @@ export default function Router({navigation}) {
           <Stack.Screen
             name="BookingDetail"
             component={BookingDetail}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="ContactPerson"
+            component={ContactPerson}
             options={{headerShown: false}}
           />
         </>

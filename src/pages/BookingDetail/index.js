@@ -7,16 +7,42 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 import {ScrollView} from 'react-native-gesture-handler';
-import {ArrowBackWhite, Garuda, Flight, QrFLat} from '../../assets';
+import {ArrowBackWhite, Garuda, Flight, QrFLat, IlAirAsia, IlLionAir, IlGaruda} from '../../assets';
 import {Gap} from '../../utils';
 
-export default function BookingDetail({navigation}) {
+export default function BookingDetail({navigation,route}) {
+  const {from,to_city,level,date,airlines,status} = route.params;
+ 
+
+  const flight = () => 
+  {
+    switch (airlines) {
+      case 'Air Asia':
+        return IlAirAsia
+      case 'Garuda Indonesia':
+         return IlGaruda
+      default:
+        return  IlLionAir
+    }
+  }
+
+  const feature = () => 
+  {
+    showMessage({
+      message: "Feature not yet available,development stage!",
+      type: "warning",
+    });
+  }
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.Container}>
       <Gap width={30} height={32} />
       <View style={styles.Main}>
-        <ArrowBackWhite />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+           <ArrowBackWhite />
+        </TouchableOpacity>
         <Text style={styles.tBooking}>Booking Pass</Text>
       </View>
       <View style={styles.backHome}>
@@ -24,11 +50,13 @@ export default function BookingDetail({navigation}) {
           source={require('../../assets/Images/ticketBack.png')}
           style={styles.imgWhite}>
           <View style={styles.Garuda}>
-            <Garuda />
+
+            <Image source={flight()} />
+
             <View style={styles.flight}>
-              <Text style={styles.tIDN}>IDN</Text>
+              <Text style={styles.tIDN}>{from}</Text>
               <Flight style={styles.iFlight} width={30} height={25} />
-              <Text style={styles.tIDN}>JPN</Text>
+              <Text style={styles.tIDN}>{to_city}</Text>
             </View>
           </View>
           <View
@@ -37,11 +65,22 @@ export default function BookingDetail({navigation}) {
               alignItems: 'center',
               paddingTop: 27,
             }}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.textButton} onPress={() => alert('Berhasil')}>
-                Eticket issued
-              </Text>
-            </TouchableOpacity>
+            {
+              status == 0 ? (
+                <TouchableOpacity style={styles.buttonPayment}>    
+                  <Text style={styles.textButton} onPress={() => feature()}>
+                    Waiting For Payment
+                  </Text>
+                </TouchableOpacity>
+              ):(
+                <TouchableOpacity style={styles.button}>    
+                <Text style={styles.textButton} onPress={() => feature()}>
+                  Eticket issued
+                </Text>
+              </TouchableOpacity>
+              )
+            }
+            
           </View>
           <View
             style={{
@@ -64,21 +103,21 @@ export default function BookingDetail({navigation}) {
             </View>
             <View style={{flexDirection: 'column'}}>
               <Text style={styles.tCode}>Class</Text>
-              <Text style={styles.tIndex}>AB-221</Text>
+              <Text style={styles.tIndex}>{level}</Text>
             </View>
             <View style={{flexDirection: 'column'}}>
               <Text style={styles.tCode}>Terminal</Text>
-              <Text style={styles.tIndex}>AB-221</Text>
+              <Text style={styles.tIndex}>A</Text>
             </View>
             <View style={{flexDirection: 'column'}}>
               <Text style={styles.tCode}>Gate</Text>
-              <Text style={styles.tIndex}>AB-221</Text>
+              <Text style={styles.tIndex}>221</Text>
             </View>
           </View>
           <View style={{paddingTop: 20, paddingHorizontal: 37}}>
             <View style={{flexDirection: 'column'}}>
               <Text style={styles.tCode}>Departure</Text>
-              <Text style={styles.tIndex}>Monday, 20 July 20 - 12.33</Text>
+              <Text style={styles.tIndex}>{date}</Text>
             </View>
             <View
               style={{
@@ -153,12 +192,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: 154,
   },
+  buttonPayment: {
+    backgroundColor: '#FF7F23',
+    height: 36,
+    borderRadius: 10,
+    paddingHorizontal:28
+  },
   textButton: {
     color: '#fff',
     fontSize: 18,
     fontFamily: 'Poppins-SemiBold',
     alignSelf: 'center',
     paddingTop: 5,
+    textAlign:'center'
   },
   tCode: {
     color: '#A5A5A5',

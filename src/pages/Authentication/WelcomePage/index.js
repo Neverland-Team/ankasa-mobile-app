@@ -26,20 +26,16 @@ export default function WelcomePage({navigation}) {
         <IcDotSlider style={styles.dotSlider}/> 
         <Gap height={51} />
         <View style={styles.paddingButton}>
-          <TouchableOpacity style={styles.button}>
-            <Text
-              style={styles.textButton}
-              onPress={() => navigation.navigate('SignUp')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.textButton} >
               Create my Account
             </Text>
           </TouchableOpacity>
         </View>
         <Gap height={16} />
         <View style={styles.paddingButton}>
-          <TouchableOpacity style={styles.buttonSignIn}>
-            <Text
-              style={styles.textButtonSignIn}
-              onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity style={styles.buttonSignIn} onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.textButtonSignIn}>
               Sign In
             </Text>
           </TouchableOpacity>

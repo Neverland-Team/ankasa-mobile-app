@@ -15,22 +15,71 @@ import {
 } from '../../../assets/Icons/index';
 import CheckBox from '@react-native-community/checkbox';
 import API from '../../../service';
+import { showMessage } from 'react-native-flash-message';
 
 export default function SignUp({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [check, setCheck] = useState(false);
+  const [show, setShow] = useState(true);
 
-  const signUp= () => {
+  const signUp = () => {
+    if (!username) {
+      showMessage({
+        message: "Username is required!",
+        type: "danger",
+      });
+      return false;
+    } 
+    if (!email) {
+      showMessage({
+        message: "Email is required!",
+        type: "danger",
+      });
+      return false;
+    } 
+   
+    if (password.length < 6) {
+      showMessage({
+        message: "Password min length 6 character!",
+        type: "danger",
+      });
+      return false;
+    } 
+    if (!check) {
+      showMessage({
+        message: "Please press the checkbox!",
+        type: "danger",
+      });
+      return false;
+    } 
     API.SignUp({username: username, email:email, password: password})
       .then((res) => {
-        navigation.navigate("Login")
-        console.log(res);
+        showMessage({
+          message: "Your account have been created.Please login",
+          type: "success",
+        });
+        setUsername('')
+        setPassword('')
+        setEmail('')
+        setCheck(false)
       })
       .catch((err) => {
-
+        showMessage({
+          message: "Faile create account",
+          type: "danger",
+        });
       });
   };
+
+  const guest = () => 
+  {
+    showMessage({
+      message: "Feature not yet available",
+      type: "warning",
+    });
+  }
 
   return (
     <>
@@ -41,10 +90,7 @@ export default function SignUp({navigation}) {
             <IcArrowBackBlack />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text
-              style={styles.guest}
-              // onPress={() => navigation.navigate('')}
-            >
+            <Text style={styles.guest} onPress={() => guest()}>
               Continous as Guest
             </Text>
           </TouchableOpacity>
@@ -56,7 +102,7 @@ export default function SignUp({navigation}) {
           <View style={styles.textBox}>
             <TextInput
               style={styles.textInput}
-              placeholder="Full Name"
+              placeholder="Username"
               autoCapitalize={'none'}
               returnKeyType="next"
               value={username}
@@ -85,27 +131,26 @@ export default function SignUp({navigation}) {
               placeholder="Password"
               autoCapitalize={'none'}
               returnKeyType="send"
-              secureTextEntry={true}
+              secureTextEntry={show}
               value={password}
               onChangeText={(text) => setPassword(text)}
             />
-            <IcEyePassword style={styles.eyePassword} />
+            <TouchableOpacity onPress={() => show ? setShow(false) : setShow(true)} style={styles.eyePassword}>
+               <IcEyePassword />
+            </TouchableOpacity>
           </View>
         </View>
         <Gap height={27} />
         <View style={styles.paddingButton}>
           <TouchableOpacity style={styles.button} onPress={() => signUp()}>
-            <Text
-              style={styles.textButton}
-              // onPress={() => navigation.navigate('WelcomePage')}
-            >
+            <Text style={styles.textButton}>
               Sign Up
             </Text>
           </TouchableOpacity>
         </View>
         <Gap height={27} />
         <View style={styles.checkBox}>
-          <CheckBox disabled={false} />
+          <CheckBox disabled={false} value={check}  onChange={() =>  check ? setCheck(false) : setCheck(true)}/>
           <Text style={styles.accept}>Accepted terms and conditions</Text>
         </View>
         <Gap height={44} />
@@ -115,6 +160,7 @@ export default function SignUp({navigation}) {
         <Gap height={24} />
         <View style={styles.paddingButton}>
           <TouchableOpacity
+            onPress={() => navigation.navigate("Login")}
             style={styles.buttonSignIn}>
             <Text style={styles.textButtonSignIn}>Sign In</Text>
           </TouchableOpacity>
@@ -167,9 +213,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#9B96AB',
+    width:'100%'
   },
   eyePassword: {
-    marginVertical: 10,
+    position:'absolute',
+    right:0,
+    top:17    
   },
   paddingButton: {
     paddingHorizontal: 30,

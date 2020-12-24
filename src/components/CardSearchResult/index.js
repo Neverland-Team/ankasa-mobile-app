@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {IcFlight} from '../../assets';
-import {Gap} from '../../utils';
+import {CurrencyFormatter, Gap} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
 
 export default function CardSearchResult({
@@ -22,7 +22,7 @@ export default function CardSearchResult({
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          navigation.navigate('FlightDetail', {
+          navigation.navigate('ContactPerson', {
             tocountry: toCountry,
             departure: departure,
             arrived: arrived,
@@ -76,7 +76,7 @@ export default function CardSearchResult({
         <Gap height={18} />
         <View style={styles.amountWrapper}>
           <Text style={styles.airline}>{airlines}</Text>
-          <Text style={styles.amount}>$ {price}</Text>
+          <Text style={styles.amount}>{CurrencyFormatter(price)}</Text>
         </View>
       </TouchableOpacity>
     </>

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
 import {URI} from '../../utils';
 
@@ -36,6 +37,8 @@ export const AuthLogin = (fields) => {
     })
       .then((res) => {
         const data = res.data.accessToken;
+        console.log('dari redux: ',data)
+        AsyncStorage.setItem('token',data)
         dispatch(AuthLoginSuccess(data));
       })
       .catch((err) => {
@@ -59,7 +62,6 @@ const RegisterSuccess = (data) => {
 };
 
 export const Register = (data) => {
-//   console.log('dari redux: ', data);
   return (dispatch) => {
     dispatch(RegisterSuccess(data));
   };

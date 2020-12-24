@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import configureStore from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import SplashScreen from 'react-native-splash-screen';
+import FlashMessage from "react-native-flash-message";
 const App = () => {
    useEffect(() => {
        SplashScreen.hide();
@@ -19,6 +20,7 @@ const App = () => {
         </NavigationContainer>
       </PersistGate>
     </Provider>
+    <FlashMessage position="top" />
     </>
   );
 };

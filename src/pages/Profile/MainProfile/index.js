@@ -27,34 +27,41 @@ import {GetProfile, ProfileUser} from '../../../redux/actions/Profile';
 import {useDispatch, useSelector} from 'react-redux';
 import Axios from 'axios';
 import API from '../../../service';
+import { showMessage } from 'react-native-flash-message';
 
 export default function MainProfile({navigation}) {
   const dispatch = useDispatch();
   const {data} = useSelector((s) => s.DataProfile);
   const Auth = useSelector((s) => s.Auth);
   const [dataProfileUser, setDataProfileUser] = React.useState([]);
+  const inputTypeCard = React.useRef();
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [value, onChangeText] = React.useState('');
+  const [typeCard, settypeCard] = React.useState('');
+  const [fullName, setFullName] = React.useState('');
+  const [address, setAddress] = React.useState('');
+
 
   React.useEffect(() => {
     dispatch(GetProfile(Auth.data))
+
     API.Profile(Auth.data).then( res => {
       setDataProfileUser(res)
     });
-    console.log(dataProfileUser?.photo)
+    
   }, [Auth.data]);
 
-  // console.log(`http://192.168.100.9:8000/Images/${data?.data?.photo}`);
-
-  // console.log(data, 'adjhsajhdg')
   const onLogout = () => {
     dispatch(AuthLogout());
   };
 
   const uploadImage = () => {
     imagePicker.showImagePicker({}, (response) => {
-      console.log('hasil dari picker: ', response);
       if (response.didCancel || response.error) {
-        // ketika image tidak di upload
-        alert("oops, you don't chouse image!");
+        showMessage({
+          message: "oops, you don't chouse image!",
+          type: "danger",
+        });
       } else {
         const formData = new FormData();
         formData.append('photo', {
@@ -74,23 +81,49 @@ export default function MainProfile({navigation}) {
           .then((res) => {
             // jika berhasil
             dispatch(GetProfile(Auth.data))
-            console.log('berhasil upload foto');
+            showMessage({
+              message: "success,change image",
+              type: "success",
+            });
           })
           .catch((err) => {
-            // jika gagal upload image dari API/BackEnd
-            console.log('gagal upload foto');
+            showMessage({
+              message: "faile,change image!",
+              type: "warning",
+            });
           });
       }
     });
   };
 
-  const inputTypeCard = React.useRef();
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [value, onChangeText] = React.useState('');
-  const [typeCard, settypeCard] = React.useState('');
-  const [fullName, setFullName] = React.useState('');
-  const [address, setAddress] = React.useState('');
+  const addCard = () => {
+    if (!value) {
+      showMessage({
+        message: "Field number card is required",
+        type: "danger",
+      });
+      return false
+    }
+    if (!typeCard) {
+      showMessage({
+        message: "Field type card is required",
+        type: "danger",
+      });
+      return false
+    }
 
+    showMessage({
+      message: "Feature not yet available",
+      type: "warning",
+    });
+  }
+
+  const feature = () => {
+    showMessage({
+      message: "Feature not yet available",
+      type: "warning",
+    });
+  }
   return (
     <>
       <ScrollView
@@ -122,10 +155,23 @@ export default function MainProfile({navigation}) {
               />
             </TouchableOpacity>
           </View>
+          {
+            dataProfileUser?.iduser !== 16 && 
+            <View style={{alignItems:'center',marginTop:10}}>
+              <TouchableOpacity onPress={() => navigation.navigate('ChatRoom',{idRoom:`${dataProfileUser?.iduser}_16`,id:dataProfileUser?.iduser})}>
+                  <View style={styles.cs}>
+                    <Text style={styles.csText}>
+                      Customer Service
+                    </Text>
+                  </View>
+              </TouchableOpacity>
+            </View>
+          }
+          
           <Gap height={10} />
           <View style={{alignItems: 'center'}}>
             <Text style={{fontFamily: 'Poppins-Bold', fontSize: 20}}>
-              {dataProfileUser?.username}
+              {data?.data?.username}
             </Text>
             <Text
               style={{
@@ -133,19 +179,17 @@ export default function MainProfile({navigation}) {
                 fontSize: 14,
                 color: '#999',
               }}>
-              {dataProfileUser?.address}
+              {data?.data?.address}
             </Text>
           </View>
         </View>
         <View style={styles.positionView(false)}>
           <Text style={styles.textCards}>Cards</Text>
-          <Text
-            style={styles.textAdd}
-            onPress={() => {
-              setModalVisible(true);
-            }}>
-            + Add
-          </Text>
+          <TouchableOpacity  onPress={() => setModalVisible(true) }>
+            <Text style={styles.textAdd} >
+              + Add
+            </Text>
+          </TouchableOpacity>
         </View>
         <Gap height={10} />
         <ScrollView
@@ -161,55 +205,31 @@ export default function MainProfile({navigation}) {
             </View>
           </View>
           <Gap width={20} />
-          <View style={styles.vDesCard}>
-            <Text style={styles.tCard}>4441 1235 5512 5551</Text>
+          <View style={styles.vDesCardBlack}>
+            <Text style={styles.tCard}>2212 5122 5553 1235</Text>
             <View style={styles.positionView(true)}>
-              <Text style={styles.tNameCard}>X Card</Text>
-              <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
-            </View>
-          </View>
-          <Gap width={20} />
-          <View style={styles.vDesCard}>
-            <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-            <View style={styles.positionView(true)}>
-              <Text style={styles.tNameCard}>X Card</Text>
-              <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
-            </View>
-          </View>
-          <Gap width={20} />
-          <View style={styles.vDesCard}>
-            <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-            <View style={styles.positionView(true)}>
-              <Text style={styles.tNameCard}>X Card</Text>
-              <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
-            </View>
-          </View>
-          <Gap width={20} />
-          <View style={styles.vDesCard}>
-            <Text style={styles.tCard}>4441 1235 5512 5551</Text>
-            <View style={styles.positionView(true)}>
-              <Text style={styles.tNameCard}>X Card</Text>
-              <Text style={styles.tMoneyCard}>$ 1,442.2</Text>
+              <Text style={styles.tNameCard}>Z Card</Text>
+              <Text style={styles.tMoneyCard}>$ 8,33</Text>
             </View>
           </View>
         </ScrollView>
 
         <Gap height={30} />
         <View style={styles.containerTop}>
-          <View style={styles.positionViewRow}>
+          <TouchableOpacity style={styles.positionViewRow} onPress={feature}>
             <StarReview width={30} height={25} style={styles.startReview} />
-            <Text style={styles.tReview} onPress={() => alert('Berhasil')}>
+            <Text style={styles.tReview} >
               My Review
             </Text>
             <Btnback width={30} height={25} style={styles.bReview} />
-          </View>
-          <View style={styles.positionViewRow}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.positionViewRow} onPress={feature}>
             <SettingProfile width={30} height={25} style={styles.startReview} />
-            <Text style={styles.tReview} onPress={() => alert('Berhasil')}>
+            <Text style={styles.tReview} >
               Settings
             </Text>
             <Btnback width={30} height={25} style={styles.bReview} />
-          </View>
+          </TouchableOpacity>
           <View style={styles.positionViewRowLogout}>
             <Logout width={30} height={25} style={styles.startReview} />
             <Text style={styles.tReviewLogout} onPress={onLogout}>
@@ -251,18 +271,18 @@ export default function MainProfile({navigation}) {
                 onSubmitEditing={() => onSubmit()}
               />
 
-              <TouchableHighlight
+              <TouchableOpacity
                 style={styles.openButton}
-                onPress={() => alert('Berhasil')}>
+                onPress={() => addCard()}>
                 <Text style={styles.textStyle}>Submit</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={styles.openButton}
                 onPress={() => {
                   setModalVisible(!modalVisible);
                 }}>
                 <Text style={styles.textStyle}>Close</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -281,6 +301,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: isCard ? 0 : 20,
   }),
+  image:{
+    width:111,
+    height:111,
+    borderRadius:111/2
+  },
   textProfile: {
     fontSize: 36,
     color: '#000000',
@@ -311,16 +336,16 @@ const styles = StyleSheet.create({
   vclippingImange: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 100,
+    borderRadius: 137/2,
     borderWidth: 5,
     borderColor: '#2395FF',
-    height: 150,
-    width: 150,
+    height: 137,
+    width: 137,
   },
   iProfile: {
-    borderRadius: 30,
-    width: 100,
-    height: 100,
+    borderRadius: 111/2,
+    width: 111,
+    height: 111,
   },
   tName: {
     fontSize: 20,
@@ -404,6 +429,14 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingLeft: 22,
   },
+  vDesCardBlack: {
+    backgroundColor: '#535353',
+    borderRadius: 10,
+    elevation: 5,
+    width: 227,
+    paddingVertical: 12,
+    paddingLeft: 22,
+  },
   tCard: {
     color: '#ffffff',
     fontSize: 14,
@@ -443,4 +476,16 @@ const styles = StyleSheet.create({
   positionViewRowLogout: {
     flexDirection: 'row',
   },
+  cs:{
+    backgroundColor:'#2395FF',
+    width:170,
+    borderRadius:5,
+    paddingVertical:5,
+    alignItems:'center'
+  },
+  csText:{
+    color:'#fff',
+    fontFamily:'Poppins-SemiBold'
+  }
+  
 });

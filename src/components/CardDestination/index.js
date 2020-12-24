@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text, View ,Image,TouchableOpacity} from 'react-native'
 import { IcBtnBackHome,IlHomeSlider } from '../../assets'
-import { Gap } from '../../utils'
+import { Gap, URIIMAGE } from '../../utils'
 
-export default function CardDestination({country,city,photoCity,idCity,onPress}) {
+export default function CardDestination({country,city,photo,idCity,onPress}) {
     return (
         <>
         <TouchableOpacity onPress={() => onPress()}>
@@ -15,7 +15,7 @@ export default function CardDestination({country,city,photoCity,idCity,onPress})
                 <Gap height={137}/>
                 <View style={styles.wrapperDestination}>
                     <View>
-                        <Text style={styles.city}>{city},</Text>
+                        <Text style={styles.city}>{'Medan - '+city},</Text>
                         <Text style={styles.country}>{country}</Text>
                     </View>
                     <View style={styles.back}>
@@ -23,7 +23,7 @@ export default function CardDestination({country,city,photoCity,idCity,onPress})
                     </View>
                 </View>
             </View>
-            <Image style={{borderRadius:20}} source={IlHomeSlider} />
+            <Image style={styles.image} source={{uri:URIIMAGE+photo}} />
         </TouchableOpacity>
         <Gap width={20}/>
      </>
@@ -82,6 +82,11 @@ const styles = StyleSheet.create({
         borderRadius:29/2,
         justifyContent:'center',
         alignItems:'center'
+    },
+    image:{
+        width:206,
+        height:262,
+        borderRadius:20
     }
 
 })
