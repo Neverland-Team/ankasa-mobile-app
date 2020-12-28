@@ -31,6 +31,21 @@ module.exports = {
       );
     });
   },
+  search: (req) => {
+    return new Promise((resolve, reject) => {
+     const query = req.params.search;
+      db.query(
+        `SELECT idcity, country.idcountry,name_city, name_country, photo as photocity,city.createdAt FROM city INNER JOIN country ON city.idcountry=country.idcountry WHERE name_city LIKE '%${query}%'`,
+        (err, result) => {
+          if (err) {
+            reject(new Error(err));
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+  },
 
   getId: (id) => {
     return new Promise((resolve, reject) => {

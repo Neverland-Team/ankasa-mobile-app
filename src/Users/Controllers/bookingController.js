@@ -1,18 +1,39 @@
 const bookingModel = require("../Models/bookingModel");
 const { success, failed, notfound } = require("../../Helper/response");
+const midtransClient = require("midtrans-client");
+let snap = new midtransClient.Snap({
+  isProduction: false,
+  serverKey: "SB-Mid-server-ZvK1XrFozq8bFIUHYH5grfSk",
+  clientKey: "SB-Mid-client-i_EGfhfpfwFtL_Er",
+});
 
 module.exports = {
   booking: (req, res) => {
     try {
-      const body = req.body;
-      bookingModel
-        .booking(body)
-        .then((result) => {
-          success(res, result, "Booking Success");
-        })
-        .catch((err) => {
-          failed(res, [], err.message);
-        });
+      // const body = req.body;
+      const { total } = req.body;
+      const order = "ticket-" + Math.round(new Date().getTime() / 1000);
+      let parameter = {
+        transaction_details: {
+          order_id: order,
+          gross_amount: parseInt(total),
+        },
+        credit_card: {
+          secure: true,
+        },
+      };
+      snap.createTransaction(parameter).then((transaction) => {
+        let token = transaction.token;
+        const body =  {...req.body,token:order};
+        bookingModel
+          .booking(body)
+          .then((result) => {
+            success(res, token, "Booking Success");
+          })
+          .catch((err) => {
+            failed(res, [], err.message);
+          });
+      });
     } catch (error) {
       failed(res, [], error.message);
     }
@@ -21,7 +42,7 @@ module.exports = {
   getAllData: (req, res) => {
     try {
       bookingModel
-        .getAllData()
+        .getAllData(req.iduser)
         .then((result) => {
           success(res, result, "Get all data success");
         })

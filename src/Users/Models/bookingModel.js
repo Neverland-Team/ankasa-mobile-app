@@ -5,7 +5,7 @@ module.exports = {
   booking: (data) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `INSERT INTO booking (iduser, idflight, title, fullName, nationality, insurance, paymentStatus, terminal, gate, total) VALUES ('${data.iduser}', '${data.idflight}','${data.title}','${data.fullName}','${data.nationality}','${data.insurance}','${data.payment_status}','${data.terminal}','${data.gate}','${data.total}')`,
+        `INSERT INTO booking (iduser, idflight, title, fullName, nationality, insurance, paymentStatus, terminal, gate, total,idPayment) VALUES ('${data.iduser}', '${data.idflight}','${data.title}','${data.fullName}','${data.nationality}','${data.insurance}','${data.payment_status}','${data.terminal}','${data.gate}','${data.total}','${data.token}')`,
         (err, result) => {
           if (err) {
             reject(new Error(err));
@@ -17,7 +17,7 @@ module.exports = {
     });
   },
 
-  getAllData: () => {
+  getAllData: (iduser) => {
     return new Promise((resolve, reject) => {
       db.query(
         `SELECT booking.*, ct.name_city as to_city, 
@@ -32,7 +32,7 @@ module.exports = {
         INNER JOIN city as cf ON f.idfromcity = cf.idcity
         INNER JOIN city as ct ON f.idtocity = ct.idcity
         INNER JOIN country as c_f ON cf.idcountry = c_f.idcountry
-        INNER JOIN country as c_t ON ct.idcountry = c_t.idcountry`,
+        INNER JOIN country as c_t ON ct.idcountry = c_t.idcountry WHERE booking.iduser = ${iduser}`,
         (err, result) => {
           if (err) {
             reject(new Error(err));

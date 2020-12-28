@@ -47,6 +47,25 @@ module.exports = {
     }
   },
 
+  search: (req, res) => {
+    try {
+      cityModel
+        .search(req)
+        .then((result) => {
+          if (result.length === 0) {
+            notfound(res, [], "Data empty");
+          } else {
+            success(res, result, "Get all data success");
+          }
+        })
+        .catch((err) => {
+          failed(res, [], err.message);
+        });
+    } catch (error) {
+      failed(res, [], "Error Internal Server");
+    }
+  },
+
   getId: (req, res) => {
     try {
       const id = req.params.idcity;
