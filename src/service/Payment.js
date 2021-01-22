@@ -11,10 +11,8 @@ const SearchFlightService = (data, token) => {
       })
       .then((result) => {
         resolve(result.data.data[0]);
-        console.log(result.data.data[0]);
       })
       .catch((err) => {
-        console.log(err.message);
       });
   });
   return promise;
@@ -31,7 +29,6 @@ const SearchResult = (date, idtocity, token) => {
         },
       )
       .then((result) => {
-        console.log(result.data.data);
         resolve(result.data.data);
       })
       .catch((err) => {});
@@ -47,8 +44,6 @@ const GetProfileOnFlight = (token) => {
         },
       })
       .then((result) => {
-        console.log(result.data.data);
-        console.log('========');
         resolve(result.data.data);
       })
       .catch((err) => {});
@@ -64,10 +59,27 @@ const FlightDetail = (data, token) => {
         },
       })
       .then((result) => {
-        resolve(result);
+        resolve(result.data);
       })
       .catch((err) => {});
   });
   return promise;
 };
-export {SearchFlightService, SearchResult, FlightDetail, GetProfileOnFlight};
+
+const Midtrans = (data,token) =>
+{
+     const promise = new Promise((resolve, reject) => {
+                const headers = { headers: {'Authorization': `${token}`}}  
+                axios.patch(`${URI}/topup/midtrans`,data,headers)
+                .then(res =>{
+                        resolve(res.data.token)
+                })
+                .catch(err => {
+                    reject(err.message)
+                })
+     });
+     return promise;
+}
+
+
+export {SearchFlightService, SearchResult, FlightDetail, GetProfileOnFlight,Midtrans};

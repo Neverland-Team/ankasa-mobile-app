@@ -14,6 +14,7 @@ import SearchResult from './SearchResult';
 import FlightDetail from './FlightDetail';
 import MyBooking from './MyBooking';
 import BookingDetail from './BookingDetail';
+import ContactPerson from './ContactPerson';
 export {
   Login,
   SignUp,
@@ -32,5 +33,10 @@ export {
   SearchFlight,
   SearchResult,
   FlightDetail,
+<<<<<<< Updated upstream
   
 };
+=======
+  ContactPerson
+};
+>>>>>>> Stashed changes

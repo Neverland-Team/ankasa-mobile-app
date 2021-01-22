@@ -57,7 +57,6 @@ const ProfileRequest = () => {
   
   export const GetProfile = (token) => {
       return (dispatch) =>{
-        console.log('get profile dari redux: ',token)
           dispatch(ProfileRequest())
           return Axios({
             method: 'GET',
@@ -69,12 +68,10 @@ const ProfileRequest = () => {
             .then((res) => {
               const data = res.data;
               AsyncStorage.setItem('user',JSON.stringify(data.data))
-              console.log('ini dataa', data)
               dispatch(ProfileSuccess(data));
             })
             .catch((err) => {
               const message = err.message;
-              console.log("testtttttttttttttttttttttttttt");
               dispatch(ProfileError(message));
             });
       }
@@ -92,12 +89,10 @@ const ProfileRequest = () => {
         })
           .then((res) => {
             const data = res.data;
-            console.log('ini dataa', data)
             dispatch(ProfileSuccess(data));
           })
           .catch((err) => {
             const message = err.message;
-            console.log("testtttttttttttttttttttttttttt");
             dispatch(ProfileError(message));
           });
     }

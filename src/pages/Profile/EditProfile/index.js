@@ -6,13 +6,14 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import {Gap} from '../../../utils';
 import {ScrollView} from 'react-native-gesture-handler';
 import {ArrowBackBlack, NavSearchResult} from '../../../assets';
 import {useDispatch, useSelector} from 'react-redux';
 import API from '../../../service';
+import { showMessage } from 'react-native-flash-message';
+import { GetProfile } from '../../../redux/actions/Profile';
 
 export default function EditProfile({navigation}) {
   const dispatch = useDispatch();
@@ -35,18 +36,60 @@ export default function EditProfile({navigation}) {
   React.useEffect(() => {
     API.Profile(Auth.data)
       .then((res) => {
-        setDataProfileUser(res);
+          setDataProfileUser(res);
+          setEmail(res?.email);
+          setPhone(res?.phone);
+          setUsername(res?.username);
+          setCity(res?.city);
+          setAddress(res?.address);
+          setPostCode(res?.post_code);
       })
-      .then(() => {
-        setEmail(dataProfileUser?.email);
-        setPhone(`${dataProfileUser?.phone}`);
-        setUsername(dataProfileUser?.username);
-        setCity(dataProfileUser?.city);
-        setAddress(dataProfileUser?.address);
-        setPostCode(`${dataProfileUser?.post_code}`);
-      });
   }, [Auth.data]);
   const updateUser = () => {
+
+    if (!email) {
+      showMessage({
+        message: "Field email is required",
+        type: "danger",
+      });
+      return false
+    }
+    if (!phone) {
+      showMessage({
+        message: "Field number phone is required",
+        type: "danger",
+      });
+      return false
+    }
+    if (!username) {
+      showMessage({
+        message: "Field username is required",
+        type: "danger",
+      });
+      return false
+    }
+    if (!city) {
+      showMessage({
+        message: "Field city is required",
+        type: "danger",
+      });
+      return false
+    }
+    if (!address) {
+      showMessage({
+        message: "Field address is required",
+        type: "danger",
+      });
+      return false
+    }
+    if (!postcode) {
+      showMessage({
+        message: "Field postcode is required",
+        type: "danger",
+      });
+      return false
+    }
+
     const edited = {
       email: email,
       phone: phone,
@@ -55,10 +98,20 @@ export default function EditProfile({navigation}) {
       address: address,
       post_code: postcode,
     };
-    API.EditProfile(edited, Auth.data).then(() =>
-      navigation.navigate('MainProfile'),
-    );
+    API.EditProfile(edited, Auth.data).then(res =>{
+      showMessage({
+        message: "Biodata have been changed",
+        type: "success",
+      });
+    });
   };
+
+  const Back = () => 
+  {
+    dispatch(GetProfile(Auth.data))
+    navigation.navigate('MainProfile')
+  }
+
 
   return (
     <ScrollView
@@ -67,7 +120,7 @@ export default function EditProfile({navigation}) {
       <View style={styles.containerTop}>
         <Gap height={40} />
         <View style={styles.vLogo}>
-          <ArrowBackBlack onPress={() => navigation.navigate('MainProfile')} />
+          <ArrowBackBlack onPress={Back} />
           <Image source={NavSearchResult} style={styles.iLogo} />
           <Text style={styles.tLogo}>Ankasa</Text>
         </View>
@@ -90,7 +143,7 @@ export default function EditProfile({navigation}) {
           ref={inputEmail}
           placeholder="Add to phone number..."
           onChangeText={(text) => setPhone(text)}
-          value={`0${phone}`}
+          value={phone}
           keyboardType="numeric"
           returnKeyType="next"
           onSubmitEditing={() => inputUsername.current.focus()}
@@ -137,9 +190,9 @@ export default function EditProfile({navigation}) {
           ref={inputPostCode}
           placeholder="Add to post code..."
           onChangeText={(text) => setPostCode(text)}
-          value={postcode}
-          returnKeyType="send"
-          onSubmitEditing={() => updateUser()}
+          value={`${postcode}`}
+          // returnKeyType="send"
+          // onSubmitEditing={() => updateUser()}
         />
         <Gap height={20} />
         <View style={{marginBottom: 30, alignItems: 'flex-end'}}>

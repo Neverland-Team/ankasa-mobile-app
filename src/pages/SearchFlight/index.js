@@ -20,7 +20,7 @@ import {
   IcArrowRightBlue,
   IcSearchArrowWhite,
 } from '../../assets';
-import {Gap} from '../../utils';
+import {Gap, URIIMAGE} from '../../utils';
 import Modal from 'react-native-modal';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {WheelPicker} from 'react-native-wheel-picker-android';
@@ -28,6 +28,7 @@ import RadioForm from 'react-native-simple-radio-button';
 import moment from 'moment';
 import API from '../../service';
 import {useSelector} from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
 
 export default function SearchFlight({navigation, route}) {
   const {idCity} = route.params;
@@ -38,9 +39,9 @@ export default function SearchFlight({navigation, route}) {
   const [selectedItem, setSelectedItem] = React.useState(0);
   const [selectedItemAdult, setSelectedItemAdult] = React.useState(0);
   const [dates, setDates] = React.useState(new Date());
-  const [child, setChild] = React.useState('');
-  const [adult, setAdult] = React.useState('');
-  const [dest, setDest] = React.useState();
+  const [child, setChild] = React.useState(0);
+  const [adult, setAdult] = React.useState(0);
+  const [dest, setDest] = React.useState([]);
   // const {idCity} = route.params;
   const {data} = useSelector((s) => s.Auth);
   // const idCity = 12;
@@ -93,7 +94,6 @@ export default function SearchFlight({navigation, route}) {
   };
 
   const handleConfirm = (date) => {
-    // console.warn('A date has been picked: ', date);
     setDates(date);
     hideDatePicker();
   };
@@ -108,26 +108,39 @@ export default function SearchFlight({navigation, route}) {
 
   const onClassTypeChanged = (value) => {
     setClassType(radioItems[value].label);
-    // console.log(value);
-    // console.log(child);
-    // console.log(adult);
   };
 
   React.useEffect(() => {
-    // console.log(idCity, 'id citi oi');
     API.SearchFlightService(idCity, data)
       .then((res) => {
         setDest(res);
       })
-      .catch((err) => console.warn(err.message));
   }, []);
+
+  const submit = () => {
+
+    if (adult == 0) {
+      showMessage({
+        message: "Oops,you don't choose person!",
+        type: "danger",
+      });
+      return false
+    }
+
+    navigation.navigate('SearchResult', {
+      date: dates,
+      idCity: idCity,
+      child: child,
+      adult: adult,
+      classFlight: classType,
+    })
+  }
   return (
     <>
       <StatusBar
         animated={true}
         translucent
         backgroundColor="transparent"
-        // barStyle="light-content"
       />
       <View style={{backgroundColor: '#ffffff', flex: 1}}>
         <ScrollView>
@@ -187,7 +200,7 @@ export default function SearchFlight({navigation, route}) {
               onCancel={hideDatePicker}
             />
           </View>
-          <Image style={styles.image} source={IlNavSearchFlight} />
+          <Image style={styles.image} source={{uri:URIIMAGE+dest?.photocity}} />
           <Gap height={170} />
           <TouchableOpacity
             style={styles.datePicker}
@@ -282,15 +295,7 @@ export default function SearchFlight({navigation, route}) {
         <TouchableOpacity
           style={styles.button}
           activeOpacity={0.7}
-          onPress={() =>
-            navigation.navigate('SearchResult', {
-              date: dates,
-              idCity: idCity,
-              child: child,
-              adult: adult,
-              classFlight: classType,
-            })
-          }>
+          onPress={() => submit()}>
           <Text style={styles.textButton}>SEARCH FLIGHT</Text>
           <IcSearchArrowWhite />
         </TouchableOpacity>
@@ -312,6 +317,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: Dimensions.get('window').width,
+    height:264,
+    borderBottomLeftRadius:30,
+    borderBottomRightRadius:30
   },
   header: {
     flexDirection: 'row',

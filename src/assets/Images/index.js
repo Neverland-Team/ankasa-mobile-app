@@ -7,6 +7,8 @@ import IlHomeSlider from './HomeSlider.png';
 import IlNavSearchResult from './NavSearchResult.png';
 import IlBgFlightDetail from './BgFlightDetail.png';
 import IlGaruda from './Garuda.png';
+import IlLionAir from './LionAir.png';
+import IlAirAsia from './AirAsia.png';
 import IlChat from './Chat.png';
 import Profile from './Profile.png';
 import NavSearchResult from './NavSearchResult.png';
@@ -30,4 +32,6 @@ export {
   ticketBackground,
   Garuda,
   QrFLat,
+  IlLionAir,
+  IlAirAsia
 };

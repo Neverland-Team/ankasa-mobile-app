@@ -28,14 +28,12 @@ export default function Chat({navigation}) {
   const socket = io(SOCKETURI);
 
   useEffect(() => {
-    if(socket == null) return;
+    // if(socket == null) return;
     AsyncStorage.getItem('user').then(res => {
       const profile = JSON.parse(res)
       setId(profile.iduser)
-      console.log('dari user profile : ',profile.iduser)
       socket.emit('initial-chat',profile.iduser);
       socket.on('get-messages',(chat) => {
-            // alert(chat.id)
             setReceivers(chat)
       });
     })
@@ -44,25 +42,6 @@ export default function Chat({navigation}) {
     }
   },[])
 
-  //dummy notif
-  // const receivers = [
-  //   {
-  //     key: 0,
-  //     fullname: 'Soham Henry',
-  //     last_chat: 'Me: Bro, just fuck off',
-  //     date: '8:30',
-  //     unread: false,
-  //   },
-  //   {
-  //     key: 1,
-  //     fullname: 'Theresa Webb',
-  //     last_chat: 'Why did you do that?',
-  //     date: '15:20',
-  //     unread: true,
-  //   }
-  // ];
-
-  //   const avatar = ;
 
   const renderItem = ({item, index}) => {
     return (
@@ -73,7 +52,7 @@ export default function Chat({navigation}) {
           onPress={() => navigation.navigate('ChatRoom',{idRoom:item.id_room,id:id})}>
           <Image source={IlChat} />
           <View style={[styles.titleWrapper, {flex: 0.9}]}>
-            <Text style={styles.titleNotif(item.unread)}>{item.fullName == 'Customer Service' ? item.fullName : 'Customer Service' }</Text>
+            <Text style={styles.titleNotif(item.unread)}>{item.fullName}</Text>
             <Text style={styles.subtitleNotif(item.unread)}>
               {item.last_chat}
             </Text>
@@ -98,7 +77,7 @@ export default function Chat({navigation}) {
         barStyle="dark-content"
       />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <IcArrowBackBlack />
         </TouchableOpacity>
         <TouchableOpacity

@@ -13,7 +13,7 @@ import {IcArrowBackBlack} from '../../../assets/Icons/index';
 import {IlFinger} from '../../../assets/Images/index';
 import TouchID from 'react-native-touch-id';
 import * as Keychain from 'react-native-keychain';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {AuthLogin} from '../../../redux/actions/Auth';
 
 export default function FingerPrint({navigation}) {
@@ -26,16 +26,12 @@ export default function FingerPrint({navigation}) {
     if (credentials) {
       setUsername(credentials.username);
       setPassword(credentials.password);
-      console.log(
-        'Credentials successfully loaded for user ' + credentials.username,
-      );
+      
       // dispatch login here with email and password above
       let data = {username, password};
       return dispatch(AuthLogin(data));
     } else {
-      console.log(
-        'No credentials stored, Login with Regular login at first before using Login with Touch ID',
-      );
+     
     }
   };
   const handleProcess = () => {
@@ -50,12 +46,12 @@ export default function FingerPrint({navigation}) {
     TouchID.authenticate('', optionalConfigObject)
       .then((success) => {
         Alert.alert('Authenticated Successfully');
-        console.warn(success, '<= success tu');
+        // console.warn(success, '<= success tu');
         onSuccess();
       })
       .catch((error) => {
         Alert.alert('Authentication Failed');
-        console.warn(error.message, '<= error tu');
+        // console.warn(error.message, '<= error tu');
       });
   };
   return (

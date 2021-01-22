@@ -9,8 +9,23 @@ import {
 } from 'react-native';
 import {Gap} from '../../../utils';
 import {IcArrowBackBlack} from '../../../assets/Icons/index';
+import { showMessage } from 'react-native-flash-message';
 
 export default function ForgotPassword({navigation}) {
+  const [email, setEmail] = React.useState('');
+  const onSubmit = () => {
+    if (!email) {
+      showMessage({
+        message: "Email is required!",
+        type: "danger",
+      });
+      return false;
+    }
+    showMessage({
+      message: "Feature not yet available",
+      type: "warning",
+    });
+  }
   return (
     <>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -30,14 +45,14 @@ export default function ForgotPassword({navigation}) {
               placeholder="Email"
               autoCapitalize={'none'}
               returnKeyType="next"
-              // value={username}
-              // onChangeText={(text) => setEmail(text)}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
             />
           </View>
         </View>
         <Gap height={27} />
         <View style={styles.paddingButton}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
             <Text
               style={styles.textButton}
               //   onPress={() => navigation.navigate('Login')}
